@@ -13,14 +13,14 @@ Prerequisite:   CIS 500 or PhD student status
 
 Date  | Speaker    | Lecture Notes
 ------|------------|------------------------------------------------
-8/30  | Stephanie  | [083016.md](083016.md)
+8/30  | Stephanie  | [083016.md](notes/083016.md)
 9/1   | 
 9/6   |
 9/8   |
 9/13  | 
 9/15  |
-9/20  |  ICFP   (no class)
-9/22  |  ICFP   (no class)
+9/20  |  *ICFP*   (no class)
+9/22  |  *ICFP*   (no class)
 9/27  | 
 9/29  | 
 10/4  | 
