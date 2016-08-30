@@ -1,14 +1,15 @@
-CIS 670, Fall 2016
-=========== 
+# Advanced Topics in Programming Languages
+# CIS 670, Fall 2016
 
 
-Semester:	    Fall 2016	
-Instructor:	    Stephanie Weirich	
-Time:               TR 1:30-3PM	
-Location:	        Towne 319	
-Textbook:	    Practical Foundations for Programming Languages		
-Prerequisite:	CIS 500 or PhD student status	
+Instructor:     [Stephanie Weirich](http://www.cis.upenn.edu/~sweirich)   
+Time:           TR 1:30-3PM   
+Location:       Towne 319   
+Textbook:       [Practical Foundations for Programming Languages](http://www.cs.cmu.edu/~rwh/pfpl.html)    
+Prerequisite:   CIS 500 or PhD student status   
 
+
+## Schedule
 
 Date  | Speaker    | Lecture Notes
 ------|------------|------------------------------------------------
@@ -42,3 +43,12 @@ Date  | Speaker    | Lecture Notes
 12/1  |
 12/6  |
 12/8  |
+
+
+## Resources
+
+- [Coq Proof Assistant](https://coq.inria.fr/)				
+- [Software Foundations](https://www.cis.upenn.edu/~bcpierce/sf/)
+- [Ott: Tool for the working semanticist](http://www.cl.cam.ac.uk/~pes20/ott/)
+- [MetaLib](https://github.com/plclub/metalib)				
+- [Verified Functional Algorithms](https://www.cs.princeton.edu/~appel/vfa/)
