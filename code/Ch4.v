@@ -66,7 +66,7 @@ Require Import Strings.String.
                    e1 * e2                multiplication
                    e1 ^ e2                concatenation
                    len (e)                length
-                   let x be x1 in e2      definition 
+                   let x be e1 in e2      definition 
 
 
     We use a locally nameless representation, where bound variables are
@@ -117,7 +117,7 @@ Definition demo_rep1 :=
 *)
 
 Definition demo_rep2 :=
-  exp_let (exp_num 1) (exp_let (exp_num 2) (exp_op plus (exp_bvar 0) (exp_bvar 1))).
+  exp_let (exp_num 1) (exp_let (exp_num 2) (exp_op plus (exp_bvar 1) (exp_bvar 0))).
 
 
 (** *** Exercise [defns]
@@ -307,7 +307,21 @@ Qed.
 Lemma subst_fresh : forall (x : atom) e u,
   x `notin` fv e -> [x ~> u] e = e.
 Proof.
-(* FILL IN HERE (and delete "Admitted") *) Admitted.
+  intros x e u H.
+  unfold not in H.
+  induction e.
+  - simpl. reflexivity.
+  - simpl. destruct (a == x).
+    + rewrite e in H. simpl in H. fsetdec. 
+    + auto.
+  - simpl. auto.
+  - simpl. auto.
+  - simpl. f_equal. apply IHe1. simpl in H. fsetdec.
+    apply IHe2. simpl in H. fsetdec.
+  - simpl. f_equal. apply IHe1. simpl in H. fsetdec.
+    apply IHe2. simpl in H. fsetdec.
+Qed.
+(* FILL IN HERE (and delete "Admitted") *)
 
 (* Take-home Demo: Prove that free variables are not introduced by
    substitution.
@@ -397,7 +411,9 @@ Lemma demo_open :
   open (exp_let (exp_str "a") (exp_op plus (exp_bvar 1) (exp_bvar 0))) (exp_fvar Y) =
        (exp_let (exp_str "a") (exp_op plus (exp_fvar Y) (exp_bvar 0))).
 Proof.
-(* Fill in here *) Admitted.
+  unfold open. simpl. auto.
+Qed.
+(* Fill in here *) 
 (* HINT for demo: To show the equality of the two sides below, use the
    tactics [unfold], which replaces a definition with its RHS and
    reduces it to head form, and [simpl], which reduces the term the
@@ -406,7 +422,7 @@ Proof.
 
 (*************************************************************************)
 (*                                                                       *)
-(*  Stretch break (5 mins)                                               *)
+(*  Stretch break (two days)                                             *)
 (*                                                                       *)
 (*************************************************************************)
 
