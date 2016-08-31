@@ -503,7 +503,7 @@ Admitted.
     variables of [u].
     The solution is to change the *definition* of local closure so
     that we get a different induction principle.  Currently, in the
-    [lc_abs] case, we show that an abstraction is locally closed by
+    [lc_let] case, we show that an abstraction is locally closed by
     showing that the body is locally closed after it has been opened
     with one particular variable.
 <<
@@ -516,7 +516,7 @@ Admitted.
     Therefore, our induction hypothesis in this case only applies to
     that variable. From the hypothesis list in the [lc_let] case:
       x0 : atom,
-      IHHe2 : lc_e ([x ~> u]open e2 x0)
+      IHHe2 : lc_e ([x ~> u]open e2 (exp_fvar x0))
     The problem is that we don't have any assumptions about [x0]. It
     could very well be equal to [x].
     A stronger induction principle provides an IH that applies to many
@@ -526,14 +526,14 @@ Admitted.
 <<
   | lc_let : forall L e1 e2,
       lc e1 ->
-      (forall x, x `notin` L -> lc (open e2 x)) ->
+      (forall x, x `notin` L -> lc (open e2 (exp_fvar x))) ->
       lc (exp_let e1 e2)
 >>
    This rule says that to show that an abstraction is locally closed,
    we need to show that the body is closed, after it has been opened by
    any atom [x], *except* those in some set [L]. With this rule, the IH
    in this proof is now:
-     H0 : forall x0 : atom, x0 `notin` L -> lc ([x ~> u]open e2 x0)
+     H0 : forall x0 : atom, x0 `notin` L -> lc ([x ~> u]open e2 (exp_fvar x0)
 
    Below, lc is the local closure judgment revised to use this new
    rule in the abs case. We call this "cofinite quantification"
@@ -564,14 +564,14 @@ Hint Constructors lc.
 
 (* Demo [subst_lc]:
 
-   Once we have changed the definition of lc, we can complete the
-   proof of subst_lc.
+   Once we have changed the definition of lc, we can make progress on 
+   the proof of subst_lc.
     HINT: apply lc_let with cofinite set (L `union` singleton x).
     This gives us an atom x0, and a hypothesis that
     x0 is fresh for both L and x.
 *)
 
-Lemma subst_lc : forall (x : atom) u e,
+Lemma subst_lc_1 : forall (x : atom) u e,
   lc e ->
   lc u ->
   lc ([x ~> u] e).
@@ -585,40 +585,10 @@ Proof.
   - simpl. auto.
   - simpl. auto.
   - simpl.
-    (* FILL IN HERE (and delete "Admitted") *) Admitted.
+    (* DEMO *) Admitted.
 
-
-Check lc_ind.
-
-(* Going deeper:
-   Compare the induction principle with that of PFPL (specialized to the abt for E). 
-   An Abstract Binding Tree, such as E, is parameterized by X, a set of free variables that 
-   can appear in an abt.  For example, 
-       the (free) variable x is a member of E [ {{x}} ] and 
-       x + y is a member of E [ {{ x }} \u {{ y }} ].
-       
-   For a given term, indexed by a given set of free variables, the induction 
-   principle reads:
-
-   To show a property  P : forall X, E[X] -> Prop holds for an arbitrary 
-   expression e in E[X] it suffices to show:
-        forall x, x `in` X -> P x
-        forall n, P n
-        forall s, P s
-        forall x x' e1 e2, such that x' notin X, 
-           P e1 -> P ( [ x' / x ] e2 ) -> P (let x be e1 in e2)
-        forall e1 e2, P e1 -> P e2 -> P (e1 `op` e2)
-
-   In other words, in the variable case, we need to show the property for 
-   all variables that actually appear in the term (though often in the proof, this 
-   set will be abstract). Also in the let case, we need to show the property hold 
-   for an arbitrary x' that does *not* appear in X. When we do the proof, 
-
-   we get to pick any X, as long as it is larger than the fv of e. In practice, this 
-   induction principle behaves like co-finite quantification. 
-  
-*) 
-
+(* However, we get stuck here because we don't have any lemmas about the interaction between 
+   subst and open. *)
 
 (*************************************************************************)
 (** Properties about basic operations *)
@@ -630,7 +600,7 @@ Check lc_ind.
     notation, confined to this section. *)
 
 Section BasicOperations.
-Local Notation "{ k ~> u } t" := (open_rec k u t) (at level 67).
+Notation Local "{ k ~> u } t" := (open_rec k u t) (at level 67).
 
 (** The first property we would like to show is the analogue to
     [subst_fresh]: index substitution has no effect for closed terms.
@@ -839,6 +809,63 @@ Proof.
     
 End BasicOperations.
 
+(*************************************************************************)
+(** * subst_lc *)
+(*************************************************************************)
+
+(** Finally, with subst_open, we can finally finish the proof of subst_lc. *)
+
+Lemma subst_lc : forall (x : atom) u e,
+  lc e ->
+  lc u ->
+  lc ([x ~> u] e).
+Proof.
+  intros x u e He Hu.
+  induction He.
+  - simpl.
+   destruct (x0 == x).
+     auto.
+     auto.
+  - simpl. auto.
+  - simpl. auto.
+  - simpl.
+    (* FILL IN HERE (and delete "Admitted") *) Admitted.
+
+(*************************************************************************)
+(** * Induction principles for binding trees *)
+(*************************************************************************)
+
+
+Check lc_ind.
+
+(* Going deeper:
+   Compare the induction principle with that of PFPL (specialized to the abt for E). 
+   An Abstract Binding Tree, such as E, is parameterized by X, a set of free variables that 
+   can appear in an abt.  For example, 
+       the (free) variable x is a member of E [ {{x}} ] and 
+       x + y is a member of E [ {{ x }} \u {{ y }} ].
+       
+   For a given term, indexed by a given set of free variables, the induction 
+   principle reads:
+
+   To show a property  P : forall X, E[X] -> Prop holds for an arbitrary 
+   expression e in E[X] it suffices to show:
+        forall x, x `in` X -> P x
+        forall n, P n
+        forall s, P s
+        forall x x' e1 e2, such that x' notin X, 
+           P e1 -> P ( [ x' / x ] e2 ) -> P (let x be e1 in e2)
+        forall e1 e2, P e1 -> P e2 -> P (e1 `op` e2)
+
+   In other words, in the variable case, we need to show the property for 
+   all variables that actually appear in the term (though often in the proof, this 
+   set will be abstract). Also in the let case, we need to show the property hold 
+   for an arbitrary x' that does *not* appear in X. When we do the proof, 
+
+   we get to pick any X, as long as it is larger than the fv of e. In practice, this 
+   induction principle behaves like co-finite quantification. 
+  
+*) 
 
     
 (*************************************************************************)
@@ -1550,100 +1577,3 @@ Proof.
     apply H5. auto.
 Qed.
 
-
-(*************************************************************************)
-(** * Decidability of Typechecking *)
-(*************************************************************************)
-
-(* Finally, we give another example of a proof that makes use of the
-   renaming lemma. We show that determining whether a program type
-   checks is decidable.
-*)
-
-(** Equality on types is decidable *)
-Lemma eq_typ_dec : forall (T T' : typ),
-  { T = T' } + { T <> T' }.
-Proof.
-  decide equality.
-Qed.
-
-
-(* A property P is decidable if we can show the proposition P \/ ~P. *)
-Definition decidable (P : Prop) := (P \/ ~ P).
-
-(* Demo: this proof puts together a lot of what we have seen in this section. *)
-
-Lemma typing_decidable : forall E e,
-  lc e -> uniq E -> decidable (exists T, typing E e T).
-Proof.
-  intros E e LC Uniq.
-  generalize dependent E.
-  induction LC; intros E Uniq.
-  - Case "lc_var".
-    destruct (@binds_lookup_dec _ x E) as [[T H] | H].
-      SCase "variable is in environment".
-      left; eauto.
-      SCase "variable not in environment".
-      right.  intros [T J]. inversion J; subst; eauto.
-  - Case "lc_num".
-    left. exists typ_num. auto.
-  - Case "lc_str".
-    left. exists typ_string. auto.
-  - Case "lc_let".
-    
-    destruct (IHLC E Uniq) as [ [T He1] | NC].
-    + SCase "rhs typechecks".
-    (* To know whether the body typechecks, we must first
-       pick a fresh variable to use the IH (aka HO).
-    *)
-    pick fresh x.
-    assert (Fr' : x `notin` L) by auto.
-    destruct (H0 x Fr' ((x ~ T) ++ E)) as [[S J] | J]; eauto.
-    ++ SSCase "body typeable".
-      left.
-      exists S.
-      eapply typing_let_exists; eauto.
-   ++ SSCase "body not typeable".
-      right.
-      intros [S K].
-      apply typing_let_inversion in K.
-      destruct K as [T1 [Te1 Te2]].
-      apply J.
-      eapply (unicity _ _ _ He1) in Te1. subst.
-      exists S.
-      apply Te2. auto.
-    + SCase "rhs not typeable".
-      right.
-      intros [S K].
-      inversion K; subst.
-      apply NC. exists T1. auto.
-  -  Case "typing_op".
-     destruct op0.
-     destruct (IHLC1 E) as [[T H] | H]; eauto.
-     -- SCase "first arg typeable".
-     destruct (IHLC2 E) as [[S J] | J]; eauto.
-        ++ SSCase "second arg typeable".
-     destruct T; destruct S.
-     + left. exists typ_num. auto.
-     + right;
-       intros [S' J'];
-       inversion J'; subst;
-       assert (K : typ_num = typ_string); eauto using unicity;
-         inversion K.
-     + right;
-       intros [S' J'];
-       inversion J'; subst;
-       assert (K : typ_num = typ_string); eauto using unicity;
-         inversion K.
-     + right;
-       intros [S' J'];
-       inversion J'; subst;
-       assert (K : typ_num = typ_string); eauto using unicity;
-         inversion K.
-     ++  SSCase "second argument not typeable".
-        right. intros [S' J']. inversion J'; subst; eauto.
-       -- SCase "first argument not typeable".
-          right. intros [S' J']. inversion J'; subst; eauto.
-       -- right. intros [S' J']. inversion J'; subst; eauto.
-       -- right. intros [S' J']. inversion J'; subst; eauto.
-Qed.
