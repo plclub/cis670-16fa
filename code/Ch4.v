@@ -754,16 +754,16 @@ Proof.
 
 (** *** Exercise [subst_open] *)
 
-(** The lemma above is most often used with [k = 0] and
-    [e2] as some fresh variable. Therefore, it simplifies matters
+(** The lemma above is most often used with [k = 0].
+    Therefore, it simplifies matters
     to define the following useful corollary.
     HINT: Do not use induction.
-    Rewrite with [subst_open_rec] and [subst_neq_var].
+    Rewrite with [subst_open_rec].
 *)
 
 Lemma subst_open : forall (x : atom) u e1 e2,
   lc u ->
-  open ([x ~> u] e1) e2 = [x ~> u] (open e1 e2).
+  open ([x ~> u] e1) ([x ~> u] e2) = [x ~> u] (open e1 e2).
 Proof.
   (* EXERCISE *) Admitted.
 
@@ -1050,10 +1050,10 @@ Proof.
   - destruct (x0 == x).
      auto.
      auto.
-  - pick fresh y and apply lc_let.
-    auto.
+  - pick fresh y and apply lc_let. auto.
     (* Here, take note of the hypothesis [Fr]. *)
-    rewrite subst_open. auto. auto. 
+    rewrite <- (subst_neq_var x y u).
+    rewrite subst_open. auto. auto. auto.
 Qed.
 
 (** Challenge Exercise [subst_lc_inverse]
