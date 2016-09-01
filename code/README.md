@@ -17,3 +17,5 @@ Then my build files look like:
 
        %.vo: %.v Makefile
          coqc -R $(METALIB) Metalib $*.v
+
+To have this configuration work with Emacs, you should update Proof General to version ≥ 4.3pre.
