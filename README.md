@@ -14,7 +14,7 @@ Prerequisite:   CIS 500 or PhD student status
 Date  | Speaker    | Lecture Notes
 ------|------------|------------------------------------------------
 8/30  | Stephanie  | [083016.md](notes/083016.md)
-9/1   | 
+9/1   | Stephanie  | [090116.md](notes/090116.md)
 9/6   |
 9/8   |
 9/13  | 
@@ -43,6 +43,22 @@ Date  | Speaker    | Lecture Notes
 12/1  |
 12/6  |
 12/8  |
+
+## Potential topics from PFPL
+
+- Part I Judgements and Rules (Stephanie)
+- Part II Statics and Dynamics (Stephanie)
+- Part III Total Functions
+- Part IV Finite Data Types
+- Part V Types and Propositions
+- Part VI Infinite Data Types
+- Part VII Variable Types
+- Part VIII Partiality and Recursive Types
+- Part IX Dynamic Types
+- Part XII Control Flow
+- Part XIV Mutable State
+- Part XVII Modularity 
+- Part XVIII Equational Reasoning
 
 
 ## Resources
