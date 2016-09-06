@@ -333,6 +333,25 @@ See naive_aeq and aeq below.
 
   (* --------- properties about renaming a set of variables ------------ *)
 
+  Lemma self_inverse_set : forall rho S, rename_set rho (rename_set rho S) = S.
+  Proof. 
+    intros.
+    destruct rho as [x y].
+    simpl.
+    destruct (AtomSetProperties.In_dec x S);
+    destruct (AtomSetProperties.In_dec y S);
+    try (rewrite AtomSetFacts.mem_iff in i; rewrite i);
+    try (rewrite AtomSetFacts.mem_iff in i0; rewrite i0);
+    try (rewrite AtomSetFacts.not_mem_iff in n; rewrite n);
+    try (rewrite AtomSetFacts.not_mem_iff in n0; rewrite n0);
+    simpl;
+      try (rewrite i);
+      try (rewrite i0);
+      try (rewrite n);
+      try (rewrite n0);
+      auto.
+  Admitted.
+
   Lemma rename_set_id : forall y S, rename_set (y,y) S = S.
   Proof. 
     intros. simpl.
@@ -638,9 +657,165 @@ Admitted.
       admit.
     -  simpl. rewrite IHnaive_aeq. fsetdec.
   Admitted.
- (* ----------------------- in -------------------- *)
 
-  (* exp [X] *)
+  (*  -------------- Ok, another potential definition of aeq ----------------- *)
+
+  (* This section explores definitions that do not quantify "for all" variables 
+     in the case of abstractions. Instead, the in_exp and aeq definitions
+     use a premise that requires the relation to hold only for a single, 
+     suitably fresh variable. *)
+  
+  Module ExistsFresh.
+
+    Inductive in_exp (X : atoms) : exp -> Prop :=
+    | in_Var : forall x, x `in` X -> in_exp X (Var x)
+    | in_App : forall a1 a2, in_exp X a1 -> in_exp X a2 -> in_exp X (App a1 a2)
+    | in_Abs : forall z x a1, z `notin` X -> in_exp (X \u {{z}}) (rename (z,x) a1)
+                         -> in_exp X (Abs x a1).
+    Hint Constructors in_exp.
+  
+  Check in_exp_ind.
+
+  Lemma in_exp_respects : forall X1  e, in_exp X1 e -> forall X2, X1 [=] X2 -> in_exp X2 e.
+  Proof.
+    intros X1 e H. induction H; intros X2 EQ; auto.
+    apply in_Var. fsetdec.
+    apply in_Abs with (z := z0).
+    fsetdec.
+    apply IHin_exp. fsetdec.
+  Qed.
+
+
+  (* have to prove renaming for *everything* *)
+  Lemma in_exp_rename : forall X e, in_exp X e -> forall rho, in_exp (rename_set rho X) (rename rho e).
+  Proof.
+    intros X e IN.
+    induction IN; intros rho.
+    - intros. apply rename_in with (rho := rho) in H.
+      simpl. auto.
+    - intros. simpl in *. auto.
+    - intros. simpl in *.
+      apply in_Abs with (z := rename_var rho z0).
+      + intro Fr.
+        unfold not in H.
+        apply H. apply rename_in with (rho:= rho) in Fr.
+        rewrite self_inverse_var in Fr. rewrite self_inverse_set in Fr. auto.
+      + rewrite commute.
+        apply in_exp_respects with (X1 := (rename_set rho (union X (singleton z0)))).
+        auto.
+        rewrite rename_union.
+        rewrite rename_singleton.
+        fsetdec.
+  Qed.
+
+  (* "exists fresh" version of alpha equivalence *)
+   
+  Inductive aeq : forall X (a:exp) (b:exp), Prop :=
+  | aeq_Var : forall X x, x \in X -> aeq X (Var x) (Var x) 
+  | aeq_App : forall X a1 a2 b1 b2,
+      aeq X a1 a2 -> aeq X b1 b2 ->
+      aeq X (App a1 b1) (App a2 b2)
+  | aeq_Abs : forall X x1 a1 x2 a2 z,
+      z \notin X -> aeq (X \u {{z}}) (rename (x1, z) a1) (rename (x2, z) a2) ->
+      aeq X (Abs x1 a1) (Abs x2 a2).
+  Hint Constructors aeq.
+
+  Lemma aeq_in : forall X a1 a2, aeq X a1 a2 -> in_exp X a1.
+  Proof.
+    intros.
+    induction H.
+    - auto.
+    - auto.
+    - apply in_Abs with (z := z0). auto.
+      rewrite rename_swap. auto.
+  Qed.
+
+  Lemma aeq_respects : forall X1 a1 a2, aeq X1 a1 a2 -> forall X2, X1 [=] X2 -> aeq X2 a1 a2.
+  Proof.
+    intros X1 a1 a2 H. induction H; intros X2 EQ; auto.
+    apply aeq_Var. fsetdec.
+    apply aeq_Abs with (z := z0). fsetdec.
+    apply IHaeq. fsetdec.
+  Qed.
+    
+  Lemma aeq_rename : forall X a b, aeq X a b -> forall rho,
+        aeq (rename_set rho X) (rename rho a) (rename rho b).
+  Proof.
+    intros X a b A. induction A; intros rho.
+    - apply rename_in with (rho:=rho) in H. simpl. auto.
+    - simpl. auto.
+    - simpl. apply aeq_Abs with (z := rename_var rho z0).
+      intro Fr. apply H. apply rename_in with (rho := rho) in Fr. rewrite self_inverse_var in Fr. rewrite self_inverse_set in Fr. auto.
+      rewrite commute.
+      rewrite commute.
+      apply aeq_respects with (X1 := rename_set rho (union  X (singleton z0))).
+      apply IHA.
+      rewrite rename_union. rewrite rename_singleton. fsetdec.
+  Qed.
+
+  (* Now these properties are really easy to prove!! *)
+  
+  Lemma aeq_refl : forall X a, in_exp X a -> aeq X a a.
+  Proof. intros X a H. induction H; auto.
+         - apply aeq_Abs with (z:= z0).
+           auto.
+           rewrite rename_swap.  auto.
+  Qed.
+  Lemma aeq_sym : forall X a b, aeq X a b -> aeq X b a.
+  Proof. intros X a b E. induction E; auto.
+         - apply aeq_Abs with (z := z0). auto.
+           auto.
+  Qed.
+
+  (* This one is *much* more difficult though. I don't know how to do it. *)
+  
+  Lemma aeq_trans : forall X a b, aeq X a b -> forall c, aeq X b c -> aeq X a c.
+  Proof.
+    intros X a b E. induction E; intros c E'; auto.
+    - inversion E'. subst. auto.
+    - inversion E'. subst.
+      destruct (z0 == z1).
+      + subst. apply aeq_Abs with (z := z1). auto. auto.
+      + apply aeq_Abs with (z := z0). auto.
+        apply IHE.
+        apply aeq_rename with (rho := (z0, z1)) in H5.
+        (* faking it through here. these admits don't reall work because
+           we don't know that z0 and z1 are different that x2 and x3 *)
+        rewrite <- commute in H5.
+        rewrite rename_var_diff in H5.
+        assert (rename_var (z0, z1) x2 = x2). admit. rewrite H0 in H5.
+        assert (rename (z0,z1) a2 = a2). admit.  rewrite H1 in H5.
+        rewrite <- commute in H5.
+        rewrite rename_var_diff in H5.
+        assert (rename_var (z0, z1) x3 = x3). admit. rewrite H2 in H5.
+        assert (rename (z0,z1) a3 = a3). admit.  rewrite H4 in H5.
+        apply aeq_respects with (X1 := (rename_set (z0, z1) (union X (singleton z1)))). auto.
+        rewrite rename_union.
+        assert (rename_set (z0,z1) X = X). admit. rewrite H6.
+        rewrite rename_singleton. rewrite rename_var_diff. fsetdec.
+        auto. auto. auto.
+  Admitted.
+
+  Lemma aeq_fv : forall X a1 a2, aeq X a1 a2 -> fv a1 [=] fv a2.
+  Proof.
+    intros X a1 a2 H. induction H; simpl; auto. 
+    - fsetdec.
+    - fsetdec.
+    - (* if we knew more about the freshness of z0, we could make 
+         progress here. But we don't know how z0 compares to x1 and x2. *)
+      rewrite <- rename_fv_fresh2 with (z := z0).
+      rewrite <- rename_fv_fresh2 with (z := z0) (a1 := a2).
+      rewrite IHaeq.
+      fsetdec.
+      (* not sure what to do with the rest. *)
+  Admitted. 
+
+  End ExistsFresh.
+
+  
+  (* ----------------------- in (forall fresh version) -------------------- *)
+
+  (* Ok, here is the version that actually corresponds to PFPL. *)
   
   Inductive in_exp (X : atoms) : exp -> Prop :=
   | in_Var : forall x, x `in` X -> in_exp X (Var x)
@@ -658,8 +833,19 @@ Admitted.
     eapply H0. fsetdec.
     fsetdec.
   Qed.
+   
+  Lemma in_exp_subset : forall X1 a, in_exp X1 a -> forall X2, X1 [<=] X2 -> in_exp X2 a.
+  Proof.
+    intros X1 a IN. induction IN; intros X2 SUB; auto.
+    - apply in_Abs.
+      intros y0 Fr.
+      apply H0. fsetdec.
+      fsetdec.
+  Qed.
+
     
-  Lemma exists_renamed : forall y0 X rho, y0 `notin` rename_set rho X -> exists z, z `notin` X /\ y0 = rename_var rho z.
+  Lemma exists_renamed : forall y0 X rho, y0 `notin` rename_set rho X ->
+                                     exists z, z `notin` X /\ y0 = rename_var rho z.
   Proof.
     intros y0 X rho Fr.
     destruct rho as [x y].
@@ -703,8 +889,8 @@ Admitted.
     }
   Qed.
 
-  
-  Lemma rename_in_exp : forall X e, in_exp X e -> forall rho, in_exp (rename_set rho X) (rename rho e).
+  (* have to prove renaming for *everything* *)
+  Lemma in_exp_rename : forall X e, in_exp X e -> forall rho, in_exp (rename_set rho X) (rename rho e).
   Proof.
     intros X e IN rho.
     induction IN.
@@ -725,21 +911,7 @@ Admitted.
       fsetdec.
   Qed.          
 
-  
-  Lemma in_subset : forall X1 a, in_exp X1 a -> forall X2, X1 [<=] X2 -> in_exp X2 a.
-  Proof.
-    intros X1 a IN.
-    induction IN.
-    intros.
-    - apply in_Var. fsetdec.
-    - intros. eauto.
-    - intros.
-      apply in_Abs.
-      intros y0 Fr.
-      apply H0. fsetdec.
-      fsetdec.
-      Qed.
-
+ 
   
   (* ----------------------- alpha equivalence definition -------------------- *)
   
@@ -793,7 +965,7 @@ Admitted.
       apply self_inverse_var.
   Qed.
 
-  (* Now these properties are really easy to prove!! *)
+  (* Now all three of these properties are really easy to prove!! *)
   
   Lemma aeq_refl : forall X a, in_exp X a -> aeq X a a.
   Proof. intros X a H. induction H; auto.
@@ -829,32 +1001,4 @@ Admitted.
       auto.
       auto.
   Qed.
-      
-  (* ----------------------- substitution -------------------- *)
-
-(*  Inductive subst_rel (b : exp) (x:var) : atoms -> exp -> exp -> Prop :=
-  | subst_Var : subst_rel b x X (Var x) b
-  | subst_VarNE : forall y, y <> x -> subst_rel b x X (Var y) (Var y)
-  | subst_App : forall a1 a2 a1' a2',
-      subst_rel b x X a1 a1' ->
-      subst_rel b x X a2 a2' ->
-      subst_rel b x X (App a1 a2) (App a1' a2')
-  | subst_Abs : forall y a1 a2, x <> y -> y `notin` fv b ->
-      subst_rel b x a1 a2  -> 
-      subst_rel b x (Abs y a1) (Abs y a2)
-  | subst_Same : forall a1, 
-      subst_rel b x (Abs x a1) (Abs x a1). 
-
-  Lemma onethree : forall a b c,  subst_rel b x a c -> forall a' b' c', 
-      aeq a a' -> aeq b b' -> subst_rel b' x a' c' ->
-      aeq c c'.
-  Proof.
-    intros a b c SR1. induction SR1; intros a' b' c' E1 E2 SR2; inversion E1; subst; inversion SR2; subst.
-    - auto.
-    - assert False. apply H0. auto. contradiction.
-    - assert False. apply H. auto. contradiction.
-    - auto.
-    - eauto.
-  Admitted.
-
-  *)
+  
