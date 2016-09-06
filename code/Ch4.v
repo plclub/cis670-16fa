@@ -422,7 +422,7 @@ Qed.
 
 (*************************************************************************)
 (*                                                                       *)
-(*  Stretch break (two days)                                             *)
+(*  Stretch break (one week)                                             *)
 (*                                                                       *)
 (*************************************************************************)
 
@@ -450,7 +450,7 @@ Inductive lc_e : exp -> Prop :=
       lc_e (exp_op op e1 e2).
 
 Hint Constructors lc_e.
-
+Check lc_e_ind.
 (* The primary use of the local closure proposition is to support induction on
     the syntax of abstract binding trees, such as discussed in Chapter 1.2 of
     PFPL.  The induction principle for type [exp] won't do: it requires
@@ -550,7 +550,7 @@ Inductive lc : exp -> Prop :=
   | lc_var : forall (x:atom), lc (exp_fvar x)
   | lc_num : forall n : nat, lc (exp_num n)
   | lc_str : forall s : string, lc (exp_str s)
-  | lc_let : forall L (e1 e2 : exp),
+  | lc_let : forall (L:atoms) (e1 e2 : exp),
       lc e1 
       -> (forall x, x `notin` L -> lc (open e2 (exp_fvar x)))
       -> lc (exp_let e1 e2)
@@ -585,6 +585,8 @@ Proof.
   - simpl. auto.
   - simpl. auto.
   - simpl.
+    Check lc_let.
+    apply lc_let with (L:= L). auto.
     (* DEMO *) Admitted.
 
 (* However, we get stuck here because we don't have any lemmas about the interaction between 
@@ -829,7 +831,19 @@ Proof.
   - simpl. auto.
   - simpl. auto.
   - simpl.
-    (* FILL IN HERE (and delete "Admitted") *) Admitted.
+    Check subst_open.
+    apply lc_let with (L := L \u {{x}} ).
+    auto.
+    intros x0 Fr.
+    replace (exp_fvar x0) with ([x ~> u] exp_fvar x0).
+    rewrite subst_open.
+    apply H0. auto.
+    auto.
+    simpl. destruct (x0 == x). subst. fsetdec.
+    auto.
+  - simpl. auto.
+Qed.
+(* FILL IN HERE (and delete "Admitted") *) Admitted.
 
 (*************************************************************************)
 (** * Induction principles for binding trees *)
@@ -1316,8 +1330,7 @@ Qed.
       - If [(x = z)], then we need to show [(typing (F ++ E) u T)].
         This follows from the given typing derivation for [u] by
         weakening and the fact that [T] must equal [S].
-      - If [(x <> z)], then we need to show [(typing (F ++ E) x T)].
-        This follows by the typing rule for variables.
+      - If [(x <> z)], then we need to show [(typing (F ++ E) x T)].        This follows by the typing rule for variables.
     HINTS: Lemmas [binds_mid_eq], [uniq_remove_mid],
     and [binds_remove_mid] are useful.
   *)
