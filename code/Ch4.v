@@ -850,19 +850,19 @@ Check lc_ind.
 
    To show a property  P : forall X, E[X] -> Prop holds for an arbitrary 
    expression e in E[X] it suffices to show:
-        forall x, x `in` X -> P x
-        forall n, P n
-        forall s, P s
-        forall x x' e1 e2, such that x' notin X, 
-           P e1 -> P ( [ x' / x ] e2 ) -> P (let x be e1 in e2)
-        forall e1 e2, P e1 -> P e2 -> P (e1 `op` e2)
+        forall X x, x `in` X -> P X x
+        forall X n, P X n
+        forall X s, P X s
+        forall X x x' e1 e2, such that x' notin X, 
+           P X e1 -> P [X u {x'}] ([ x' / x ] e2) -> P (let x be e1 in e2)
+        forall X e1 e2, P X e1 -> P X e2 -> P X (e1 `op` e2)
 
    In other words, in the variable case, we need to show the property for 
    all variables that actually appear in the term (though often in the proof, this 
    set will be abstract). Also in the let case, we need to show the property hold 
    for an arbitrary x' that does *not* appear in X. When we do the proof, 
 
-   we get to pick any X, as long as it is larger than the fv of e. In practice, this 
+   we work with an arbitrary X. In practice, this 
    induction principle behaves like co-finite quantification. 
   
 *) 
