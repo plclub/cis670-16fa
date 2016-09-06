@@ -15,7 +15,7 @@ Date  | Speaker    | Lecture Notes
 ------|------------|------------------------------------------------
 8/30  | Stephanie  | [083016.md](notes/083016.md)
 9/1   | Stephanie  | [090116.md](notes/090116.md)
-9/6   |
+9/6   | Stephanie  | [090616.md](notes/090616.md)
 9/8   |
 9/13  | 
 9/15  |
