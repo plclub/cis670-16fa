@@ -623,7 +623,7 @@ Admitted.
     substitution for index [S k] in term [e], while our induction
     hypothesis IHLC only tells use about index [k] in term [open e x].
     To solve the first problem, we generalize our IH over all [k].
-    That way, when [k] is incremented in the [abs] case, it will still
+    That way, when [k] is incremented in the [let] case, it will still
     apply.  Below, we use the tactic [generalize dependent] to
     generalize over [k] before using induction.
 *)
@@ -657,7 +657,7 @@ Admitted.
 >>
    Of course, to prove this result, we must generalize
    [0] and [S k] to be any pair of inequal numbers to get a strong
-   enough induction hypothesis for the [abs] case.
+   enough induction hypothesis for the [let] case.
  *)
 
 Lemma open_rec_lc_core : forall e j v i u,
