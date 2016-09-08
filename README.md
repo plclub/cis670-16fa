@@ -11,12 +11,12 @@ Prerequisite:   CIS 500 or PhD student status
 
 ## Schedule
 
-Date  | Speaker    | Lecture Notes
-------|------------|------------------------------------------------
-8/30  | Stephanie  | [083016.md](notes/083016.md)
-9/1   | Stephanie  | [090116.md](notes/090116.md)
-9/6   | Stephanie  | [090616.md](notes/090616.md)
-9/8   |
+Date  | Speaker    | Lecture Topic            | Notes
+------|------------|--------------------------|----------------------
+8/30  | Stephanie  | Intros, Locally nameless | [083016.md](notes/083016.md)
+9/1   | Stephanie  | Abstract binding trees   | [090116.md](notes/090116.md)
+9/6   | Stephanie  | Cofinite quantification  | [090616.md](notes/090616.md)
+9/8   | Stephanie  | Structural rules         | [090816.md](notes/090816.md)
 9/13  | 
 9/15  |
 9/20  |  *ICFP*   (no class)
@@ -51,13 +51,13 @@ Date  | Speaker    | Lecture Notes
 - Part III Total Functions
 - Part IV Finite Data Types
 - Part V Types and Propositions
-- Part VI Infinite Data Types
+- Part VI Infinite Data Types (Nicolas, Ch15)
 - Part VII Variable Types
 - Part VIII Partiality and Recursive Types
 - Part IX Dynamic Types
-- Part XII Control Flow
+- Part XII Control Flow (Teng)
 - Part XIV Mutable State
-- Part XVII Modularity 
+- Part XVII Modularity (Teng)
 - Part XVIII Equational Reasoning
 
 
