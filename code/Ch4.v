@@ -990,7 +990,8 @@ Lemma binds_demo : forall (x:atom) (T:typ) (E F:env),
   binds x T (E ++ (x ~ T) ++ F).
 Proof.
   auto.
-Qed.
+Defined.
+Print binds_demo.
 
 (** Note that binds doesn't care if multiple bindings are present
     or anything about the order of the bindings. *)
@@ -1076,7 +1077,8 @@ Proof.
   - destruct (x0 == x).
      auto.
      auto.
-  - pick fresh y and apply lc_let. auto.
+  - (* lc_let with (L := L \u fv e1 \u fv e2 \u fv u) *)
+    pick fresh y and apply lc_let. auto.
     (* Here, take note of the hypothesis [Fr]. *)
     rewrite <- (subst_neq_var x y u).
     rewrite subst_open. auto. auto. auto.
@@ -1114,7 +1116,7 @@ Lemma subst_lc_inverse : forall x u e, lc ([x ~> u] e) -> lc u -> lc e.
 Inductive typing : env -> exp -> typ -> Prop :=
 | typing_var : forall E (x : atom) T,
     uniq E ->
-    binds x T E ->
+    binds x T E -> 
     typing E (exp_fvar x) T
 | typing_str  : forall s E,
     uniq E ->
@@ -1283,6 +1285,7 @@ Proof.
   remember (G ++ E) as E'.
   generalize dependent G.
   induction H; intros G Eq Uniq; subst.
+  Check binds_weaken.
  (* EXERCISE *) Admitted.
 
 
@@ -1468,6 +1471,7 @@ Proof.
    Decomposition states that any (large) expression can be decomposed into a
    client and implementor by introducing a variable to mediate the
    interaction. 
+
 
    The proof of this lemma requires many of the lemmas shown above.
 
