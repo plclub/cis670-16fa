@@ -966,12 +966,12 @@ Qed.
     tactic [rewrite_env].
 *)
 
-Lemma rewrite_env_demo : forall (x y:atom) (T:typ) P,
+Lemma rewrite_env_demo : forall (x:atom) (T:typ) P,
   (forall E, P ((x,T):: E) -> True) ->
   P (x ~ T) ->
   True.
 Proof.
-  intros x y T P H.
+  intros x T P H.
   (* apply H. fails here. *)
   rewrite_env ((x,T) :: nil).
   apply H.
