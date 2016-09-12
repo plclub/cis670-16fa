@@ -8,16 +8,19 @@ typ, t ::  'typ_' ::= {{ com types }}
   | t1 -> t2 ::   :: arr   {{ com Function types }}
 
 exp, e ::  '' ::= {{ com expressions }}
-  | x        ::   :: var
-  | z        ::   :: z
-  | s e      ::   :: s
+  | x        ::   :: var   {{ com Variables }}
+  | z        ::   :: z     {{ com Zero }}
+  | s e      ::   :: s     {{ com Successor }}
   | rec e { z -> e0 ; s x -> e1 } ::     :: rec
     (+ bind x in e1 +)
+	  {{ com Primitive recursion over nats }}
   | \ ( x : t ) e ::    :: abs
     (+ bind x in e +)
+	  {{ com Functions }}
   | e1 e2    ::   :: app
-  | ( e )            :: S :: Paren   {{ coq ([[e]]) }}
-  | e1 { e2 / x }      :: S :: Subst   {{ coq (open_exp_wrt_exp [[x e1]] [[e2]]) }}
+     {{ com Application }}
+  | ( e )            :: M :: Paren   {{ coq ([[e]]) }}
+  | e1 { e2 / x }    :: M :: Subst   {{ coq (open_exp_wrt_exp [[x e1]] [[e2]]) }}
 
 substitutions
   single e x :: subst
@@ -29,9 +32,11 @@ grammar
 
 env, G {{ tex \Gamma }} :: '' ::= {{ com typing environment }} {{ coq list ( atom * typ ) }}
    | empty           ::    :: Empty   {{ coq nil }}
-
-	| G , x : t       ::    :: Cons    {{ coq (([[x]]~ [[t]]) ++ [[G]]) }}
+                                      {{ com empty }}
+	| G , x : t       ::    :: Cons    {{ coq (([[x]] ~ [[t]]) ++ [[G]]) }}
+	                                   {{ com cons }}
 	| G ++ G'         :: M  :: Append  {{ coq ([[G']] ++ [[G]]) }}
+	{{ tex [[G]] \mathop{++} [[G']] }}
 
 terminals :: 'terminals_' ::=
   | \                 ::   :: lam        {{ tex \mathrm{\lambda} }}
@@ -39,6 +44,8 @@ terminals :: 'terminals_' ::=
   | |-                ::   :: entails    {{ tex \vdash }}
   | ->                ::   :: arrow      {{ tex \to }}
   | ++                ::   :: concat     {{ tex \mathop{++} }}
+  | empty             ::   :: empty      {{ tex \emptyset }}
+
 
 formula :: 'formula_' ::=
   | judgement                ::   :: judgement
