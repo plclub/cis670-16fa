@@ -1,0 +1,149 @@
+metavar tmvar, x, y ::= {{ repr-locally-nameless }}
+  {{ com variables }}
+
+grammar
+
+typ, t ::  'typ_' ::= {{ com types }}
+  | nat      ::   :: nat   {{ com Natural numbers }}
+  | t1 -> t2 ::   :: arr   {{ com Function types }}
+
+exp, e ::  '' ::= {{ com expressions }}
+  | x        ::   :: var
+  | z        ::   :: z
+  | s e      ::   :: s
+  | rec e { z -> e0 ; s x -> e1 } ::     :: rec
+    (+ bind x in e1 +)
+  | \ ( x : t ) e ::    :: abs
+    (+ bind x in e +)
+  | e1 e2    ::   :: app
+  | ( e )            :: S :: Paren   {{ coq ([[e]]) }}
+  | e1 { e2 / x }      :: S :: Subst   {{ coq (open_exp_wrt_exp [[x e1]] [[e2]]) }}
+
+substitutions
+  single e x :: subst
+
+freevars
+  e x :: fv
+
+grammar
+
+env, G {{ tex \Gamma }} :: '' ::= {{ com typing environment }} {{ coq list ( atom * typ ) }}
+   | empty           ::    :: Empty   {{ coq nil }}
+
+	| G , x : t       ::    :: Cons    {{ coq (([[x]]~ [[t]]) ++ [[G]]) }}
+	| G ++ G'         :: M  :: Append  {{ coq ([[G']] ++ [[G]]) }}
+
+terminals :: 'terminals_' ::=
+  | \                 ::   :: lam        {{ tex \mathrm{\lambda} }}
+  | ~>                ::   :: produce    {{ tex \leadsto }}
+  | |-                ::   :: entails    {{ tex \vdash }}
+  | ->                ::   :: arrow      {{ tex \to }}
+  | ++                ::   :: concat     {{ tex \mathop{++} }}
+
+formula :: 'formula_' ::=
+  | judgement                ::   :: judgement
+  | x : t in G               ::   :: inG
+  	 {{ coq binds [[x]] [[t]] [[G]] }}
+  | ( formula )              ::   :: Paren
+    {{ coq ([[formula]]) }}
+  | uniq G                   ::   :: uniq
+    {{ coq uniq [[G]] }}
+
+defns
+JValue :: ''  ::=
+
+defn
+e val  ::   :: value :: 'val_'
+by
+
+------- :: z
+z val
+
+e val
+-------- :: s
+s e val
+
+----------------  :: abs
+\ (x :t) e val
+
+
+defns
+JTyping :: '' ::=
+
+defn
+G |- e : t  ::     :: typing  :: 'typing_'
+by
+
+uniq G
+x : t in G
+----------- :: var
+G |- x : t 
+
+uniq G
+------------- :: z
+G |- z : nat
+
+
+G |- e : nat
+---------------- :: s
+G |- s e : nat
+
+
+G |- e : nat
+G |- e0 : t
+G , x : nat |- e1 : t -> t
+e1 val
+----------------------------------------- :: rec
+G |- rec e { z -> e0 ; s x -> e1 } : t
+
+
+G, x:t1 |- e : t2
+-------------------------- :: abs
+G |- \ (x :t1) e : t1 -> t2
+
+
+G |- e1 : t1 -> t2
+G |- e2 : t1
+------------------------- :: app
+G |- e1 e2 : t2
+
+
+defns
+JDyn :: '' ::=
+
+
+defn
+e ~> e'     ::     :: eval    :: 'eval_'
+by
+
+e ~> e'
+----------- :: s
+s e ~> s e'
+
+
+e1 ~> e1'
+--------------- :: app_left
+e1 e2 ~> e1' e2
+
+e1 val
+e2 ~> e2'
+--------------- :: app_right
+e1 e2 ~> e1 e2'
+
+
+e2 val
+------------------------------- :: beta
+(\(x:t) e1) e2 ~> e1 { e2 / x}
+
+
+e ~> e'
+-------------------------------------------------------------- :: rec_scrut
+rec e { z -> e0 ; s x -> e1 } ~> rec e' { z -> e0 ; s x -> e1 }
+
+
+----------------------------------- :: rec_z
+rec z { z -> e0 ; s x -> e1 } ~> e0
+
+s e val
+----------------------------------------------------------------------------- :: rec_s
+rec s e { z -> e0 ; s x -> e1 } ~> e1 { e / x } (rec e { z -> e0 ; s x -> e1})
