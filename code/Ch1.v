@@ -578,7 +578,8 @@ Qed.
 
 
   
-  (* Note: In the abs case, just requiring 
+  (* Note:
+     In the abs case, just requiring 
        naive_aeq a1 (rename (x2, x1) a2)  
        leads to  \x. y =aeq  \y. x 
      (and the proof of transitivity fails.)
@@ -779,8 +780,8 @@ Admitted.
       + apply aeq_Abs with (z := z0). auto.
         apply IHE.
         apply aeq_rename with (rho := (z0, z1)) in H5.
-        (* faking it through here. these admits don't reall work because
-           we don't know that z0 and z1 are different that x2 and x3 *)
+        (* faking it through here. these admits don't really work because
+           we don't know that z0 and z1 are different from x2 and x3 *)
         rewrite <- commute in H5.
         rewrite rename_var_diff in H5.
         assert (rename_var (z0, z1) x2 = x2). admit. rewrite H0 in H5.
@@ -1001,4 +1002,80 @@ Admitted.
       auto.
       auto.
   Qed.
+
+  (* ----------------------------------------- *)
+
+  (* substitution as a relation *)
+
+  Inductive subst (u : exp) (x: atom) : atoms -> exp -> exp -> Prop :=
+  | subst_Var_same : forall X , subst u x X (Var x) u
+  | subst_Var_diff : forall X y, y `in` X -> x <> y -> subst u x X (Var y) (Var y)
+  | subst_App : forall X e1 e1' e2 e2',
+      subst u x X e1 e1' -> subst u x X e2 e2' ->
+      subst u x X (App e1 e2) (App e1' e2')
+  | subst_Abs : forall X e1 e1' y,
+      (forall z, z `notin` X ->
+            subst u x (X \u {{z}}) (rename (y,z) e1) (rename (y,z) e1')) ->
+      subst u x X (Abs y e1) (Abs y e1').
+  Hint Constructors subst.
   
+  Lemma subst_respects : forall u x X1 e1 e2, subst u x X1 e1 e2 -> forall X2, X1 [=] X2 ->
+                                         subst u x X2 e1 e2.
+  Proof.
+    intros u x X1 e1 e2 H; induction H; intros; auto.
+    - apply subst_Var_diff. fsetdec. auto.
+    - eapply subst_Abs. intros.
+      eapply H0. fsetdec. fsetdec.
+  Qed.
+
+  Lemma subst_subset : forall u x X1 e1 e2, subst u x X1 e1 e2 -> forall X2, X1 [<=] X2 ->
+                                         subst u x X2 e1 e2.
+  Proof.
+    intros u x X1 e1 e2 H; induction H; intros; auto.
+    - eapply subst_Abs. intros.
+      eapply H0. fsetdec. fsetdec.
+  Qed.
+  
+  Lemma subst_in_exp_1 : forall u x X e1 e2, subst u x X e1 e2 -> in_exp (X \u {{x}}) e1.
+  Proof.
+    intros. induction H; auto.
+    - apply in_Abs.
+      intros y1 F.
+      eapply in_exp_respects with (X1 := (union (union X (singleton y1)) (singleton x0))).
+      apply (H0 y1).
+      fsetdec.
+      fsetdec.
+  Qed.
+
+  Lemma subst_in_exp_2 : forall u x X e1 e2, in_exp X u -> subst u x X e1 e2 -> in_exp X e2.
+  Proof.
+    intros. induction H0; auto.
+    - apply in_Abs. intros y1 F.
+      eapply (H1 y1). auto.
+      eapply in_exp_subset. eauto. fsetdec.
+  Qed.
+
+
+  Lemma subst_function : forall X x u e1, in_exp X e1 -> forall X1, (X1 \u {{x}}) [=] X -> in_exp X1 u -> exists e2, subst u x X1 e1 e2.
+  Proof.
+    intros X x u e1 I.
+    induction I; intros X1 EQ IN.
+    - destruct (x0 == x).  subst. exists u. auto.
+      exists (Var x0).
+      apply subst_Var_diff. fsetdec. auto.
+    - destruct (IHI1 X1) as [a1' S1]; auto.
+      destruct (IHI2 X1) as [a2' S2]; auto.
+      exists (App a1' a2'). auto.
+    - pick fresh y for (X1 \u {{x}}).
+      destruct (H0 y) with (X1 := (union X1 {{ y }})) as [a1' S1]. fsetdec. fsetdec.
+      apply in_exp_subset with (X1 := X1). auto. fsetdec.
+      exists (Abs x0 (rename (x0, y) a1')).
+      apply subst_Abs.
+      intros z0 F.
+      rewrite <- commute.
+  Admitted.
+
+  Lemma subst_aeq : forall X x u e1 e2, subst u x X e1 e2 -> forall u' e1',
+        aeq X u u' -> aeq (X \u {{x}}) e1 e1' -> exists e2', aeq X e2 e2' /\ subst u' x X e1' e2'.
+  Proof.
+  Admitted. 

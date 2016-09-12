@@ -1,87 +1,9 @@
 Require Export Metalib.Metatheory.
 Require Export Ch4.
+Require Export Transitions. 
 
 (*************************************************************************)
-(** * Transition Systems *)
-(*************************************************************************)
-
-(* The beginning of Ch5 introduces general terminology for reasoning about 
-   the evaluation of programs.  We can capture the generality of these 
-   definition using Coq's module system. The following module type 
-   defines what it means to be a transition system in abstract terms. 
- *)
-
-Module Type TransitionSystem.
-  Parameter S : Set.
-  Parameter state : S -> Prop.
-
-  Parameter final : S -> Prop.
-  Axiom final_state : forall s, final s -> state s.
-
-  Parameter initial : S -> Prop.
-  Axiom initial_state : forall s, initial s -> state s.
-  
-  Parameter step : S -> S -> Prop.
-  Axiom step_states : forall s1 s2, step s1 s2 -> state s1 /\ state s2.
-
-  Axiom final_does_not_step : forall s, final s -> not (exists s', step s s').    
-  
-End TransitionSystem.
-
-(* Once we know what a transition system is, we can define concepts 
-   and prove theorems in terms of the basic definitions above. *)
-
-Module TransitionSystemProperties (TS : TransitionSystem).
-  Import TS.
-
-  Definition stuck (s : S) :=
-    not (final s) /\ not (exists s', step s s').
-                         
-  Fixpoint transitions (ss : list S) (last : S -> Prop) : Prop := 
-    match ss with
-    | nil => False
-    | si :: rest => match rest with
-                     | nil => last si
-                     | si' :: _ => step si si' /\ transitions rest last
-                   end
-    end.
-
-  Definition transition_sequence ss : Prop :=
-    match ss with
-    | s0 :: _ => initial s0 /\ transitions ss (fun _ => True)
-    | _ => False
-    end.
-
-  Definition maximal_transition_sequence ss : Prop :=
-    match ss with
-    | s0 :: _ => initial s0 /\ transitions ss (fun sn => not (exists s', step sn s'))
-    | _ => False
-    end.
-
-  Definition complete_transition_sequence ss : Prop :=
-    match ss with
-    | s0 :: _ => initial s0 /\ transitions ss final
-    | _ => False
-    end.
-  
-  Inductive multistep : S -> S -> Prop :=
-    | multistep_refl : forall s,  multistep s s
-    | multistep_step : forall s s' s'', step s s' -> multistep s' s'' -> multistep s s''.        
-
-  Hint Constructors multistep.
-  Lemma multistep_transitive : forall s s' s'',
-      multistep s s' -> multistep s' s'' -> multistep s s''.
-  Proof.
-    intros s s' s'' MS1 MS2.
-    induction MS1.
-    - auto.
-    - eauto. 
-  Qed.
-
-End TransitionSystemProperties.  
-
-(*************************************************************************)
-(** * Values and Evaluation (i.e. Structural Dynamics)                   *)
+(** * Values and Evaluation (i.e. Structural Dynamics 5.2)               *)
 (*************************************************************************)
 
 (** In order to state the preservation lemma, we first need to define
@@ -158,14 +80,9 @@ Module Evaluation.
   Qed.
 
 End Evaluation.
-Import Evaluation.
+Export Evaluation.
 
-(* Because our Evaluation Module is a Transition System, we can make the general 
-   definitions from the TransitionSystemProperties module available to us. *)
-
-Module EvaluationTS := TransitionSystemProperties Evaluation.
-Import EvaluationTS.
-
+(* Here is a analogous version of 'final does not step' *)
 Lemma finality_of_values : forall e, lc e -> not (value e /\ exists e', eval e e').
 Proof.
   intros e LC. induction LC; unfold not; intro K; destruct K as [VK [e' EV]].
@@ -176,12 +93,38 @@ Proof.
   - inversion VK.
 Qed.
 
+(* Because our Evaluation Module is a Transition System, we can make the general 
+   definitions from the TransitionSystemProperties module available to us. *)
+
+Module EvaluationTS := TransitionSystemProperties Evaluation.
+Export EvaluationTS.
+
+
+(* Some of our eval rules are called *congruence* rules. These rules exist to find the 
+   actual action in term for the reduction. 
+   We can lift each of the congruence rules through the multistep relation. 
+   For example, if we have a sequence of steps, we can lift that to an evaluation in 
+   the righthand side of a let expression.
+*)
+
+Lemma multistep_let_rhs : forall e1 e1' e2,
+    multistep e1 e1' -> state (exp_let e1 e2) -> multistep (exp_let e1 e2) (exp_let e1' e2).
+Proof.
+  intros e1 e1' e2 MS. induction MS; intros S; inversion S.
+  - eapply ms_refl. eapply lc_let; auto. 
+  - eapply ms_step; eauto. eapply eval_let_rhs; eauto.
+    eapply IHMS; eapply lc_let; eauto.
+    eapply step_states. eauto.
+Qed.   
+
+(** *** Exercise: State and prove congruence lemmas for eval_op_fst and 
+    eval_op snd.  *)
+
 (** *** Exercise: Prove Lemma 5.3 *)
 Lemma determinacy : forall e e1, eval e e1 -> forall e2, eval e e2 -> e1 = e2.
 Proof.
 (* Fill in HERE *) Admitted.
 
-Lemma multistep_determinacy : forall e e1, multistep e e1, forall e2, multistep e e2 -> e1 = e2.
 
 (*************************************************************************)
 (** * Optional 5.3 Contextual Dynamics *)
@@ -191,4 +134,30 @@ Lemma multistep_determinacy : forall e e1, multistep e e1, forall e2, multistep 
 (** * Optional: 5.4 Equational Dynamics *)
 (*************************************************************************)
 
+(** *** Challenge exercise: Define the "definitional equality relation" as presented 
+    in the textbook and Prove Theorem 5.5 *)
 
+Inductive defeq : env -> exp -> exp -> typ -> Prop :=
+  (* Finish me *)
+.
+
+(* Your definition of defeq above should validate this property. If you can't prove 
+   it straightaway, you may need to add additional preconditions to your rules. *)
+Lemma defeq_typing : forall G e1 e2 t, defeq G e1 e2 t -> typing G e1 t /\ typing G e2 t.
+Admitted.
+
+
+(* This is the "straighforward" direction mentioned in the book.  You shouldn't try
+   to prove it directly. Instead, think about some simpler properties that you can 
+   show first to relate step and defeq. *)
+Lemma eval_defeq : forall G e e' t e0,
+    typing G e t -> typing G e' t -> multistep e e0 -> multistep e' e0 -> defeq G e e' t.
+Admitted.
+
+(* This is the converse, which requires a more general property to be shown first.  *)
+Lemma defeq_eval : forall G e e' t, defeq G e e' t -> exists e0, value e0 /\ multistep e e0 /\ multistep e' e0.
+Admitted.
+
+
+
+    

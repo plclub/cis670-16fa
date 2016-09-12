@@ -17,11 +17,11 @@ Date  | Speaker    | Lecture Topic            | Notes
 9/1   | Stephanie  | Abstract binding trees   | [090116.md](notes/090116.md)
 9/6   | Stephanie  | Cofinite quantification  | [090616.md](notes/090616.md)
 9/8   | Stephanie  | Structural rules         | [090816.md](notes/090816.md)
-9/13  | 
-9/15  |
-9/20  |  *ICFP*   (no class)
-9/22  |  *ICFP*   (no class)
-9/27  | 
+9/13  | Stephanie  | More typing              |
+9/15  | Stephanie  | Type soundness X 2       |  
+9/20  |  *ICFP*  (no class) | Read PFPL Ch 8   
+9/22  |  *ICFP*  (no class) | Read PFPL Ch 9  | See [Ch9.v](code/Ch9.v) 
+9/27  | Solomon    |  Ch 9 & Ch 10
 9/29  | 
 10/4  | 
 10/6  |  *Fall break* (no class)
@@ -49,16 +49,16 @@ Date  | Speaker    | Lecture Topic            | Notes
 - Part I Judgements and Rules (Stephanie)
 - Part II Statics and Dynamics (Stephanie)
 - Part III Total Functions
-- Part IV Finite Data Types
-- Part V Types and Propositions
-- Part VI Infinite Data Types (Nicolas, Ch15)
-- Part VII Variable Types
-- Part VIII Partiality and Recursive Types
-- Part IX Dynamic Types
-- Part XII Control Flow (Teng)
+- Part IV Finite Data Types (Solomon Ch10, Yao Ch11)
+- Part V Types and Propositions (Pritam Ch12, Antoine Ch13)
+- Part VI Infinite Data Types (Nicolas Ch15)
+- Part VII Variable Types (Yao Ch16, Teng Ch17)
+- Part VIII Partiality and Recursive Types (Richard Ch19)
+- Part IX Dynamic Types (Omar Ch22, Hengchu Ch23)
+- Part XII Control Flow 
 - Part XIV Mutable State
-- Part XVII Modularity (Teng)
-- Part XVIII Equational Reasoning
+- Part XVII Modularity 
+- Part XVIII Equational Reasoning (Antoine, Ch48)
 
 
 ## Resources

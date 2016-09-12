@@ -47,7 +47,6 @@ Proof.
 (** * Progress *)
 (*************************************************************************)
 
-
  (** *** Exercise
     Complete the proof of the progress lemma.  The induction
     hypothesis has already been appropriately generalized by the given
