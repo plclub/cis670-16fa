@@ -3,7 +3,7 @@ metavar tmvar, x, y ::= {{ repr-locally-nameless }}
 
 grammar
 
-typ, t ::  'typ_' ::= {{ com types }}
+typ, t  {{ tex \tau }} ::  'typ_' ::= {{ com types }}
   | nat      ::   :: nat   {{ com Natural numbers }}
   | t1 -> t2 ::   :: arr   {{ com Function types }}
 
@@ -17,6 +17,7 @@ exp, e ::  '' ::= {{ com expressions }}
   | \ ( x : t ) e ::    :: abs
     (+ bind x in e +)
 	  {{ com Functions }}
+	  {{ tex [[\]]([[x]]\!:\![[t]])[[e]] }}
   | e1 e2    ::   :: app
      {{ com Application }}
   | ( e )            :: M :: Paren   {{ coq ([[e]]) }}
@@ -151,6 +152,6 @@ rec e { z -> e0 ; s x -> e1 } ~> rec e' { z -> e0 ; s x -> e1 }
 ----------------------------------- :: rec_z
 rec z { z -> e0 ; s x -> e1 } ~> e0
 
-s e val
------------------------------------------------------------------------------ :: rec_s
-rec s e { z -> e0 ; s x -> e1 } ~> e1 { e / x } (rec e { z -> e0 ; s x -> e1})
+(s e) val
+----------------------------------------------------------------------- :: rec_s
+rec (s e) { z -> e0 ; s x -> e1 } ~> e1 { e / x } (rec e { z -> e0 ; s x -> e1})
