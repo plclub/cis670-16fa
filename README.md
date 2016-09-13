@@ -20,7 +20,7 @@ Date  | Speaker    | Lecture Topic            | Notes
 9/13  | Stephanie  | More typing & evaluation | [091316.md](notes/091316.md)
 9/15  | Stephanie  | Type soundness times 2   |  
 9/20  |  *ICFP*  (no class) | Read Ch 8   
-9/22  |  *ICFP*  (no class) | Read Ch 9       | See [Ch9.v](code/Ch9.v) 
+9/22  |  *ICFP*  (no class) | Read Ch 9       | finish [Ch9.v](code/Ch9.v) 
 9/27  | Solomon    |  Ch 10
 9/29  | Yao        |  Ch 11
 10/4  | Pritam     |  Ch 12

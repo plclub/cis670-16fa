@@ -46,6 +46,7 @@ Inductive eval : exp -> exp -> Prop :=
 
 Hint Constructors value eval.
 
+
 Module Evaluation.
   Definition S := exp.
   Definition state := lc.
@@ -82,7 +83,7 @@ Module Evaluation.
 End Evaluation.
 Export Evaluation.
 
-(* Here is a analogous version of 'final does not step' *)
+(* Here is an analogous version of 'final does not step' *)
 Lemma finality_of_values : forall e, lc e -> not (value e /\ exists e', eval e e').
 Proof.
   intros e LC. induction LC; unfold not; intro K; destruct K as [VK [e' EV]].

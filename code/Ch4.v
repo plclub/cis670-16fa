@@ -1392,6 +1392,16 @@ Lemma typing_subst : forall (E F : env) e u S T (z : atom),
   typing E u S ->
   typing (F ++ E) ([z ~> u] e) T.
 Proof.
+  intros E F e u S T z H.
+  remember (F ++ [(z, S)] ++ E) as G.
+  generalize dependent F.
+  generalize dependent S.
+  generalize dependent E.
+  induction H.
+  Focus 4.
+  intros. subst. simpl.
+  pick fresh x and apply typing_let.
+  eapply IHtyping. eauto. auto.
 (* EXERCISE *) Admitted.
 
 
@@ -1565,7 +1575,7 @@ Qed.
    show that it type checks for a single variable, as long as that variable is 
    suitably fresh. 
 *)
- 
+Check typing_let.
 Lemma typing_let_exists : forall x (E : env) (e1 e2 : exp) (T1 T2 : typ),
        typing E e1 T1 
        -> x `notin` fv e2
