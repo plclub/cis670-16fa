@@ -24,6 +24,16 @@ Require Import systemt_inf.
    as well as MANY other properties.
  *)
 
+
+Lemma subst_eq_var: forall (x : atom) u,
+  [x ~> u](var_f x) = u.
+Proof.
+  intros.
+  simpl.
+  destruct (x == x).
+  (* EXERCISE *) Admitted.
+
+
 SearchAbout subst_exp.
 
 Check subst_exp_lc_exp.   (* similar to subst_lc from before *)

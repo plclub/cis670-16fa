@@ -1359,6 +1359,7 @@ Lemma typing_subst_var_case : forall (E F : env) u S T (z x : atom),
 Proof.
   intros E F u S T z x H J K.
   simpl.
+  destruct (x==z).
  (* EXERCISE *) Admitted.
 
 (** *** Note
