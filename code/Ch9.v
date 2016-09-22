@@ -108,6 +108,19 @@ Qed.
 (** * Substitution *)
 (*************************************************************************)
 
+
+Lemma value_subst : forall x v u,
+    lc_exp v ->
+    value u ->
+    value ([x ~> v]u).
+Proof.
+  intros x v u Lc Hu.
+  induction Hu; subst; simpl; auto.
+  apply val_abs.
+  apply subst_exp_lc_exp with (e1 := abs t e). eauto.
+  eauto.
+Qed.
+
 Lemma typing_subst_var_case : forall E F u S T (y x : atom),
   binds x T (F ++ (y ~ S) ++ E) ->
   uniq (F ++ (y ~ S) ++ E) ->
@@ -123,6 +136,15 @@ Lemma typing_subst : forall (E F : env) e u S T (y : atom),
   typing E u S ->
   typing (F ++ E) ([y ~> u] e) T.
 Proof.
+  intros. remember (F ++ (y ~ S) ++ E) as G.
+  generalize dependent F.
+  induction H; intros; subst; 
+    eauto using typing_uniq, typing_subst_var_case;
+    simpl; eauto using typing_weakening.
+  - pick fresh x and apply typing_rec; eauto.
+    rewrite_env (((x~ typ_nat) ++ F) ++ E).
+    admit.
+    
 (* EXERCISE *) Admitted.
 
 Lemma typing_subst_simple : forall (E : env) e u S T (z : atom),
@@ -163,17 +185,6 @@ Proof.
       eapply typing_var; eauto.
 Qed.
 
-Lemma value_subst : forall x v u,
-    lc_exp v ->
-    value u ->
-    value ([x ~> v]u).
-Proof.
-  intros x v u Lc Hu.
-  induction Hu; subst; simpl; auto.
-  apply val_abs.
-  apply subst_exp_lc_exp with (e1 := abs t e). eauto.
-  eauto.
-Qed.
   
 Lemma value_rename : forall (x y : atom) e,
   x `notin` fv_exp e ->
