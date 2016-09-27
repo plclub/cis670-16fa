@@ -41,14 +41,14 @@ Definition rec' : forall A, nat -> A -> (nat -> A -> A) -> A :=
     snd (iter (nat * A) x (O, z) (fun xx => ( S (fst xx), s (fst xx) (snd xx)))).
 
 Lemma helper : forall A n z s,
-    n = fst (iter (nat * A) n (0, s) (fun xx : nat * A => (S (fst xx), z (fst xx) (snd xx)))).
+    n = fst (iter (nat * A) n (0, z) (fun xx : nat * A => (S (fst xx), s (fst xx) (snd xx)))).
 Proof.
   intros. induction n.
   - simpl. auto.
   - simpl. rewrite <- IHn. auto.
 Qed.
     
-Lemma same : forall A n z s, rec A n s z = rec' A n s z.
+Lemma same : forall A n z s, rec A n z s = rec' A n z s.
 Proof.
   intros A n. induction n.
   - intros. unfold rec'. simpl. auto.
