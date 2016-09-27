@@ -1,3 +1,7 @@
 *.vo
 *.glob
 *.v.d
+*.aux
+*.bak
+
+code/Makefile
