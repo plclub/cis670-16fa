@@ -21,7 +21,7 @@ Date  | Speaker    | Lecture Topic            | Notes
 9/15  | Stephanie  | Type soundness times 2   |  
 9/20  |  *ICFP*  (no class) | Read Ch 8   
 9/22  |  *ICFP*  (no class) | Read Ch 9       | finish [Ch9.v](code/Ch9.v) 
-9/27  | Solomon             |  Ch 10          | [092716.md](notes/092716.md)
+9/27  | Solomon (smaina)    |  Ch 10          | [092716.md](notes/092716.md)
 9/29  | Yao (liyao)         |  Ch 11
 10/4  | Pritam (pritam)     |  Ch 12
 10/6  |  *Fall break* (no class)
