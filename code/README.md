@@ -18,4 +18,14 @@ Then my build files look like:
        %.vo: %.v Makefile
          coqc -R $(METALIB) Metalib $*.v
 
+You can also generate `Makefile` with the following command:
+
+    % coq_makefile -f _CoqProject -o Makefile
+
 To have this configuration work with Emacs, you should update Proof General to version ≥ 4.3pre.
+
+If this is your first time to build, you might need to initialize the submodule via
+
+    % git submodule update --init
+
+and run `make` in folder `metalib`.
