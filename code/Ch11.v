@@ -274,8 +274,15 @@ Proof.
   - inversion H; subst; auto.
   - eapply typing_snd. apply IHtyping. apply H1.
   - inversion H; subst; auto.
-  (* work in class *)
-  Admitted.
+  - pick fresh x and apply typing_case. apply IHtyping; auto.
+    apply H0; auto. apply H2; auto.
+  - pick fresh x. rewrite subst_exp_intro with (x1:=x).
+    eapply typing_subst_simple. apply H0; auto.
+    inversion H; auto. auto.
+  - pick fresh x. rewrite subst_exp_intro with (x1:=x).
+    eapply typing_subst_simple. apply H2; auto.
+    inversion H; auto. auto.
+Qed.
 
 (*************************************************************************)
 (** * Progress *)
@@ -306,14 +313,21 @@ Proof.
 Qed.
 
 (* canonical form of sums *)
-(* work in class *)
+Lemma canonical_forms_sum :
+  forall e T1 T2, value e -> typing nil e (typ_sum T1 T2) ->
+             (exists e', value e' /\ e = inl T2 e') \/
+             (exists e', value e' /\ e = inr T1 e').
+Proof.
+  intros e T1 T2 HV. induction HV; intro HT; inversion HT; subst.
+  - left. exists e. auto.
+  - right. exists e. auto.
+Qed.
 
 Lemma void_has_no_value: forall e,
-  ~ (typing nil e typ_void).
+  value e -> ~ (typing nil e typ_void).
 Proof.
-  (* work in class *)
-  (* first of all: is this Lemma correct? *)
-Admitted.
+  intros e HV. induction HV; intro HT; inversion HT.
+Qed.
 
 Lemma progress : forall e T,
   typing nil e T ->
@@ -370,23 +384,127 @@ Proof.
       destruct H1 as [e1 [e2 [p [v1 v2]]]]; subst; auto.
       eapply ex_intro. eauto. auto.
     + destruct H1. right. exists (snd x). constructor; auto.
-  (* work in class *)
-Admitted.
+  - destruct IHtyping; auto.
+    + apply void_has_no_value in H1. contradiction.
+    + destruct H1. right. exists (abort t x). auto.
+  - destruct IHtyping; auto.
+    destruct H1. right. eapply ex_intro. eauto.
+  - destruct IHtyping; auto.
+    destruct H1. right. eapply ex_intro. eauto.
+  - destruct IHtyping; auto.
+    + apply (canonical_forms_sum _ t1 t2) in H5; auto.
+      destruct H5; destruct H5; destruct H5; subst.
+      * right. eapply ex_intro.
+        apply eval_casel; eauto using typing_lc.
+      * right. eapply ex_intro.
+        apply eval_caser; eauto using typing_lc.
+    + right. destruct H5. eapply ex_intro.
+      apply eval_case; eauto using typing_lc.
+Qed.
 
 (*************************************************************************)
 (** * Booleans *)
 (*************************************************************************)
 
-(* work in class *)
+Definition typ_bool := typ_sum typ_unit typ_unit.
+Definition true := inl typ_unit null.
+Definition false := inr typ_unit null.
+Definition bif e e1 e2 := scase e e1 e2.
+
+Theorem true_is_bool: forall G,
+    uniq G ->
+    typing G true typ_bool.
+Proof.
+  intros G H. constructor. auto.
+Qed.
+
+Theorem false_is_bool: forall G,
+    uniq G ->
+    typing G false typ_bool.
+Proof.
+  intros G H. constructor. auto.
+Qed.
+
+Theorem bif_type_check: forall G e e1 e2 T,
+    typing G e typ_bool ->
+    typing G e1 T ->
+    typing G e2 T ->
+    typing G (bif e e1 e2) T.
+Proof.
+  intros G e e1 e2 T HT HT1 HT2.
+  unfold bif. pick fresh x and apply typing_case.
+  apply HT.
+  rewrite open_exp_wrt_exp_lc_exp; eauto using typing_lc.
+  apply typing_weakening; auto. eauto using typing_uniq.
+  rewrite open_exp_wrt_exp_lc_exp; eauto using typing_lc.
+  apply typing_weakening; auto. eauto using typing_uniq.
+Qed.
 
 (*************************************************************************)
 (** * Option types *)
 (*************************************************************************)
 
-(* work in clas *)
+Definition typ_option t := typ_sum typ_unit t.
+Definition none t := inl t null.
+Definition just e := inr typ_unit e.
+Definition ifnull e e1 e2 := scase e e1 e2.
+
+Theorem none_is_option: forall G T,
+    uniq G ->
+    typing G (none T) (typ_option T).
+Proof.
+  intros G T H. constructor. auto.
+Qed.
+
+Theorem just_is_option: forall G e T,
+    typing G e T ->
+    typing G (just e) (typ_option T).
+Proof.
+  intros G e T H. constructor. auto.
+Qed.
+
+Theorem ifnull_type_check: forall L G e e1 e2 T1 T2,
+    typing G e (typ_option T1) ->
+    typing G e1 T2 ->
+    (forall x, x \notin L -> typing ((x ~ T1) ++ G) (open_exp_wrt_exp e2 (var_f x)) T2) ->
+    typing G (ifnull e e1 e2) T2.
+Proof.
+  intros L G e e1 e2 T1 T2 HT HT1 HT2.
+  pick fresh x and apply typing_case. apply HT.
+  rewrite open_exp_wrt_exp_lc_exp; eauto using typing_lc.
+  apply typing_weakening; auto. eauto using typing_uniq.
+  apply HT2; auto.
+Qed.
 
 (*************************************************************************)
 (** * Lists *)
 (*************************************************************************)
 
-(* work in class *)
+Definition lnil t := inl t null.
+Definition cons e1 e2 := inr typ_unit (pair e1 e2).
+
+(* what is the type of (cons z lnil) ? *)
+Example list1:
+  typing nil (cons z (lnil typ_nat)) (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit typ_nat))).
+Proof.
+  apply typing_inr. apply typing_pair. apply typing_z; auto.
+  apply typing_inl. apply typing_null; auto.
+Qed.
+
+(* what is the type of (cons z (cons z nil)) ? *)
+
+Example list2:
+  typing nil (cons z (cons z (lnil typ_nat))) (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit typ_nat))))).
+Proof.
+  apply typing_inr. apply typing_pair. apply typing_z; auto.
+  apply list1.
+Qed.
+
+(* see the pattern here? *)
+
+Example list3:
+  typing nil (cons z (cons z (cons z (lnil typ_nat)))) (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit (typ_prod typ_nat (typ_sum typ_unit typ_nat))))))).
+Proof.
+  apply typing_inr. apply typing_pair. apply typing_z; auto.
+  apply list2.
+Qed.
