@@ -1,0 +1,3 @@
+[submodule "code/metalib"]
+	path = code/metalib
+	url = git@github.com:plclub/metalib
