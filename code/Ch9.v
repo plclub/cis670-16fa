@@ -17,12 +17,12 @@ Require Import systemt_ott.
 
 Notation "[ y ~> u ] e" := (subst_exp u y e) (at level 68).
 
-
 Require Import systemt_inf.
 (* Derived via LNgen tool. Do NOT read this file :-). Note that it includes 
    many properties about the syntax of SystemT that we proved by hand before, 
    as well as MANY other properties.
  *)
+
 
 SearchAbout subst_exp.
 
