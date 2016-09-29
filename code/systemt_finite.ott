@@ -1,0 +1,289 @@
+metavar tmvar, x, y ::= {{ repr-locally-nameless }}
+  {{ com variables }}
+  
+metavar label, l ::= {{ coq nat }}
+
+indexvar index, i, n ::= {{ coq nat }}
+
+grammar
+
+typ, t  {{ tex \tau }} ::  'typ_' ::= {{ com types }}
+  | nat      ::   :: nat   {{ com Natural numbers }}
+  | t1 -> t2 ::   :: arr   {{ com Function types }}
+  | unit     ::   :: unit  {{ com Unit type }}
+  | t1 * t2  ::   :: prod  {{ com Product types }}
+  | void     ::   :: void  {{ com Void types }}
+  | t1 + t2  ::   :: sum   {{ com Sum types }}
+
+exp, e ::  '' ::= {{ com expressions }}
+  | x        ::   :: var   {{ com Variables }}
+  | z        ::   :: z     {{ com Zero }}
+  | s e      ::   :: s     {{ com Successor }}
+  | rec e { z -> e0 ; s x -> e1 } ::     :: rec
+    (+ bind x in e1 +)
+	  {{ com Primitive recursion over nats }}
+  | \ ( x : t ) e ::    :: abs
+    (+ bind x in e +)
+	  {{ com Functions }}
+	  {{ tex [[\]]([[x]]\!:\![[t]])[[e]] }}
+  | e1 e2    ::   :: fapp
+     {{ com Application }}
+  | ( e )            :: M :: Paren   {{ coq ([[e]]) }}
+  | e1 { e2 / x }    :: M :: Subst   {{ coq (open_exp_wrt_exp [[x e1]] [[e2]]) }}
+  | triv             ::   :: null    {{ com Null tuple }}
+  | < e1 ; e2 >      ::   :: pair    {{ com Ordered pair }}
+  | fst e            ::   :: fst     {{ com Left projection }}
+  | snd e            ::   :: snd     {{ com Right projection }}
+  | abort { t } ( e ) ::  :: abort  {{ com Abort }}
+  | inl { t } ( e )  ::   :: inl     {{ com Left injection }}
+  | inr { t } ( e )  ::   :: inr     {{ com Right injection }}
+  | case e { inl x1 -> e1 | inr x2 -> e2 } ::     :: scase
+    (+ bind x1 in e1 +) (+ bind x2 in e2 +)
+    {{ com Case analysis }}
+  
+
+substitutions
+  single e x :: subst
+
+freevars
+  e x :: fv
+
+
+grammar
+
+env, G {{ tex \Gamma }} :: '' ::= {{ com typing environment }} {{ coq list ( atom * typ ) }}
+   | empty           ::    :: Empty   {{ coq nil }}
+                                      {{ com empty }}
+	| G , x : t       ::    :: Cons    {{ coq (([[x]] ~ [[t]]) ++ [[G]]) }}
+	                                   {{ com cons }}
+	| G ++ G'         :: M  :: Append  {{ coq ([[G']] ++ [[G]]) }}
+	{{ tex [[G]] \mathop{++} [[G']] }}
+
+terminals :: 'terminals_' ::=
+  | \                 ::   :: lam        {{ tex \mathrm{\lambda} }}
+  | ~>                ::   :: produce    {{ tex \leadsto }}
+  | |-                ::   :: entails    {{ tex \vdash }}
+  | ->                ::   :: arrow      {{ tex \to }}
+  | ++                ::   :: concat     {{ tex \mathop{++} }}
+  | empty             ::   :: empty      {{ tex \emptyset }}
+  | *                 ::   :: prod       {{ tex \times }}
+  | +                 ::   :: sum        
+
+
+formula :: 'formula_' ::=
+  | judgement                ::   :: judgement
+  | x : t in G               ::   :: inG
+  	 {{ coq binds [[x]] [[t]] [[G]] }}
+  | ( formula )              ::   :: Paren
+    {{ coq ([[formula]]) }}
+  | uniq G                   ::   :: uniq
+    {{ coq uniq [[G]] }}
+  | formula1 .. formulan     ::   :: dots
+
+defns
+JValue :: ''  ::=
+
+defn
+e val  ::   :: value :: 'val_'
+by
+
+------- :: z
+z val
+
+e val
+-------- :: s
+s e val
+
+----------------  :: abs
+\ (x :t) e val
+
+----------  :: null
+triv val
+
+e1 val
+e2 val
+------------  :: prod
+<e1;e2> val
+
+e val
+-------------  :: inl
+inl{t}(e) val
+
+e val
+-------------  :: inr
+inr{t}(e) val
+
+
+defns
+JTyping :: '' ::=
+
+defn
+G |- e : t  ::     :: typing  :: 'typing_'
+by
+
+uniq G
+x : t in G
+----------- :: var
+G |- x : t 
+
+uniq G
+------------- :: z
+G |- z : nat
+
+
+G |- e : nat
+---------------- :: s
+G |- s e : nat
+
+
+G |- e : nat
+G |- e0 : t
+G , x : nat |- e1 : t -> t
+e1 val
+----------------------------------------- :: rec
+G |- rec e { z -> e0 ; s x -> e1 } : t
+
+
+G, x:t1 |- e : t2
+-------------------------- :: abs
+G |- \ (x :t1) e : t1 -> t2
+
+
+G |- e1 : t1 -> t2
+G |- e2 : t1
+------------------------- :: fapp
+G |- e1 e2 : t2
+
+uniq G
+------------------------- :: null
+G |- triv : unit
+
+
+G |- e1 : t1
+G |- e2 : t2
+------------------------ :: pair
+G |- <e1;e2> : t1 * t2
+
+
+G |- e : t1 * t2
+------------------------ :: fst
+G |- fst e : t1
+
+
+G |- e : t1 * t2
+------------------------ :: snd
+G |- snd e : t2
+
+
+G |- e : void
+------------------------ :: abort
+G |- abort{t}(e) : t
+
+
+G |- e : t1
+--------------------------- :: inl
+G |- inl{t2}(e) : t1 + t2
+
+
+G |- e : t2
+--------------------------- :: inr
+G |- inr{t1}(e) : t1 + t2
+
+
+G |- e : t1 + t2
+G, x:t1 |- e1 : t
+G, x:t2 |- e2 : t
+--------------------------------------------------- :: case
+G |- case e {inl x -> e1 | inr x -> e2} : t
+
+
+defns
+JDyn :: '' ::=
+
+
+defn
+e ~> e'     ::     :: eval    :: 'eval_'
+by
+
+e ~> e'
+----------- :: s
+s e ~> s e'
+
+
+e1 ~> e1'
+--------------- :: fapp_left
+e1 e2 ~> e1' e2
+
+e1 val
+e2 ~> e2'
+--------------- :: fapp_right
+e1 e2 ~> e1 e2'
+
+
+e2 val
+------------------------------- :: beta
+(\(x:t) e1) e2 ~> e1 { e2 / x}
+
+
+e ~> e'
+-------------------------------------------------------------- :: rec_scrut
+rec e { z -> e0 ; s x -> e1 } ~> rec e' { z -> e0 ; s x -> e1 }
+
+
+----------------------------------- :: rec_z
+rec z { z -> e0 ; s x -> e1 } ~> e0
+
+(s e) val
+----------------------------------------------------------------------- :: rec_s
+rec (s e) { z -> e0 ; s x -> e1 } ~> e1 { e / x } (rec e { z -> e0 ; s x -> e1})
+
+e1 ~> e1'
+--------------------- :: pair_left
+<e1;e2> ~> <e1';e2>
+
+e1 val
+e2 ~> e2'
+--------------------- :: pair_right
+<e1;e2> ~> <e1;e2'>
+
+e ~> e'
+------------------ :: fst
+fst e ~> fst e'
+
+e ~> e'
+------------------ :: snd
+snd e ~> snd e'
+
+e1 val
+e2 val
+-------------------- :: fst_val
+fst <e1;e2> ~> e1
+
+e1 val
+e2 val
+-------------------- :: snd_val
+snd <e1;e2> ~> e2
+
+e ~> e'
+---------------------------- :: abort
+abort{t}(e) ~> abort{t}(e')
+
+e ~> e'
+------------------------- :: inl
+inl{t}(e) ~> inl{t}(e')
+
+e ~> e'
+------------------------- :: inr
+inr{t}(e) ~> inr{t}(e')
+
+e ~> e'
+--------------------------------------------------------------------------------------------- :: case 
+case e {inl x1 -> e1 | inr x2 -> e2} ~> case e' {inl x1 -> e1 | inr x2 -> e2}
+
+e val
+--------------------------------------------------------------------- :: casel
+case inl{t2}(e) {inl x1 -> e1 | inr x2 -> e2 } ~> e1{e/x1}
+
+e val
+--------------------------------------------------------------------- :: caser
+case inr{t1}(e) {inl x1 -> e1 | inr x2 -> e2 } ~> e2{e/x2}
