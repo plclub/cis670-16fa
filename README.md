@@ -19,10 +19,10 @@ Date  | Speaker    | Lecture Topic            | Notes
 9/8   | Stephanie  | Structural rules         | [090816.md](notes/090816.md)
 9/13  | Stephanie  | More typing & evaluation | [091316.md](notes/091316.md)
 9/15  | Stephanie  | Type soundness times 2   | [091516.md](notes/091516.md) 
-9/20  |  *ICFP*  (no class) | Read Ch 8       |
-9/22  |  *ICFP*  (no class) | Read Ch 9       | finish [Ch9.v](code/Ch9.v) 
-9/27  | Solomon (smaina)    |  Ch 10 - Product Types | [092716.md](notes/092716.md)
-9/29  | Yao (liyao)         |  Ch 11 - Sum Types     | [092916.md](notes/092916.md)
+9/20  |  *ICFP*  (no class) |  Ch 8 - Function Definitions and Values    | read on your own
+9/22  |  *ICFP*  (no class) |  Ch 9 - System T of Higher-Order Recursion | finish [Ch9.v](code/Ch9.v) 
+9/27  | Solomon (smaina)    |  Ch 10 - Product Types                     | [092716.md](notes/092716.md)
+9/29  | Yao (liyao)         |  Ch 11 - Sum Types                         | [092916.md](notes/092916.md)
 10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md)
 10/6  |  *Fall break* (no class)              
 10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   |
