@@ -21,23 +21,23 @@ Date  | Speaker    | Lecture Topic            | Notes
 9/15  | Stephanie  | Type soundness times 2   | [091516.md](notes/091516.md) 
 9/20  |  *ICFP*  (no class) | Read Ch 8       |
 9/22  |  *ICFP*  (no class) | Read Ch 9       | finish [Ch9.v](code/Ch9.v) 
-9/27  | Solomon (smaina)    |  Ch 10          | [092716.md](notes/092716.md)
-9/29  | Yao (liyao)         |  Ch 11          | [092916.md](notes/092916.md)
-10/4  | Pritam (pritam)     |  Ch 12          |
-10/6  |  *Fall break* (no class)              |
-10/11 | Antoine (voizard)   |  Ch 13          |
-10/13 | Kenny   (kfoner)    |  Ch 14          |
-10/18 | Nicholas (chkoh)    |  Ch 15
-10/20 | Yishuai  (yishuai)  |  Ch 16
-10/24 | Teng     (tengz)    |  Ch 17
-10/27 | Richard  (rmzhang)  |  Ch 19
-11/1  | ???                 |  Ch 20
-11/3  | Leo    (llamp)      |  Ch 21
-11/8  | Omar   (omarsa)     |  Ch 22
-11/10 | Hengchu (hengchu)   |  Ch 23
-11/15 |                     |  Ch 46
-11/17 |                     |  Ch 47
-11/22 |                     |  Ch 48
+9/27  | Solomon (smaina)    |  Ch 10 - Product Types | [092716.md](notes/092716.md)
+9/29  | Yao (liyao)         |  Ch 11 - Sum Types     | [092916.md](notes/092916.md)
+10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md)
+10/6  |  *Fall break* (no class)              
+10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   |
+10/13 | Kenny   (kfoner)    |  Ch 14 - Generic Programming               |
+10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   |
+10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     |
+10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    |
+10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions |
+11/1  | ???                 |  Ch 20 - System FPC of Recursive Types     |
+11/3  | Leo    (llamp)      |  Ch 21 - The Untyped lambda-Calculus       |
+11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    |
+11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
+11/15 |                     |  Ch 46 - Equality for System T             |
+11/17 |                     |  Ch 47 - Equality for PCF                  |
+11/22 |                     |  Ch 48 - Parametricity                     |
 11/24 |  *Thanksgiving* (no class)
 11/29 | Project demos
 12/1  | Project demos
