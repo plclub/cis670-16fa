@@ -26,13 +26,13 @@ Date  | Speaker    | Lecture Topic            | Notes
 10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md)
 10/6  |  *Fall break* (no class)              
 10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   |
-10/13 | Kenny   (kfoner)    |  Ch 14 - Generic Programming               |
+10/13 | Leo    (llamp)      |  Ch 14 - Generic Programming               |
 10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   |
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     |
 10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | Project Checkpoint
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions |
 11/1  | ???                 |  Ch 20 - System FPC of Recursive Types     |
-11/3  | Leo    (llamp)      |  Ch 21 - The Untyped lambda-Calculus       |
+11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       |
 11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    |
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
 11/15 |                     |  Ch 46 - Equality for System T             |
