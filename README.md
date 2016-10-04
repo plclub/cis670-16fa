@@ -11,19 +11,19 @@ Prerequisite:   CIS 500 or PhD student status
 
 ## Schedule
 
-Date  | Speaker    | Lecture Topic            | Notes
-------|------------|--------------------------|----------------------
-8/30  | Stephanie  | Intros, Locally nameless | [083016.md](notes/083016.md)
-9/1   | Stephanie  | Abstract binding trees   | [090116.md](notes/090116.md)
-9/6   | Stephanie  | Cofinite quantification  | [090616.md](notes/090616.md)
-9/8   | Stephanie  | Structural rules         | [090816.md](notes/090816.md)
-9/13  | Stephanie  | More typing & evaluation | [091316.md](notes/091316.md)
-9/15  | Stephanie  | Type soundness times 2   | [091516.md](notes/091516.md) 
+Date  | Speaker             | Lecture Topic            | Notes
+------|---------------------|--------------------------|----------------------
+8/30  | Stephanie           | Intros, Locally nameless | [083016.md](notes/083016.md)
+9/1   | Stephanie           | Abstract binding trees   | [090116.md](notes/090116.md)
+9/6   | Stephanie           | Cofinite quantification  | [090616.md](notes/090616.md)
+9/8   | Stephanie           | Structural rules         | [090816.md](notes/090816.md)
+9/13  | Stephanie           | More typing & evaluation | [091316.md](notes/091316.md)
+9/15  | Stephanie           | Type soundness times 2   | [091516.md](notes/091516.md) 
 9/20  |  *ICFP*  (no class) |  Ch 8 - Function Definitions and Values    | read on your own
 9/22  |  *ICFP*  (no class) |  Ch 9 - System T of Higher-Order Recursion | finish [Ch9.v](code/Ch9.v) 
 9/27  | Solomon (smaina)    |  Ch 10 - Product Types                     | [092716.md](notes/092716.md)
 9/29  | Yao (liyao)         |  Ch 11 - Sum Types                         | [092916.md](notes/092916.md)
-10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md)
+10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md) [slides](notes/IntuitionisticPropositionalLogicLecture.pdf)
 10/6  |  *Fall break* (no class)              
 10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   |
 10/13 | Leo    (llamp)      |  Ch 14 - Generic Programming               |
