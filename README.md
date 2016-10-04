@@ -29,7 +29,7 @@ Date  | Speaker    | Lecture Topic            | Notes
 10/13 | Kenny   (kfoner)    |  Ch 14 - Generic Programming               |
 10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   |
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     |
-10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    |
+10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | Project Checkpoint
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions |
 11/1  | ???                 |  Ch 20 - System FPC of Recursive Types     |
 11/3  | Leo    (llamp)      |  Ch 21 - The Untyped lambda-Calculus       |
