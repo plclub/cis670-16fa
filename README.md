@@ -14,11 +14,11 @@ Prerequisite:   CIS 500 or PhD student status
 Date  | Speaker             | Lecture Topic            | Notes
 ------|---------------------|--------------------------|----------------------
 8/30  | Stephanie           | Intros, Locally nameless | [083016.md](notes/083016.md)
-9/1   | Stephanie           | Abstract binding trees   | [090116.md](notes/090116.md)
+9/1   | Stephanie           |  Ch 2 - Abstract binding trees             | [090116.md](notes/090116.md)
 9/6   | Stephanie           | Cofinite quantification  | [090616.md](notes/090616.md)
-9/8   | Stephanie           | Structural rules         | [090816.md](notes/090816.md)
-9/13  | Stephanie           | More typing & evaluation | [091316.md](notes/091316.md)
-9/15  | Stephanie           | Type soundness times 2   | [091516.md](notes/091516.md) 
+9/8   | Stephanie           |  Ch 4 - Structural rules                   | [090816.md](notes/090816.md)
+9/13  | Stephanie           |  Ch 4 & 5 - More typing & evaluation       | [091316.md](notes/091316.md)
+9/15  | Stephanie           |  Ch 6 & 7 - Type soundness times 2         | [091516.md](notes/091516.md) 
 9/20  |  *ICFP*  (no class) |  Ch 8 - Function Definitions and Values    | read on your own
 9/22  |  *ICFP*  (no class) |  Ch 9 - System T of Higher-Order Recursion | finish [Ch9.v](code/Ch9.v) 
 9/27  | Solomon (smaina)    |  Ch 10 - Product Types                     | [092716.md](notes/092716.md)
@@ -55,10 +55,6 @@ Date  | Speaker             | Lecture Topic            | Notes
 - Part VII Variable Types (Yishuai Ch16, Teng Ch17, skip Ch18?)
 - Part VIII Partiality and Recursive Types (Richard Ch19 & ??? Ch20)
 - Part IX Dynamic Types (Leo Ch21, Omar Ch22, Hengchu Ch23)
-- Part XII Control Flow 
-- Part XIV Mutable State
-- Part XVII Modularity 
-- Part XVIII Equational Reasoning 
 
 
 ## Resources
