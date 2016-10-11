@@ -25,7 +25,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 9/29  | Yao (liyao)         |  Ch 11 - Sum Types                         | [092916.md](notes/092916.md)
 10/4  | Pritam (pritam)     |  Ch 12 - Constructive Logic                | [100416.md](notes/100416.md) [slides](notes/IntuitionisticPropositionalLogicLecture.pdf)
 10/6  |  *Fall break* (no class)              
-10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   |
+10/11 | Antoine (voizard)   |  Ch 13 - Classical Logic                   | [101116.md](notes/101116.md)
 10/13 | Leo    (llamp)      |  Ch 14 - Generic Programming               |
 10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   |
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     |
