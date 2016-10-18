@@ -1,0 +1,178 @@
+metavar typ {{ tex t }}, ryp {{ tex r }} ::= {{ com type variables }}
+{{ repr-locally-nameless }}
+metavar x, y, z, s                       ::= {{ com variables }}
+{{ repr-locally-nameless }}
+
+grammar
+Typ {{ tex \textsf{Typ} }}, t {{ tex \tau }}, r {{ tex \rho }} :: 't_' ::= {{ com type }}
+| typ             ::   :: var {{ com variable }}
+| t1 -> t2        ::   :: arr {{ com function }}
+| all ( typ . t ) ::   :: all 
+(+ bind typ in t +)
+{{ com polymorphic }}
+| ( t )           :: S :: par {{ coq ([[t]]) }}
+| [ t / typ ] t'  :: M :: sub {{ coq (open_Typ_wrt_Typ [[ typ t' ]][[t]]) }}
+
+Exp {{ tex \textsf{Exp} }}, e :: 'e_' ::= {{ com expression }}
+| x             ::   :: var {{ com variable         }}
+| \ ( x : t ) e ::   :: lam 
+(+ bind x in e +)
+{{ com abstraction      }}
+| e1 ( e2 )     ::   :: ap  {{ com application      }}
+| \\ ( typ ) e  ::   :: Lam 
+(+ bind typ in e +)
+{{ com type abstraction }}
+| e [ t ]       ::   :: App {{ com type application }}
+| ( e )         :: S :: par {{ coq ([[e]]) }}
+| [ e / x ] e'  :: M :: sub {{ coq (open_Exp_wrt_Exp [[x e']] [[e]]) }}
+| [ t / typ ] e :: M :: Sub {{ coq (open_Exp_wrt_Typ [[typ e]] [[t]]) }}
+
+D {{ tex \Delta }} :: 'd_' ::= {{ com type formation hypothesis }}
+| empty      :: :: empty
+| D , t type :: :: type
+
+G {{ tex \Gamma }} :: 'g_' ::= {{ com typing hypothesis }}
+| empty     :: :: empty
+| G , e : t :: :: exp
+
+terminals :: terminals_ ::=
+| ->   :: :: to        {{ tex \to             }}
+| all  :: :: forall    {{ tex \forall         }}
+| \    :: :: lambda    {{ tex \lambda         }}
+| \\   :: :: Lambda    {{ tex \Lambda         }}
+| |-   :: :: turnstile {{ tex \vdash          }}
+| |->  :: :: mapsto    {{ tex \mapsto         }}
+| =    :: :: equiv     {{ tex \equiv          }}
+| nil  :: :: null      {{ tex \langle\rangle  }}
+| *    :: :: prod      {{ tex \times          }}
+| la   :: :: langle    {{ tex \langle         }}
+| ra   :: :: rangle    {{ tex \rangle         }}
+| prl  :: :: prl       {{ tex \cdot\mathtt l  }}
+| prr  :: :: prr       {{ tex \cdot\mathtt r  }}
+| inl  :: :: inl       {{ tex \mathtt l\cdot  }}
+| inr  :: :: inr       {{ tex \mathtt r\cdot  }}
+| case :: :: case      {{ tex \mathtt{case}   }}
+| harr :: :: harr      {{ tex \hookrightarrow }}
+| nat  :: :: nat       {{ tex \mathtt{nat}    }}
+| zero :: :: zero      {{ tex \mathtt{z}      }}
+| succ :: :: succ      {{ tex \mathtt{s}      }}
+| iter :: :: iter      {{ tex \mathtt{iter}   }}
+
+substitutions
+  single t typ :: t_subst
+  single e x   :: e_subst
+
+freevars
+  Exp x :: e_fv
+  Exp typ :: t_fv
+  Typ typ :: tt_fv
+
+defns
+Jtype :: '' ::=
+
+defn
+D |- t type :: :: type :: 'type_' {{ com type formation }}
+by
+
+------------------------- :: var
+D , t type |- t type
+
+D |- t1 type
+D |- t2 type
+------------------------- :: arr
+D |- t1 -> t2 type
+
+D, typ type |- t type
+------------------------- :: all
+D |- all ( typ . t ) type
+
+defns
+Jexp :: '' ::=
+
+defn
+D G |- e : t :: :: exp :: 'exp_' {{ com typing }}
+by
+
+------------------------------------- :: var
+D G , e : t |- e : t
+
+D            |- t1 type
+D G , x : t1 |- e : t2
+------------------------------------- :: lam
+D G |- \ ( x : t1 ) e : t1 -> t2
+
+D G |- e1 : t2 -> t
+D G |- e2 : t2
+------------------------------------- :: ap
+D G |- e1 ( e2 ) : t
+
+D , typ type G |- e : t
+------------------------------------- :: Lam
+D G |- \\ ( typ ) e : all ( typ . t )
+
+D G |- e : all ( typ . t' )
+D   |- t type
+------------------------------------- :: App
+D G |- e [ t ] : [ t / typ ] t'
+
+defns
+Jdynamics :: '' ::=
+
+defn
+e val :: :: val :: 'val_'
+by
+
+----------------- :: lam
+\ ( x : t ) e val
+
+----------------- :: Lam
+\\ ( typ ) e val
+
+defn
+e1 |-> e2 :: :: red :: 'red_'
+by
+
+e2 val
+-------------------------------------- :: lam
+\ ( x : t1 ) e ( e2 ) |-> [ e2 / x ] e
+
+e1 |-> e1'
+-------------------------------------- :: ap1
+e1 ( e2 ) |-> e1' ( e2 )
+
+e1 val
+e2 |-> e2'
+-------------------------------------- :: ap2
+e1 ( e2 ) |-> e1 ( e2' )
+
+--------------------------------------- :: Lam
+\\ ( typ ) e [ t ] |-> [ t / typ ] e
+
+e |-> e'
+-------------------------------------- :: App
+e [ t ] |-> e' [ t ]
+
+defns
+Jequiv :: '' ::=
+
+defn
+D G |- e1 = e2 : t :: :: eq :: 'eq_'
+by
+
+D G , x : t1 |- e2 : t2
+D G          |- e1 : t1
+------------------------------------------------- :: ap
+D G |- ( \ (x : t1 ) e2 ) ( e1 ) = [ e1 / x ] e2 : t2
+
+D , typ type G |- e : t
+D              |- r type
+------------------------------------------------- :: App
+D G |- \\ ( typ ) e [ r ] = [ r / typ ] e : t
+
+parsing
+e_App left e_ap
+e_ap  left  e_ap
+t_arr right t_arr
+e_ap  <= e_lam
+e_ap  <= e_Lam
+e_App <= e_Lam

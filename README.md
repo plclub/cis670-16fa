@@ -31,7 +31,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     |
 10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | Project Checkpoint
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions |
-11/1  | ???                 |  Ch 20 - System FPC of Recursive Types     |
+11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     |
 11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       |
 11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    |
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
