@@ -1,4 +1,3 @@
-Add LoadPath "/Users/sweirich/github/deepspec/metalib/" as Metalib.
 Require Import Metalib.Metatheory.
 
 Require Import systemf_ott.
@@ -30,3 +29,13 @@ Proof.
   auto.
   auto.
 Qed.
+
+Definition prod (t1 t2 : Typ) : Typ :=
+  t_all (t_arr (t_arr t1 (t_arr t2 (t_var_b 0))) (t_var_b 0)).
+
+Definition sum (t1 t2 : Typ) : Typ :=
+  t_all (t_arr (t_arr t1 (t_var_b 0)) (t_arr (t_arr t2 (t_var_b 0)) (t_var_b 0))).
+
+Definition num : Typ :=
+  t_all (t_arr (t_var_b 0) (t_arr (t_arr (t_var_b 0) (t_var_b 0)) (t_var_b 0))).
+
