@@ -4,6 +4,19 @@ Require Import Metalib.Metatheory.
 Require Import systemf_ott.
 
 Definition void := t_all (t_var_b 0).
+Definition abort : Exp -> Typ -> Exp := e_App.
+
+Lemma abort_spec : forall (d : D) (g : G) (e : Exp),
+    exp d g e void -> forall r : Typ,
+      type d r ->
+      exp d g (abort e r) r.
+Proof.
+  unfold void, abort.
+  intros.
+  replace r with (open_Typ_wrt_Typ (t_var_b 0) r).
+  - apply exp_App; assumption.
+  - reflexivity.
+Qed.
 
 Definition unit := t_all (t_arr (t_var_b 0) (t_var_b 0)).
 Definition tt   := e_Lam (e_lam (t_var_b 0) (e_var_b 0)).
@@ -71,6 +84,26 @@ Proof.
   unfold open_Exp_wrt_Exp. simpl.
   repeat eapply exp_ap; repeat (constructor; repeat (try (left; reflexivity); right)).
 Qed.
+
+Definition prl : Exp :=
+  e_Lam
+    (e_Lam
+       (e_lam (prod (t_var_b 1) (t_var_b 0))
+              (e_ap
+                 (e_App (e_var_b 0) (t_var_b 1))
+                 (e_lam (t_var_b 1)
+                        (e_lam (t_var_b 0)
+                               (e_var_b 1)))))).
+
+Definition prr : Exp :=
+  e_Lam
+    (e_Lam
+       (e_lam (prod (t_var_b 1) (t_var_b 0))
+              (e_ap
+                 (e_App (e_var_b 0) (t_var_b 0))
+                 (e_lam (t_var_b 1)
+                        (e_lam (t_var_b 0)
+                               (e_var_b 0)))))).
 
 Definition sum (t1 t2 : Typ) : Typ :=
   t_all (t_arr (t_arr t1 (t_var_b 0)) (t_arr (t_arr t2 (t_var_b 0)) (t_var_b 0))).
