@@ -27,13 +27,13 @@ Exp {{ tex \textsf{Exp} }}, e :: 'e_' ::= {{ com expression }}
 | [ e / x ] e'  :: M :: sub {{ coq (open_Exp_wrt_Exp [[x e']] [[e]]) }}
 | [ t / typ ] e :: M :: Sub {{ coq (open_Exp_wrt_Typ [[typ e]] [[t]]) }}
 
-D {{ tex \Delta }} :: 'd_' ::= {{ com type formation hypothesis }}
-| empty      :: :: empty
-| D , t type :: :: type
+D {{ tex \Delta }} :: 'd_' ::= {{ com type formation hypothesis }} {{ coq list Typ }}
+| empty      :: :: empty {{ coq [] }}
+| D , t type :: :: cons  {{ coq ([[t]] :: [[D]]) }}
 
-G {{ tex \Gamma }} :: 'g_' ::= {{ com typing hypothesis }}
-| empty     :: :: empty
-| G , e : t :: :: exp
+G {{ tex \Gamma }} :: 'g_' ::= {{ com typing hypothesis }} {{ coq list (Exp * Typ) }}
+| empty     :: :: empty {{ coq [] }}
+| G , e : t :: :: cons  {{ coq (([[e]], [[t]]) :: [[G]]) }}
 
 terminals :: terminals_ ::=
 | ->   :: :: to        {{ tex \to             }}
@@ -58,6 +58,11 @@ terminals :: terminals_ ::=
 | succ :: :: succ      {{ tex \mathtt{s}      }}
 | iter :: :: iter      {{ tex \mathtt{iter}   }}
 
+formula :: formula_ ::=
+| judgement  :: :: judgement
+| t in D     :: :: inD {{ coq In [[t]] [[D]] }}
+| e : t in G :: :: inG {{ coq In ([[e]], [[t]]) [[G]] }}
+
 substitutions
   single t typ :: t_subst
   single e x   :: e_subst
@@ -74,8 +79,9 @@ defn
 D |- t type :: :: type :: 'type_' {{ com type formation }}
 by
 
+t in D
 ------------------------- :: var
-D , t type |- t type
+D |- t type
 
 D |- t1 type
 D |- t2 type
@@ -93,8 +99,10 @@ defn
 D G |- e : t :: :: exp :: 'exp_' {{ com typing }}
 by
 
+t in D
+e : t in G
 ------------------------------------- :: var
-D G , e : t |- e : t
+D G |- e : t
 
 D            |- t1 type
 D G , x : t1 |- e : t2
