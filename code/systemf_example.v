@@ -15,19 +15,16 @@ Proof.
   eapply lc_t_var_f.
 Qed.
 
-Lemma tt_unit : exp d_empty g_empty tt unit.
+Lemma tt_unit : exp nil nil tt unit.
 Proof.
   unfold unit. unfold tt.
   pick fresh X and apply exp_Lam.
   unfold open_Exp_wrt_Typ. unfold open_Typ_wrt_Typ.
   simpl.
   pick fresh x and apply exp_lam.
-  auto.
+  constructor; repeat (try (left; reflexivity); right).
   unfold open_Exp_wrt_Exp. simpl.
-  eapply exp_var.
-  auto.
-  auto.
-  auto.
+  eapply exp_var; constructor; repeat (try (left; reflexivity); right).
   auto.
 Qed.
 
@@ -46,7 +43,7 @@ Definition pair : Exp :=
                            (e_ap (e_ap (e_var_b 0) (e_var_b 2)) (e_var_b 1))))))).
 
 Lemma pair_typing : 
-  exp d_empty g_empty pair (t_all (t_all (t_arr (t_var_b 1)
+  exp nil nil pair (t_all (t_all (t_arr (t_var_b 1)
                                                 (t_arr (t_var_b 0)
                                              (prod (t_var_b 2) (t_var_b 1)))))).
 Proof.
@@ -58,30 +55,23 @@ Proof.
   unfold open_Exp_wrt_Typ, open_Typ_wrt_Typ. simpl.
 
   pick fresh x and apply exp_lam.
-  admit. (* type X *)
+  constructor; repeat (try (left; reflexivity); right).
   unfold open_Exp_wrt_Exp. simpl.
 
   pick fresh y and apply exp_lam.
-  admit. (* type Y *)
+  constructor; repeat (try (left; reflexivity); right).
   unfold open_Exp_wrt_Exp. simpl.
 
   pick fresh Z and apply exp_Lam.
   unfold open_Exp_wrt_Typ, open_Typ_wrt_Typ. simpl.
 
   pick fresh z and apply exp_lam.
-  eapply type_arr.  admit. (* type X *)
-  eapply type_arr.  admit. (* type Y *)
-  eapply type_var. auto. auto.
+  repeat eapply type_arr; constructor; repeat (try (left; reflexivity); right).
   
   unfold open_Exp_wrt_Exp. simpl.
-  eapply exp_ap; auto.
-  eapply exp_ap; eauto.
-  eapply exp_var; eauto.
+  repeat eapply exp_ap; repeat (constructor; repeat (try (left; reflexivity); right)).
+Qed.
 
-  admit. (* x has type X *)
-  admit. (* y has type Y *)
-Admitted.
-  
 Definition sum (t1 t2 : Typ) : Typ :=
   t_all (t_arr (t_arr t1 (t_var_b 0)) (t_arr (t_arr t2 (t_var_b 0)) (t_var_b 0))).
 
