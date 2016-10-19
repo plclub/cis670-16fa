@@ -236,6 +236,41 @@ with red : Exp -> Exp -> Prop :=    (* defn red *)
 
 (* defns Jequiv *)
 Inductive eq : D -> G -> Exp -> Exp -> Typ -> Prop :=    (* defn eq *)
+ | eq_refl : forall (D5:D) (G5:G) (e:Exp) (t:Typ),
+     exp D5 G5 e t ->
+     eq D5 G5 e e t
+ | eq_comm : forall (D5:D) (G5:G) (e2 e1:Exp) (t:Typ),
+     eq D5 G5 e1 e2 t ->
+     eq D5 G5 e2 e1 t
+ | eq_trans : forall (D5:D) (G5:G) (e1 e3:Exp) (t:Typ) (e2:Exp),
+     eq D5 G5 e1 e2 t ->
+     eq D5 G5 e2 e3 t ->
+     eq D5 G5 e1 e3 t
+ | eq_lam : forall (L:vars) (D5:D) (G5:G) (t':Typ) (e1 e2:Exp) (t t'':Typ),
+      ( forall x5 , x5 \notin  L  -> eq D5 G5  ( open_Exp_wrt_Exp e1 (e_var_f x5) )   ( open_Exp_wrt_Exp e2 (e_var_f x5) )  t'' )  ->
+     exp D5 G5 (e_lam t' e1) t ->
+     exp D5 G5 (e_lam t' e2) t ->
+     eq D5 G5 (e_lam t' e1) (e_lam t' e2) t
+ | eq_ap1 : forall (D5:D) (G5:G) (e1 e2 e1':Exp) (t t':Typ),
+     eq D5 G5 e1 e1' t' ->
+     exp D5 G5 (e_ap e1 e2) t ->
+     exp D5 G5 (e_ap e1' e2) t ->
+     eq D5 G5 (e_ap e1 e2) (e_ap e1' e2) t
+ | eq_ap2 : forall (D5:D) (G5:G) (e1 e2 e2':Exp) (t t':Typ),
+     eq D5 G5 e2 e2' t' ->
+     exp D5 G5 (e_ap e1 e2) t ->
+     exp D5 G5 (e_ap e1 e2') t ->
+     eq D5 G5 (e_ap e1 e2) (e_ap e1 e2') t
+ | eq_Lam : forall (L:vars) (D5:D) (G5:G) (e1 e2:Exp) (t t':Typ),
+      ( forall typ5 , typ5 \notin  L  -> eq D5 G5  ( open_Exp_wrt_Typ e1 (t_var_f typ5) )   ( open_Exp_wrt_Typ e2 (t_var_f typ5) )  t' )  ->
+     exp D5 G5 (e_Lam e1) t ->
+     exp D5 G5 (e_Lam e2) t ->
+     eq D5 G5 (e_Lam e1) (e_Lam e2) t
+ | eq_App0 : forall (D5:D) (G5:G) (e1:Exp) (t':Typ) (e2:Exp) (t t'':Typ),
+     eq D5 G5 e1 e2 t'' ->
+     exp D5 G5 (e_App e1 t') t ->
+     exp D5 G5 (e_App e2 t') t ->
+     eq D5 G5 (e_App e1 t') (e_App e2 t') t
  | eq_ap : forall (L:vars) (D5:D) (G5:G) (t1:Typ) (e2 e1:Exp) (t2:Typ),
       ( forall x5 , x5 \notin  L  -> exp D5  (( x5 ,  t1 ) ::  G5 )   ( open_Exp_wrt_Exp e2 (e_var_f x5) )  t2 )  ->
      exp D5 G5 e1 t1 ->
