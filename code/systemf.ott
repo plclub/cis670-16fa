@@ -27,13 +27,25 @@ Exp {{ tex \textsf{Exp} }}, e :: 'e_' ::= {{ com expression }}
 | [ e / x ] e'  :: M :: sub {{ coq (open_Exp_wrt_Exp [[x e']] [[e]]) }}
 | [ t / typ ] e :: M :: Sub {{ coq (open_Exp_wrt_Typ [[typ e]] [[t]]) }}
 
-D {{ tex \Delta }} :: 'd_' ::= {{ com type formation hypothesis }} {{ coq list Typ }}
-| empty      :: :: empty {{ coq [] }}
-| D , t type :: :: cons  {{ coq ([[t]] :: [[D]]) }}
+substitutions
+  single t typ :: t_subst
+  single e x   :: e_subst
 
-G {{ tex \Gamma }} :: 'g_' ::= {{ com typing hypothesis }} {{ coq list (Exp * Typ) }}
-| empty     :: :: empty {{ coq [] }}
-| G , e : t :: :: cons  {{ coq (([[e]], [[t]]) :: [[G]]) }}
+freevars
+  Exp x :: e_fv
+  Exp typ :: t_fv
+  Typ typ :: tt_fv
+
+grammar
+
+
+D {{ tex \Delta }} :: 'd_' ::= {{ com type formation hypothesis }} {{ coq list typ }}
+| empty      ::  :: empty {{ coq [] }}
+| D , typ type ::  :: cons  {{ coq ([[typ]] :: [[D]]) }}
+
+G {{ tex \Gamma }} :: 'g_' ::= {{ com typing hypothesis }} {{ coq list (x * Typ) }}
+| empty     ::  :: empty {{ coq [] }}
+| G , x : t ::  :: cons  {{ coq (([[x]], [[t]]) :: [[G]]) }}
 
 terminals :: terminals_ ::=
 | ->   :: :: to        {{ tex \to             }}
@@ -60,17 +72,9 @@ terminals :: terminals_ ::=
 
 formula :: formula_ ::=
 | judgement  :: :: judgement
-| t in D     :: :: inD {{ coq In [[t]] [[D]] }}
-| e : t in G :: :: inG {{ coq In ([[e]], [[t]]) [[G]] }}
+| typ in D     :: :: inD {{ coq In [[typ]] [[D]] }}
+| x : t in G :: :: inG {{ coq In ([[x]], [[t]]) [[G]] }}
 
-substitutions
-  single t typ :: t_subst
-  single e x   :: e_subst
-
-freevars
-  Exp x :: e_fv
-  Exp typ :: t_fv
-  Typ typ :: tt_fv
 
 defns
 Jtype :: '' ::=
@@ -79,9 +83,9 @@ defn
 D |- t type :: :: type :: 'type_' {{ com type formation }}
 by
 
-t in D
+typ in D
 ------------------------- :: var
-D |- t type
+D |- typ type
 
 D |- t1 type
 D |- t2 type
@@ -99,10 +103,10 @@ defn
 D G |- e : t :: :: exp :: 'exp_' {{ com typing }}
 by
 
-t in D
-e : t in G
+D |- t type
+x : t in G
 ------------------------------------- :: var
-D G |- e : t
+D G |- x : t
 
 D            |- t1 type
 D G , x : t1 |- e : t2
