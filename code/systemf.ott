@@ -69,6 +69,7 @@ terminals :: terminals_ ::=
 | zero :: :: zero      {{ tex \mathtt{z}      }}
 | succ :: :: succ      {{ tex \mathtt{s}      }}
 | iter :: :: iter      {{ tex \mathtt{iter}   }}
+| in   :: :: in        {{ tex \in             }}
 
 formula :: formula_ ::=
 | judgement  :: :: judgement
@@ -184,35 +185,22 @@ D G |- e2 = e3 : t
 ------------------------------------------------- :: trans
 D G |- e1 = e3 : t
 
-D G |- e1 = e2 : t''
-D G |- \ ( x : t' ) e1 : t
-D G |- \ ( x : t' ) e2 : t
+D G , x : t' |- e1 = e2 : t
 ------------------------------------------------- :: lam
 D G |- \ ( x : t' ) e1 = \ ( x : t' ) e2 : t
 
-D G |- e1 = e1' : t'
-D G |- e1 ( e2 ) : t
-D G |- e1' ( e2 ) : t
-------------------------------------------------- :: ap1
-D G |- e1 ( e2 ) = e1' ( e2 ) : t
-
+D G |- e1 = e1' : t' -> t
 D G |- e2 = e2' : t'
-D G |- e1 ( e2 ) : t
-D G |- e1 ( e2' ) : t
-------------------------------------------------- :: ap2
+------------------------------------------------- :: ap0
 D G |- e1 ( e2 ) = e1 ( e2' ) : t
 
-D G |- e1 = e2 : t'
-D G |- \\ ( typ ) e1 : t
-D G |- \\ ( typ ) e2 : t
+D , typ type G |- e1 = e2 : t
 ------------------------------------------------- :: Lam
-D G |- \\ ( typ ) e1 = \\ ( typ ) e2 : t
+D G |- \\ ( typ ) e1 = \\ ( typ ) e2 : all ( typ . t )
 
-D G |- e1 = e2 : t''
-D G |- e1 [ t' ] : t
-D G |- e2 [ t' ] : t
+D G |- e1 = e2 : all ( typ . t )
 ------------------------------------------------- :: App0
-D G |- e1 [ t' ] = e2 [ t' ] : t
+D G |- e1 [ t' ] = e2 [ t' ] : [ t' / typ ] t
 
 D G , x : t1 |- e2 : t2
 D G          |- e1 : t1
