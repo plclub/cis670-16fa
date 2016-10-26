@@ -29,7 +29,8 @@ Date  | Speaker             | Lecture Topic            | Notes
 10/13 | Leo    (llamp)      |  Ch 14 - Generic Programming               | [101316.md](notes/101316.md)
 10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   | [101816.md](notes/101816.md)
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     | [102016.md](notes/102016.md)
-10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | [102516.md](notes/102516.md) Project Checkpoint due
+10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | [102516.md](notes/102516.md) [example](code/abstractTypeExample.v)
+      |                     |                                            | Project Checkpoint due
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions |
 11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     |
 11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       |
