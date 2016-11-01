@@ -40,10 +40,10 @@ Date  | Speaker             | Lecture Topic            | Notes
 11/17 |                     |  Ch 47 - Equality for PCF                  |
 11/22 |                     |  Ch 48 - Parametricity                     |
 11/24 |  *Thanksgiving* (no class)
-11/29 | Project demos
-12/1  | Project demos
-12/6  | Project demos
-12/8  | Project demos
+11/29 | Project demos (Richard, Hengchu, Teng)
+12/1  | Project demos (Nicolas, Yishuai, Solomon)
+12/6  | Project demos (Omar, Leo & Kenny)
+12/8  | Project demos (Pritam, Antoine, Yao)
 
 ## Potential topics from PFPL
 
