@@ -16,7 +16,7 @@ let s : nat -> nat = fun v -> Inr v
 let natF_map : ('a -> 'b) -> 'a natF -> 'b natF =
   fun f x -> match x with
      | Inl () -> Inl ()
-	  | Inr y  -> Inr (f y)
+     | Inr y  -> Inr (f y)
 
 let rec nat_fold : ('a natF -> 'a) -> nat -> 'a =
   fun alg x ->
@@ -29,12 +29,12 @@ let rec nat_gen : ('a -> 'a natF) -> 'a -> nat =
 let add (x:nat) (y:nat) =
   nat_fold (fun z -> match z with
                      | Inl () -> x
-							| Inr y' -> s y') y
+                     | Inr y' -> s y') y
 
 
 let pred (x:nat) : nat = match x with
    | Inl () -> x
-	| Inr y  -> y
+   | Inr y  -> y
 
 let rec omega : nat = Inr omega
 
@@ -56,7 +56,7 @@ type signal = (bool * bool)  (* Inputs r & s *)
 
 type rsl = { q' : bool ;  (* inverse of q  *)
              q  : bool ;  (* state of latch *)
-				 n  : signal -> rsl }
+             n  : signal -> rsl }
 
 let hold  = (false, false)
 let set   = (false, true)
@@ -67,7 +67,7 @@ let nor p q = not (p || q)
 let rec rsl l (r,s) =
   let rec this = { q' = nor l.q s  ;
                    q  = nor r l.q' ;
-						 n  = fun s -> rsl this s } in
+                   n  = fun s -> rsl this s } in
   this
 
 let rec init : rsl =
