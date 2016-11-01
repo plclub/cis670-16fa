@@ -6,6 +6,8 @@ grammar
 typ, t  {{ tex \tau }} ::  'typ_' ::= {{ com types }}
   | nat      ::   :: nat   {{ com Natural numbers }}
   | t1 -> t2 ::   :: arr   {{ com Function types }}
+  | a        ::   :: var   {{ com Variables }}
+  | mu a .t  ::   :: rec   {{ com Recursive types }}
 
 exp, e ::  '' ::= {{ com expressions }}
   | x        ::   :: var   {{ com Variables }}
@@ -129,6 +131,7 @@ JDyn :: '' ::=
 
 defn
 e ~> e'     ::     :: eval    :: 'eval_'
+{{ com CBV evaluation }}
 by
 
 e ~> e'

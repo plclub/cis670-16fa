@@ -13,3 +13,6 @@ Ch11.v
 systemf_ott.v
 systemf_inf.v
 systemf_example.v
+pcf_rectypes_ott.v
+pcf_rectypes_inf.v
+pcf_thy.v

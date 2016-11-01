@@ -32,7 +32,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | [102516.md](notes/102516.md) [example](code/abstractTypeExample.v)
       |                     |                                            | Project Checkpoint due
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions | [102716.md](notes/102716.md)
-11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     |
+11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     | [110116.md](notes/110116.md)
 11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       |
 11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    |
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
