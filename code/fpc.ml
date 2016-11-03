@@ -48,7 +48,8 @@ type 'a self = Self of ('a self -> 'a)
 
 let unroll (Self x) = x
 
-let fix = fun f ->
+let fix : ('a -> 'a) -> 'a
+   = fun f ->
    let d : 'a self -> 'a = fun x -> f (fun v -> unroll x x v) in
    d (Self d)
 
