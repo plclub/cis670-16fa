@@ -34,11 +34,11 @@ Date  | Speaker             | Lecture Topic            | Notes
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions | [102716.md](notes/102716.md)
 11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     | [110116.md](notes/110116.md)
 11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       | [110316.md](notes/110316.md)
-11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    |
+11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    | [110816.md](notes/110816.md)
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
-11/15 |                     |  Ch 46 - Equality for System T             |
-11/17 |                     |  Ch 47 - Equality for PCF                  |
-11/22 |                     |  Ch 48 - Parametricity                     |
+11/15 | Stephanie           |  Ch 46 - Equality for System T             |
+11/17 | Stephanie           |  Ch 47 - Equality for PCF                  |
+11/22 | Stephanie           |  Ch 48 - Parametricity                     |
 11/24 |  *Thanksgiving* (no class)
 11/29 | Project demos (Richard, Hengchu, Teng)
 12/1  | Project demos (Nicolas, Yishuai, Solomon)
