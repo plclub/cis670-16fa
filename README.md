@@ -29,12 +29,12 @@ Date  | Speaker             | Lecture Topic            | Notes
 10/13 | Leo    (llamp)      |  Ch 14 - Generic Programming               | [101316.md](notes/101316.md)
 10/18 | Nicholas (chkoh)    |  Ch 15 - Inductive and Coinductive Types   | [101816.md](notes/101816.md)
 10/20 | Yishuai  (yishuai)  |  Ch 16 - System F of Polymorphic Types     | [102016.md](notes/102016.md)
-10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | [102516.md](notes/102516.md) [example](code/abstractTypeExample.v)
+10/24 | Teng     (tengz)    |  Ch 17 - Abstract Types                    | [102516.md](notes/102516.md) [code](code/abstractTypeExample.v)
       |                     |                                            | Project Checkpoint due
 10/27 | Richard  (rmzhang)  |  Ch 19 - System PCF of Recursive Functions | [102716.md](notes/102716.md)
 11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     | [110116.md](notes/110116.md)
-11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       | [110316.md](notes/110316.md)
-11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    | [110816.md](notes/110816.md)
+11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       | [110316.md](notes/110316.md) [code](code/Ch21.hs)
+11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    | [110816.md](notes/110816.md) [code](code/dynamicTyping.clj)
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
 11/15 | Stephanie           |  Ch 46 - Equality for System T             |
 11/17 | Stephanie           |  Ch 47 - Equality for PCF                  |
