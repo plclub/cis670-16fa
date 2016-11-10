@@ -35,7 +35,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 11/1  | Stephanie           |  Ch 20 - System FPC of Recursive Types     | [110116.md](notes/110116.md)
 11/3  | Kenny   (kfoner)    |  Ch 21 - The Untyped lambda-Calculus       | [110316.md](notes/110316.md) [code](code/Ch21.hs)
 11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    | [110816.md](notes/110816.md) [code](code/dynamicTyping.clj)
-11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     |
+11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     | [111016.md](notes/111016.md) 
 11/15 | Stephanie           |  Ch 46 - Equality for System T             |
 11/17 | Stephanie           |  Ch 47 - Equality for PCF                  |
 11/22 | Stephanie           |  Ch 48 - Parametricity                     |
