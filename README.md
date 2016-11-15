@@ -40,10 +40,10 @@ Date  | Speaker             | Lecture Topic            | Notes
 11/17 | Stephanie           |  Ch 47 - Equality for PCF                  |
 11/22 | Stephanie           |  Ch 48 - Parametricity                     |
 11/24 |  *Thanksgiving* (no class)
-11/29 | Project demos (Richard, Hengchu, Teng)
-12/1  | Project demos (Nicolas, Yishuai, Solomon)
-12/6  | Project demos (Omar, Leo & Kenny)
-12/8  | Project demos (Pritam, Antoine, Yao)
+11/29 | Project demos (Richard, Hengchu, Teng)      |
+12/1  | Project demos (Nicolas, Yishuai, Solomon)   |
+12/6  | Project demos (Omar, Leo & Kenny)           |
+12/8  | Project demos (Pritam, Antoine, Yao)        |
 
 ## Potential topics from PFPL
 
@@ -54,7 +54,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 - Part V Types and Propositions (Pritam Ch12, Antoine Ch13)
 - Part VI Infinite Data Types (Kenny Ch14, Nicolas Ch15)
 - Part VII Variable Types (Yishuai Ch16, Teng Ch17, skip Ch18?)
-- Part VIII Partiality and Recursive Types (Richard Ch19 & ??? Ch20)
+- Part VIII Partiality and Recursive Types (Richard Ch19 & Stephanie Ch20)
 - Part IX Dynamic Types (Leo Ch21, Omar Ch22, Hengchu Ch23)
 
 

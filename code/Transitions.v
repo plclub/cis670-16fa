@@ -10,16 +10,16 @@
  *)
 
 Module Type TransitionSystem.
-  Parameter S : Set.
-  Parameter state : S -> Prop.
+  Parameter SS : Set.
+  Parameter state : SS -> Prop.
 
-  Parameter final : S -> Prop.
+  Parameter final : SS -> Prop.
   Axiom final_state : forall s, final s -> state s.
 
-  Parameter initial : S -> Prop.
+  Parameter initial : SS -> Prop.
   Axiom initial_state : forall s, initial s -> state s.
   
-  Parameter step : S -> S -> Prop.
+  Parameter step : SS -> SS -> Prop.
   Axiom step_states : forall s1 s2, step s1 s2 -> state s1 /\ state s2.
 
   Axiom final_does_not_step : forall s, final s -> not (exists s', step s s').    
@@ -32,11 +32,11 @@ End TransitionSystem.
 Module TransitionSystemProperties (TS : TransitionSystem).
   Import TS.
 
-  Definition stuck (s : S) :=
+  Definition stuck (s : SS) :=
     not (final s) /\ not (exists s', step s s').
 
   (* The multistep relation describes a sequence of transitions. *)
-  Inductive multistep : S -> S -> Prop :=
+  Inductive multistep : SS -> SS -> Prop :=
     | ms_refl : forall s, state s -> multistep s s
     | ms_step : forall s s' s'', step s s' -> multistep s' s'' -> multistep s s''.        
   Hint Constructors multistep.

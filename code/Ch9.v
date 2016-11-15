@@ -233,7 +233,7 @@ Qed.
 Require Import Transitions.
 
 Module Evaluation.
-  Definition S := exp.
+  Definition SS := exp.
   Definition state := lc_exp.
   Definition initial := lc_exp.
   Definition final := value.
