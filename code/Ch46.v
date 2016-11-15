@@ -114,9 +114,39 @@ Proof.
     simpl_env. auto.
 Qed.
 
+(* Composition of two contexts, which Bob writes C' { C { o }} *)
+
+Fixpoint compose (C1 : ctx) (C2 : ctx) : ctx :=
+  match C1 with
+  | ctx_top => C2
+  | ctx_s C => ctx_s (compose C C2)
+  | ctx_rec1 C e1 x y t e2 => ctx_rec1 (compose C C2) e1 x y t e2
+  | ctx_rec2 e0 C x y t e2 => ctx_rec2 e0 (compose C C2) x y t e2
+  | ctx_rec3 e0 e1 x y t C => ctx_rec3 e0 e1 x y t (compose C C2)
+  | ctx_abs t x C => ctx_abs t x (compose C C2)
+  | ctx_app1 C e2 => ctx_app1 (compose C C2) e2
+  | ctx_app2 e1 C => ctx_app2 e1 (compose C C2)
+  end.
+
+Lemma replace_compose : forall C1 C2 e, replace C1 (replace C2 e) = replace (compose C1 C2) e.
+Proof.
+  intros C1. induction C1; intros; simpl; try rewrite IHC1; auto.
+Qed.
+
+(* Lemma 46.2 *)
+Lemma typing_compose : forall C1 C2 G t G' t' G'' t'',
+    typing_ctx C1 G t G' t' ->
+    typing_ctx C2 G' t' G'' t'' ->
+    typing_ctx (compose C2 C1) G t G'' t''.
+Proof.
+  intros. 
+  induction H0; intros; simpl; eauto.
+Qed.
+
 
 (* Definition 46.4 *)
 
+(* Precondition, e1 and e2 are complete programs, i.e. are closed and have type nat. *)
 Definition kleene_equivalence e1 e2 :=
   exists v, value v /\ multistep e1 v /\ multistep e2 v.
 
@@ -138,6 +168,7 @@ Proof.
   exists v. split. auto. admit. (* derterminancy of evaluation *)
 Admitted.
 
+(* Definition 46.5 *)
 
 Definition observational_equivalence G e e' t :=
   typing G e  t /\ typing G e' t /\
@@ -171,7 +202,7 @@ Record consistent_equivalence (R : env -> exp -> exp -> typ -> Prop) := mkO
 (* Lemma 46.6 (first part). *)
 Lemma observational_notyet : consistent_equivalence observational_equivalence.
 Admitted.
-(* We can't actually prove this yet, because it relies on the 
+(* We can't actually prove this yet because it relies on the 
 reflexivity of kleene_equivalence. *)
 
 (* However, we can prove everything else. *)
@@ -205,7 +236,6 @@ Proof.
   apply kleene_trans with (e2 := replace C e2). auto. auto.
 Qed.
   
-  
  (* Is consistent *)
 Lemma  observational_consistent :  forall e1 e2,
     observational_equivalence nil e1 e2 typ_nat -> kleene_equivalence e1 e2.
@@ -217,32 +247,6 @@ Proof.
   eapply typing_ctx_top.
 Qed.
 
-Fixpoint compose (C1 : ctx) (C2 : ctx) : ctx :=
-  match C1 with
-  | ctx_top => C2
-  | ctx_s C => ctx_s (compose C C2)
-  | ctx_rec1 C e1 x y t e2 => ctx_rec1 (compose C C2) e1 x y t e2
-  | ctx_rec2 e0 C x y t e2 => ctx_rec2 e0 (compose C C2) x y t e2
-  | ctx_rec3 e0 e1 x y t C => ctx_rec3 e0 e1 x y t (compose C C2)
-  | ctx_abs t x C => ctx_abs t x (compose C C2)
-  | ctx_app1 C e2 => ctx_app1 (compose C C2) e2
-  | ctx_app2 e1 C => ctx_app2 e1 (compose C C2)
-  end.
-
-Lemma replace_compose : forall C1 C2 e, replace C1 (replace C2 e) = replace (compose C1 C2) e.
-Proof.
-  intros C1. induction C1; intros; simpl; try rewrite IHC1; auto.
-Qed.
-
-(* Lemma 46.2 *)
-Lemma typing_compose : forall C1 C2 G t G' t' G'' t'',
-    typing_ctx C1 G t G' t' ->
-    typing_ctx C2 G' t' G'' t'' ->
-    typing_ctx (compose C2 C1) G t G'' t''.
-Proof.
-  intros. 
-  induction H0; intros; simpl; eauto.
-Qed.
     
   (* Is a congruence *)
 Lemma observational_congruence : forall G e e' t,
