@@ -5,9 +5,9 @@ Require Import Metalib.Metatheory.
 Require Import systemt_inf.
 Require Import Ch9.
 
-(* This part of a development for chapter 46. I didn't have time to 
-   fill in all of the details, but it should make most of the 
-   chapter clear *)
+(* This *part* of a development for chapter 46. I didn't have time to fill in
+   all of the details (there are a LOT of admits below), but it should help
+   make the chapter clear and precise. *)
 
 (* ------------ Observable equivalence -------------------- *)
 
@@ -145,31 +145,31 @@ Definition observational_equivalence G e e' t :=
     typing_ctx C G t nil typ_nat ->
     kleene_equivalence (replace C e) (replace C e').
 
-(* We want to prove 46.6, but first we need a general definition of 
+(* We want to prove 46.6 next, but first we need a general definition of 
    a "consistent congruence relation" *)
 
-Record open_equivalence (R : env -> exp -> exp -> typ -> Prop) := mkO
+Record consistent_equivalence (R : env -> exp -> exp -> typ -> Prop) := mkO
 {
   (* Only holds for well-typed terms (with the same type) *)
-  open_typed : forall G e1 e2 t , R G e1 e2 t -> typing G e1 t /\ typing G e2 t;
+  typed : forall G e1 e2 t , R G e1 e2 t -> typing G e1 t /\ typing G e2 t;
 
   (* Is an equivalence relation *)
-  open_refl : forall G e t, typing G e t -> R G e e t;
-  open_sym  : forall G e1 e2 t, R G e1 e2 t -> R G e2 e1 t;
-  open_trans : forall G e1 e2 e3 t, R G e1 e2 t -> R G e2 e3 t -> R G e1 e3 t;
+  refl : forall G e t, typing G e t -> R G e e t;
+  sym  : forall G e1 e2 t, R G e1 e2 t -> R G e2 e1 t;
+  trans : forall G e1 e2 e3 t, R G e1 e2 t -> R G e2 e3 t -> R G e1 e3 t;
 
   (* Is consistent *)
-  open_consistent :  forall e1 e2,
+  consistent :  forall e1 e2,
       R nil e1 e2 typ_nat -> kleene_equivalence e1 e2;
 
   (* Is a congruence *)
-  open_congruence : forall G e e' t,
+  congruence : forall G e e' t,
       R G e e' t -> forall C G' t', typing_ctx C G t G' t'
                               -> R G' (replace C e) (replace C e') t'
 }.
 
 (* Lemma 46.6 (first part). *)
-Lemma open_observational_notyet : open_equivalence observational_equivalence.
+Lemma observational_notyet : consistent_equivalence observational_equivalence.
 Admitted.
 (* We can't actually prove this yet, because it relies on the 
 reflexivity of kleene_equivalence. *)
@@ -266,21 +266,21 @@ Qed.
 (* ------------ *)
 
 (* Lemma 46.6 *)
-(* Observational equivalence is the *largest* open_equivalence *)
+(* Observational equivalence is the *largest* consistent_equivalence *)
 
 Lemma coarsest :
   forall R G e1 e2 t,
-    open_equivalence R -> R G e1 e2 t -> observational_equivalence G e1 e2 t.
+    consistent_equivalence R -> R G e1 e2 t -> observational_equivalence G e1 e2 t.
 Proof.
   intros R G e1 e2 t OPEN H.
-  destruct (open_typed R OPEN _ _ _ _ H).
+  destruct (typed R OPEN _ _ _ _ H).
   unfold observational_equivalence.
   split. auto.
   split. auto.
   intros C CT.
-  pose (CONG := open_congruence R OPEN _ _ _ _ H C nil typ_nat CT).
+  pose (CONG := congruence R OPEN _ _ _ _ H C nil typ_nat CT).
   clearbody CONG.
-  pose (CONS := open_consistent R OPEN _ _ CONG).
+  pose (CONS := consistent R OPEN _ _ CONG).
   auto.
 Qed.  
 
@@ -298,12 +298,12 @@ Inductive typing_cs : env -> closing_subst -> Prop :=
     typing_cs ((x ~ t) ++ G) ((x ~ e) ++ g).
 
 Hint Constructors typing_cs.
-              
+
 Fixpoint apply_cs (g : closing_subst) (e : exp) : exp :=
   match e with
-  | var_f y => match binds_lookup _ y g with
+  | var_f y => match binds_lookup exp y g with
               | inl (exist _ e0 _) => e0
-                    | inr _ => e
+              | inr _ => e
                 end
   | s e1 => s (apply_cs g e1)
   | app e1 e2 => app (apply_cs g e1) (apply_cs g e2)
@@ -343,6 +343,7 @@ Proof.
   rewrite IHe1. rewrite IHe2. auto.
 Qed.  
 
+(* If e1 is already closed. *)
 Lemma apply_cons : forall x e1 g e,
     x `notin` dom g -> apply_cs ((x ~ e1) ++ g) e = apply_cs g (subst_exp e1 x e).
 Proof.
@@ -359,6 +360,42 @@ Proof.
   - simpl in IHe. rewrite IHe. auto.
   - simpl in *. rewrite IHe1. rewrite IHe2. rewrite IHe3. auto.
 Admitted.
+
+
+(* If e1 is not closed *)
+Lemma apply_cons2 : forall x e1 g e,
+    uniq ((x ~ apply_cs g e1) ++ g) ->
+    apply_cs ((x ~ apply_cs g e1) ++ g) e = apply_cs g (subst_exp e1 x e).
+Proof.
+  intros.
+  inversion H. subst.
+  induction e; try solve [simpl; auto].
+  - Opaque binds_lookup.
+    simpl.
+    destruct (eq_var x0 x).
+    + subst.
+      destruct (binds_lookup exp x ((x, apply_cs g e1) :: g)).
+      destruct s.
+      destruct (binds_cons_1 _ x x _ _ g b) as [[E F]| G]. auto.
+      
+      apply binds_dom_contradiction in G. contradiction. auto.
+      assert False. unfold not in n. eapply n.
+      apply binds_cons_2. auto. eauto. contradiction.
+    + destruct (binds_lookup exp x0 ((x, apply_cs g e1):: g)). destruct s.
+      destruct (binds_cons_1 _ x0 x _ _ g b) as [[E F]| G]. contradiction.
+      simpl.
+      destruct (binds_lookup exp x0 g). destruct s.
+      eapply binds_unique; eauto.
+      apply n0 in G. contradiction.
+      simpl.
+      destruct (binds_lookup exp x0 g). destruct s.
+      assert False. unfold not in n0. eapply n0. eauto. contradiction.
+      auto.
+  - simpl. simpl in IHe. rewrite IHe. auto.
+  - simpl. simpl in *. rewrite IHe1. rewrite IHe2. rewrite IHe3. auto.
+  - simpl. simpl in IHe. rewrite IHe. auto.
+  - simpl in *. rewrite IHe1. rewrite IHe2.  auto.
+Qed.
 
 
 Lemma apply_cs_typing : forall G g, typing_cs G g -> forall e t, typing G e t -> typing nil (apply_cs g e) t.
@@ -399,17 +436,6 @@ Proof.
     admit.
 Admitted.
 
-(*
-Fixpoint make_ctx (G : env)(g : closing_subst)(C : ctx) : ctx :=
-  match G with
-  | nil => ctx_top
-  | cons (x,t) G' => ctx_abs t x (make_ctx G' g (ctx_app1 C (apply_cs g (var_f x))))
-  end.
-
-Lemma typing_make_ctx :
-  forall G g, typing_ctx C G t G typ_nat ->
-         typing_ctx (make_ctx G g C) G t nil typ_nat
-*)
 
 Lemma closing_eq : forall G e e' t g g',
     observational_equivalence G e e' t -> eq_cs observational_equivalence G g g' ->
@@ -428,13 +454,13 @@ Admitted.
 
 (* --------------------- 46.2 Logical equivalence -------------------------- *)
 
-Fixpoint logical_equivalence (e e' : exp) (t : typ) {struct t} : Prop :=
+Fixpoint closed_logical_equivalence (e e' : exp) (t : typ) {struct t} : Prop :=
   match t with
   | typ_nat => typing nil e typ_nat /\ typing nil e' typ_nat /\ kleene_equivalence e e' 
   | typ_arr t1 t2 =>
     typing nil e (typ_arr t1 t2) /\ typing nil e' (typ_arr t1 t2) /\
-    forall e1 e1', logical_equivalence e1 e1' t1 ->
-              logical_equivalence (app e e1) (app e' e1') t2
+    forall e1 e1', closed_logical_equivalence e1 e1' t1 ->
+              closed_logical_equivalence (app e e1) (app e' e1') t2
   end.
 
 
@@ -467,11 +493,11 @@ Proof. induction n.
        simpl in *. auto.
 Qed.
 
-Lemma nat_induction : forall e e', logical_equivalence e e' typ_nat
+Lemma nat_induction : forall e e', closed_logical_equivalence e e' typ_nat
                               -> forall (R : exp -> exp -> Prop), R z z -> (forall v, value v -> R v v -> R (s v) (s v)) -> R e e'.
 Proof.                                  
   intros.
-  unfold logical_equivalence in H.
+  unfold closed_logical_equivalence in H.
   unfold kleene_equivalence in H.
   destruct H as [T1 [T2 [v [VV [Se Se']]]]].
   destruct (to_nat v VV). admit.
@@ -487,8 +513,8 @@ Admitted.
 
 (* ------------------ sym & trans --------------------- *)
 
-Lemma logical_typing : forall t e e',
-    logical_equivalence e e' t -> typing nil e t /\ typing nil e' t.
+Lemma closed_logical_typing : forall t e e',
+    closed_logical_equivalence e e' t -> typing nil e t /\ typing nil e' t.
 Proof.
   induction t; intros; simpl in *.
   destruct H as [H1 [H2 _]]. auto.
@@ -497,43 +523,43 @@ Proof.
 Qed.  
 
 (* Lemma 46.9 *)
-Lemma logical_sym : forall e e' t,
-    logical_equivalence e e' t -> logical_equivalence e' e t.
+Lemma closed_logical_sym : forall e e' t,
+    closed_logical_equivalence e e' t -> closed_logical_equivalence e' e t.
 Admitted.
 
-Lemma logical_trans : forall e e' e'' t,
-    logical_equivalence e e' t ->
-    logical_equivalence e' e'' t ->
-    logical_equivalence e e'' t.
+Lemma closed_logical_trans : forall e e' e'' t,
+    closed_logical_equivalence e e' t ->
+    closed_logical_equivalence e' e'' t ->
+    closed_logical_equivalence e e'' t.
 Admitted.
 
 
 (* -------------- extension to open terms --------------------- *)
 
-Definition open_logical_equivalence G e e' t :=
+Definition logical_equivalence G e e' t :=
   typing G e t /\
   typing G e' t /\
-  forall g g', eq_cs (fun G => logical_equivalence) G g g' ->
-          logical_equivalence (apply_cs g e) (apply_cs g' e') t.
+  forall g g', eq_cs (fun G => closed_logical_equivalence) G g g' ->
+          closed_logical_equivalence (apply_cs g e) (apply_cs g' e') t.
 
-Lemma open_logical_sym : forall G e e' t,
-    open_logical_equivalence G e e' t -> open_logical_equivalence G e' e t.
+Lemma logical_sym : forall G e e' t,
+    logical_equivalence G e e' t -> logical_equivalence G e' e t.
 Admitted.
 
-Lemma open_logical_trans : forall G e e' e'' t,
-    open_logical_equivalence G e e' t ->
-    open_logical_equivalence G e' e'' t ->
-    open_logical_equivalence G e e'' t.
+Lemma logical_trans : forall G e e' e'' t,
+    logical_equivalence G e e' t ->
+    logical_equivalence G e' e'' t ->
+    logical_equivalence G e e'' t.
 Admitted.
 
 (* -------------------------- 46.3 ---------------------------- *)
 
 Lemma converse_evaluation_logical : forall e e' t,
-    logical_equivalence e e' t -> forall d, eval e e -> logical_equivalence d e' t.
+    closed_logical_equivalence e e' t -> forall d, eval e e -> closed_logical_equivalence d e' t.
 Proof.
   intros e e' t. induction t.
   - intros.
-    unfold logical_equivalence in *. unfold kleene_equivalence in *.
+    unfold closed_logical_equivalence in *. unfold kleene_equivalence in *.
     admit.
   - intros.
     simpl in *.
@@ -541,18 +567,18 @@ Proof.
 Admitted.
 
 
-Lemma consistency_logical : forall e e', logical_equivalence e e' typ_nat -> kleene_equivalence e e'.
+Lemma consistency_logical : forall e e', closed_logical_equivalence e e' typ_nat -> kleene_equivalence e e'.
 Proof.
-  unfold logical_equivalence.
+  unfold closed_logical_equivalence.
   intros. destruct H as [h0 [h1 h2]].
   auto.
 Qed.
 
 
-Lemma open_logical_refl : forall G e t, typing G e t -> open_logical_equivalence G e e t.
+Lemma logical_refl : forall G e t, typing G e t -> logical_equivalence G e e t.
 Proof.
   intros G e t H.
-  induction H; unfold open_logical_equivalence;
+  induction H; unfold logical_equivalence;
     split; eauto; split; eauto; intros g g' EQ.
   - admit.
   - simpl. split. auto. split. auto.
@@ -563,8 +589,8 @@ Admitted.
 Lemma termination : forall e, typing nil e typ_nat -> exists v, multistep e v /\ value v.
 Proof.
   intros e H.
-  apply open_logical_refl in H.
-  unfold open_logical_equivalence in H.
+  apply logical_refl in H.
+  unfold logical_equivalence in H.
   destruct H as [_ [_ H0]].
   destruct (H0 nil nil) as [k0 [k1 k2]].
   apply eq_cs_nil.
@@ -584,7 +610,7 @@ Proof.
   exists v. auto.
 Qed.
 
-Lemma open_observational : open_equivalence observational_equivalence.
+Lemma observational : consistent_equivalence observational_equivalence.
   apply mkO.
   - apply observational_typed. 
   - intros. unfold observational_equivalence.
@@ -598,14 +624,14 @@ Lemma open_observational : open_equivalence observational_equivalence.
 Qed.
 
 (* Lemma 46.16 *)
-Lemma open_logical_congruence :
+Lemma logical_congruence :
   forall C0 G t G0 t0,
     typing_ctx C0 G t G0 t0 ->
-    forall e e', open_logical_equivalence G e e' t ->
-            open_logical_equivalence G0 (replace C0 e) (replace C0 e') t0.
+    forall e e', logical_equivalence G e e' t ->
+            logical_equivalence G0 (replace C0 e) (replace C0 e') t0.
 Proof.
   intros C0 G t G0 t0 H. induction H; intros; simpl; auto.
-  - unfold open_logical_equivalence in *.
+  - unfold logical_equivalence in *.
     destruct H0 as [Te [Te' LL]].
     split. econstructor. eapply typing_replace; eauto.
     split. econstructor. eapply typing_replace; eauto.
@@ -624,14 +650,14 @@ Proof.
     split. admit. admit. (* multistep is a congruence *)
 Admitted.
     
-Lemma open_logical : open_equivalence open_logical_equivalence.
+Lemma consistent_equivalence_logical : consistent_equivalence logical_equivalence.
 Proof.
   apply mkO.
-  - intros. unfold open_logical_equivalence in H.
+  - intros. unfold logical_equivalence in H.
     destruct H as [T1 [T2 _]]. auto.
-  - apply open_logical_refl.
-  - apply open_logical_sym.
-  - apply open_logical_trans.
+  - apply logical_refl.
+  - apply logical_sym.
+  - apply logical_trans.
   - (* consistent *) intros.
     destruct H as [T1 [T2 C]].
     destruct (C nil nil) as [h0 [h1 k]]. eauto.
@@ -640,26 +666,26 @@ Proof.
     auto.
   - (* congruent *)
     intros.
-    eapply open_logical_congruence; eauto.
+    eapply logical_congruence; eauto.
 Qed.
 
 (* Theorem 46.17 *)
 (* Logical equivalence implies observational equivalence. *)
-Lemma logical_is_observational : forall G e e' t,
-    open_logical_equivalence G e e' t ->
+Lemma closed_logical_is_observational : forall G e e' t,
+    logical_equivalence G e e' t ->
     observational_equivalence G e e' t.
 Proof.
   intros.
   eapply coarsest.
-  eapply open_logical. auto.
+  eapply consistent_equivalence_logical. auto.
 Qed.
 
 (* Lemma 46.19 *)
 Lemma closed_observational_is_logical : forall t e e', 
-    observational_equivalence nil e e' t -> logical_equivalence e e' t.
+    observational_equivalence nil e e' t -> closed_logical_equivalence e e' t.
 Proof.
   induction t.
-  - intros. unfold logical_equivalence, observational_equivalence in *.
+  - intros. unfold closed_logical_equivalence, observational_equivalence in *.
     destruct H as [T1 [T2 CT]].
     split. auto. split. auto.
     pose (K := CT ctx_top (@typing_ctx_top nil typ_nat)).
@@ -669,10 +695,10 @@ Proof.
     destruct M as [T1 [T2 CT]].
     split. auto. split. auto.
     intros e1 e1' Le1.
-    destruct (logical_typing _ _ _ Le1) as [U1 U2].
+    destruct (closed_logical_typing _ _ _ Le1) as [U1 U2].
     assert (observational_equivalence nil e1 e1' t1).
-    { eapply logical_is_observational.
-      unfold open_logical_equivalence.
+    { eapply closed_logical_is_observational.
+      unfold logical_equivalence.
       split. auto. split. auto.
       intros. inversion H0. subst.
       rewrite apply_nil.
@@ -693,10 +719,10 @@ Qed.
     
 (* Lemma 46.19 *)
 Lemma observational_is_logical : forall G e e' t, 
-    observational_equivalence G e e' t -> open_logical_equivalence G e e' t.
+    observational_equivalence G e e' t -> logical_equivalence G e e' t.
 Proof.
   intros.
-  unfold open_logical_equivalence.
+  unfold logical_equivalence.
   destruct (observational_typed _ _ _ _ H) as [T1 T2].
   split. auto.
   split. auto.
@@ -705,3 +731,64 @@ Proof.
   apply closing_eq with (G := G). auto.
   admit. (* map Lemma 46.19 *)
 Admitted.
+
+(*  ---------------- section 46.4 ------------------- *)
+
+(* We've already proven many of the general laws shown in this section. 
+For example (45.5a-c) and (46.7a) are part of consistent_equivalence_logical. *)
+
+
+
+Lemma substitution_logical : forall G e1 e1' t e2 e2' t' x,
+    uniq ((x ~ t) ++ G) -> 
+    logical_equivalence G e1 e1' t -> logical_equivalence ((x ~ t) ++ G) e2 e2' t' ->
+    logical_equivalence G ([x ~> e1] e2) ([x ~> e1'] e2') t'.
+Proof.
+  intros.
+  inversion H. subst.
+  assert (logical_equivalence G (abs t (close x e2)) (abs t (close x e2')) (typ_arr t t')).
+  {
+    replace (abs t (close x e2)) with (replace (ctx_abs t x ctx_top) e2); auto.
+    replace (abs t (close x e2')) with (replace (ctx_abs t x ctx_top) e2'); auto.
+    apply logical_congruence with (G := (x ~ t) ++ G) (t := t'); auto.
+  }
+  destruct H1 as [T1 [T2 REL]].
+  unfold logical_equivalence.
+  split.  admit. split. admit. (* typing stuff *)
+  intros g g' EQ.
+  rewrite <- apply_cons2.
+  rewrite <- apply_cons2.
+  eapply REL.
+  apply eq_cs_cons. auto.
+  unfold logical_equivalence in H0.
+  destruct H0 as [U1 [U2 REL2]].
+  apply REL2. auto.
+  admit.
+  admit.
+  admit.
+Admitted.
+
+(* 46.4.2 *)
+
+Lemma extensionality : forall G x t1 e e' t2,
+    logical_equivalence ((x ~ t1) ++ G) (app e (var_f x)) (app e' (var_f x)) t2 ->
+    logical_equivalence G e e' (typ_arr t1 t2).
+Proof.
+  intros.
+  unfold logical_equivalence in *.
+  destruct H as [T1 [T2 REL]].
+  split. admit. split. admit.
+  intros g g' EQ.
+  simpl.
+  split. admit. split. admit.
+  intros e1 e1' EQ2.
+  assert (eq_cs (fun _ : env => closed_logical_equivalence) ((x ~ t1) ++ G) ((x ~ e1) ++ g) ((x ~ e1') ++ g')).
+  { apply eq_cs_cons. auto. auto.
+    admit. }
+  apply REL in H.
+  simpl in H.
+  assert (forall x e1 g, exists p, binds_lookup exp x ((x, e1) :: g) = inl (exist _ e1 p)).
+  admit.
+  destruct (H0 x e1 g) as [p BL].
+  admit.
+  Admitted.
