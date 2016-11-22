@@ -83,22 +83,25 @@ Proof.
   intros C G t G' t' e H H1. 
   induction H; simpl; auto.
   - eapply (typing_rec_exists x);
-      autorewrite with lngen; auto. apply val_abs. (* lc *) admit.
+      autorewrite with lngen; auto.
+    apply val_abs. apply (lc_abs_exists y).  autorewrite with lngen. eapply typing_lc; eauto. 
     eapply (typing_abs_exists y);
       autorewrite with lngen; eauto.
   - eapply (typing_rec_exists x);
-      autorewrite with lngen; auto. admit.
+      autorewrite with lngen; auto.
+    apply val_abs. apply (lc_abs_exists y).  autorewrite with lngen. eapply typing_lc; eauto. 
     eapply (typing_abs_exists y);
       autorewrite with lngen; eauto.
   - eapply (typing_rec_exists x G' _ _ _ t');
-    autorewrite with lngen; auto. admit.
+      autorewrite with lngen; auto.
+    apply val_abs. apply (lc_abs_exists y).  autorewrite with lngen. eapply typing_lc; eauto. 
     eapply (typing_abs_exists y);
       autorewrite with lngen; eauto.
   - eapply (typing_abs_exists x);
       autorewrite with lngen; eauto.
   - eapply typing_app; eauto.
   - eapply typing_app; eauto.
-Admitted.
+Qed.
 
 (* Lemma 46.1 *)
 Lemma extension : forall G G' t t' C, typing_ctx C G t G' t' ->
@@ -114,7 +117,7 @@ Proof.
     simpl_env. auto.
 Qed.
 
-(* Composition of two contexts, which Bob writes C' { C { o }} *)
+(* Composition of two contexts, written  C1 { C2 { o }} *)
 
 Fixpoint compose (C1 : ctx) (C2 : ctx) : ctx :=
   match C1 with
@@ -303,6 +306,21 @@ Inductive typing_cs : env -> closing_subst -> Prop :=
 
 Hint Constructors typing_cs.
 
+Lemma typing_cs_dom : forall G g, typing_cs G g -> dom G = dom g.
+Proof.
+  induction 1; simpl; auto.
+  rewrite IHtyping_cs. auto.
+Qed.
+Lemma typing_cs_uniq1 : forall G g, typing_cs G g -> uniq G.
+Proof.
+  induction 1; simpl; auto.
+Qed.
+Lemma typing_cs_uniq2 : forall G g, typing_cs G g -> uniq g.
+Proof.
+  induction 1; simpl; auto.
+Qed.
+
+
 Fixpoint apply_cs (g : closing_subst) (e : exp) : exp :=
   match e with
   | var_f y => match binds_lookup exp y g with
@@ -347,12 +365,43 @@ Proof.
   rewrite IHe1. rewrite IHe2. auto.
 Qed.  
 
-(* If e1 is already closed. *)
-Lemma apply_cons : forall x e1 g e,
-    x `notin` dom g -> apply_cs ((x ~ e1) ++ g) e = apply_cs g (subst_exp e1 x e).
+
+Lemma apply_fresh : forall G e t, typing G e t -> forall G1 G2 g, G = (G1 ++ G2) -> typing_cs G2 g -> apply_cs g e = e.
 Proof.
+  induction 1; intros; subst; auto.
+  - Opaque binds_lookup.
+    simpl.
+    
+    
+(* If e1 is already closed.  *)
+Lemma apply_cons : forall x e1 g e,
+    uniq ((x ~ e1) ++ g) ->
+    apply_cs ((x ~ e1) ++ g) e = subst_exp e1 x (apply_cs g e).
+Proof.
+Admitted.
   intros.
-  induction e; simpl; auto.
+  inversion H. subst.
+  induction e; try solve [simpl; auto].
+  - Opaque binds_lookup.
+    simpl.
+    destruct (eq_var x0 x).
+    + subst.
+      destruct (binds_lookup exp x ((x, e1) :: g)).
+      destruct s.
+      destruct (binds_cons_1 _ x x _ _ g b) as [[E F]| G]. auto.      
+      apply binds_dom_contradiction in G. contradiction. auto.
+      assert False. unfold not in n. eapply n.
+      apply binds_cons_2. auto. eauto. contradiction.
+    + destruct (binds_lookup exp x0 ((x, apply_cs g e1):: g)). destruct s.
+      destruct (binds_cons_1 _ x0 x _ _ g b) as [[E F]| G]. contradiction.
+      simpl.
+      destruct (binds_lookup exp x0 g). destruct s.
+      eapply binds_unique; eauto.
+      apply n0 in G. contradiction.
+      simpl.
+      destruct (binds_lookup exp x0 g). destruct s.
+      assert False. unfold not in n0. eapply n0. eauto. contradiction.
+      auto.
   - destruct (KeySetFacts.eq_dec x0 x).
     + subst.
       destruct (binds_lookup exp x g). destruct s.
@@ -363,7 +412,7 @@ Proof.
       simpl. destruct (x0 == x). contradiction. admit.
   - simpl in IHe. rewrite IHe. auto.
   - simpl in *. rewrite IHe1. rewrite IHe2. rewrite IHe3. auto.
-Admitted.
+Admitted. *)
 
 
 (* If e1 is not closed *)

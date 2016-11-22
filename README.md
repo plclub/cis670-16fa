@@ -37,8 +37,8 @@ Date  | Speaker             | Lecture Topic            | Notes
 11/8  | Omar   (omarsa)     |  Ch 22 - Dynamic Typing                    | [110816.md](notes/110816.md) [code](code/dynamicTyping.clj)
 11/10 | Hengchu (hengchu)   |  Ch 23 - Hybrid Typing                     | [111016.md](notes/111016.md) 
 11/15 | Stephanie           |  Ch 46 - Equality for System T             | [111516.md](notes/111516.md) [code](code/Ch46.v)
-11/17 | Stephanie           |  Ch 47 - Equality for PCF                  |
-11/22 | Stephanie           |  Ch 48 - Parametricity                     |
+11/17 | Stephanie           |  Ch 46 cont.                               |
+11/22 | Stephanie           |  Ch 48 - Parametricity                     | [112216.md](notes/112216.md) 
 11/24 |  *Thanksgiving* (no class)
 11/29 | Project demos (Richard, Hengchu, Teng)      |
 12/1  | Project demos (Nicolas, Yishuai, Solomon)   |
