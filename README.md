@@ -41,7 +41,7 @@ Date  | Speaker             | Lecture Topic            | Notes
 11/22 | Stephanie           |  Ch 48 - Parametricity                     | [112216.md](notes/112216.md) 
 11/24 |  *Thanksgiving* (no class)
 11/29 | Project demos (Richard, Hengchu, Teng)      |
-12/1  | Project demos (Nicolas, Yishuai, Solomon)   |
+12/1  | Project demos (Nicolas, Yishuai, Solomon)   |                    | [Yishuai](https://github.com/liyishuai/cps/blob/master/README.md)
 12/6  | Project demos (Omar, Leo & Kenny)           |
 12/8  | Project demos (Pritam, Antoine, Yao)        |
 
