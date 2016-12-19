@@ -3,7 +3,7 @@ In this project, I proved the type correctness of a translation from system T
 to continuation-passing style (CPS).
 
 The translation was first implemented [here][translation] in Coq, but the proof
-was stuck and moved to [paper](cps/cps.pdf).
+was stuck and moved to [paper](cps.pdf).
 
 ## Reference
 - [From system F to typed assembly language][ftal]
