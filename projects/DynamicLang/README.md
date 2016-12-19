@@ -8,24 +8,24 @@ This Haskell project uses Stack, the command `stack build` **won't work** as the
 
 ## Files of interest.
 0. Library Code files.
-..* DataDynamic.hs : Implementation of dynamic types in Haskell.
-..* DataTypeable.hs : Implementation of new Typeable class.
+  * DataDynamic.hs : Implementation of dynamic types in Haskell.
+  * DataTypeable.hs : Implementation of new Typeable class.
 1. *Lang* files.
-..* Lang.hs : Language description for Lang.
-..* Eval.hs : Evaluator for Lang.
-..* Parser.hs : Convenience parser for Lang terms. See report.pdf for language syntax.
-..* LangTest.hs : Example programs and evaluator unit testing.
-..* ParserTests.hs : Example syntax and parser unit testing.
+  * Lang.hs : Language description for Lang.
+  * Eval.hs : Evaluator for Lang.
+  * Parser.hs : Convenience parser for Lang terms. See report.pdf for language syntax.
+  * LangTest.hs : Example programs and evaluator unit testing.
+  * ParserTests.hs : Example syntax and parser unit testing.
 2. *StaticLang* files.
-..* StaticLang.hs : Language description for Lang.
-..* StaticEval.hs : Evaluator for Dynamic
-..* StaticLangTests.hs : Example programs and evaluator unit testing.
-..* PrettyPrint.hs : Pretty printer for StaticLang. Implemented as show instance.
+  * StaticLang.hs : Language description for Lang.
+  * StaticEval.hs : Evaluator for Dynamic
+  * StaticLangTests.hs : Example programs and evaluator unit testing.
+  * PrettyPrint.hs : Pretty printer for StaticLang. Implemented as show instance.
 3. *LangSnl* files.
-..* LangSnl.hs : Language description and evaluator for LangSnl.hs
-..* LangSnlTests.hs : Simple examples of LangSnl.
+  * LangSnl.hs : Language description and evaluator for LangSnl.hs
+  * LangSnlTests.hs : Simple examples of LangSnl.
 4. Other files.
-..* Compiler.hs : Compiler from Lang to StaticLang.
-..* CompileLangSnl.hs : Compiler from Lang to LangSnl, does not work :/
-..* CompilerTests.hs : Compiler.hs usage examples and unit tester.
-..* Common.hs : Common functions and types shared across multiple modules.
+  * Compiler.hs : Compiler from Lang to StaticLang.
+  * CompileLangSnl.hs : Compiler from Lang to LangSnl, does not work :/
+  * CompilerTests.hs : Compiler.hs usage examples and unit tester.
+  * Common.hs : Common functions and types shared across multiple modules.
