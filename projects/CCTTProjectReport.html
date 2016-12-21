@@ -1,0 +1,1282 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAYcAA0AAAAACjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABMAAAABwAAAAca8vGTk9TLzIAAAFMAAAARAAAAFZG1VHVY21hcAAAAZAAAAA+AAABQgAP9AdjdnQgAAAB0AAAAAQAAAAEACICiGdhc3AAAAHUAAAACAAAAAj//wADZ2x5ZgAAAdwAAADRAAABEKyikaNoZWFkAAACsAAAAC0AAAA2AtXoA2hoZWEAAALgAAAAHAAAACQHngNFaG10eAAAAvwAAAAQAAAAEAwAACJsb2NhAAADDAAAAAoAAAAKALIAVG1heHAAAAMYAAAAHwAAACABEAB2bmFtZQAAAzgAAALBAAAFu3I9x/Nwb3N0AAAF/AAAAB0AAAAvaoFvbwAAAAEAAAAAzBdyYwAAAADP2IQvAAAAAM/bz7t4nGNgZGFgnMDAysDB1Ml0hoGBoR9CM75mMGLkYGBgYmBlZsAKAtJcUxgcPsR8iGF2+O/AEMPsznAYKMwIkgMA5REMOXicY2BgYGaAYBkGRgYQsAHyGMF8FgYFIM0ChED+h5j//yEk/3KoSgZGNgYYk4GRCUgwMaACRoZhDwCs7QgGAAAAIgKIAAAAAf//AAJ4nHWMMQrCQBBF/0zWrCCIKUQsTDCL2EXMohYGSSmorScInsRGL2DOYJe0Ntp7BK+gJ1BxF1stZvjz/v8DRghQzEc4kIgKwiAppcA9LtzKLSkdNhKFY3HF4lK69ExKslx7Xa+vPRVS43G98vG1DnkDMIBUgFN0MDXflU8tbaZOUkXUH0+U27RoRpOIyCKjbMCVejwypzJJG4jIwb43rfl6wbwanocrJm9XFYfskuVC5K/TPyczNU7b84CXcbxks1Un6H6tLH9vf2LRnn8Ax7A5WQAAAHicY2BkYGAA4teL1+yI57f5ysDNwgAC529f0kOmWRiYVgEpDgYmEA8AUzEKsQAAAHicY2BkYGB2+O/AEMPCAAJAkpEBFbAAADgKAe0EAAAiAAAAAAQAAAAEAAAAAAAAKgAqACoAiAAAeJxjYGRgYGBhsGFgYgABEMkFhAwM/xn0QAIAD6YBhwB4nI1Ty07cMBS9QwKlQapQW3VXySvEqDCZGbGaHULiIQ1FKgjWMxknMfLEke2A+IJu+wntrt/QbVf9gG75jK577Lg8K1qQPCfnnnt8fX1NRC/pmjrk/zprC+8D7tBy9DHgBXoWfQ44Av8t4Bj4Z8CLtBL9CniJluPXASf0Lm4CXqFX8Q84dOLnMB17N4c7tBo1AS/Qi+hTwBH4rwHHwN8DXqQ30XXAS7QaLwSc0Gn8NuAVWou/gFmnjLrEaEh9GmDdDGgL3B4JsrRPDU2hTOiMSuJUIdKQQayiAth69r6akSSFqIJuA19TrzCIaY8sIoxyrNIrL//pw7A2iMygkX5vDj+G+kuoLdX4GlGK/8Lnlz6/h9MpmoO9rafrz7ILXEHHaAx95s9lsI7AHNMBWEZHULnfAXwG9/ZqdzLI08iuwRloXE8kfhXYAvE23+23DU3t626rbs8/8adv+9DWknsHp3E17oCf+Z48rvEQNZ78paYM38qfk3v/u3l3u3GXN2Dmvmvpf1Srwk3pB/VSsp512bA/GG5i2WJ7wu430yQ5K3nFGiOqgtmSB5pJVSizwaacmUZzZhXLlZTq8qGGFY2YcSkqbth6aW1tRmlaCFs2016m5qn36SbJrqosG4uMV4aP2PHBmB3tjtmgN2izkGQyLWprekbIntJFing32a5rKWCN/SdSoga45EJykyQ7asZvHQ8PTm6cslIpwyeyjbVltNikc2HTR7YKh9LBl9DADC0U/jLcBZDKrMhUBfQBvXRzLtFtjU9eNHKin0x5InTqb8lNpfKv1s1xHzTXRqgKzek/mb7nB8RZTCDhGEX3kK/8Q75AmUM/eLkfA+0Hi908Kx4eNsMgudg5GLdRD7a84npi+YxNr5i5KIbW5izXas7cHXIMAau1OueZhfj+cOcP3P8MNIWLyYOBuxL6DRylJ4cAAAB4nGNgYoAALjDJyIAOWMCiTIxMLDmZedkABtIBygAAAA==) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX"],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: false
+  },
+  TeX: {
+    extensions: ["AMSmath.js", "AMSsymbols.js"],
+    TagSide: "right",
+    TagIndent: ".8em",
+    MultLineWidth: "85%",
+    equationNumbers: {
+      autoNumber: "AMS",
+    },
+    unicode: {
+      fonts: "STIXGeneral,'Arial Unicode MS'"
+    }
+  },
+  showProcessingMessages: false
+});
+</script>
+<title>CCTT Project Report</title></head><body><article class="markdown-body"><h1 id="cis-670-project-report-computational-cubical-type-theory"><a name="user-content-cis-670-project-report-computational-cubical-type-theory" href="#cis-670-project-report-computational-cubical-type-theory" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>CIS 670 Project Report : Computational Cubical Type Theory</h1>
+<h2 id="introduction"><a name="user-content-introduction" href="#introduction" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Introduction</h2>
+<p>This project was based on the work by Bob Harper, Carlo Angiuli and Todd Wilson, in a series of papers which introduces a computational and cubical type theory.</p>
+<p>The goal of the project is<sup id="fnref:5"><a class="footnote-ref" href="#fn:5" rel="footnote">5</a></sup> to study this work in great detail, to acquire a solid understanding of this line of work, and possibly extend the system in multiple ways - essentially helping the understanding even more.</p>
+<p>As a preliminary note, let me mention that many aspects of this work and of my project have been left out of the report. I have been trying to build an interesting story, at the cost of dropping material substantially, instead of going for an exhaustive and potentially overwhelming approach.</p>
+<p>The report is organized as follows: we first introduce briefly the system and related theories, in order to reach a point where we can make some general observations about it - and get to know cubical type systems a bit better. We then move on to examples, in order to justify why this kind of type systems qualify as highly desirable programming languages. From there, firmly convinced that we want to enjoy having such a powerful type theory as our heavy-duty programming language, we move on to the formalization and proving efforts involved in this project, that are precisely meant to help making this a widely usable language. We conclude by briefly mentioning some initial thoughts about how the cubical ideas could percolate in a different but similar type theory, namely system FC, and some remarks about how I personally approached this work.</p>
+<h2 id="theoretical-introduction"><a name="user-content-theoretical-introduction" href="#theoretical-introduction" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Theoretical introduction</h2>
+<p>Let us now briefly introduce the main theories involved, and underlying, the theory presented in this work. This introduction is deliberately short, to keep the report itself fairly concise - and because a proper introduction to these topics would require a <em>lot</em> more space. We refer the interested reader to the following excellent sources:</p>
+<ul>
+<li>the Homotopy Type Theory <a href="https://homotopytypetheory.org/book/">book</a>, which introduction and first chapter provide a very well written, easy to read and detailed explanation of the main concepts</li>
+<li>the third <a href="http://www.cs.cmu.edu/~rwh/papers.html#chitt">paper</a> of the series, which spends some time explaining what cubical type theory is and what the differences with Homotopy Type Theory are</li>
+</ul>
+<h3 id="homotopy-type-theory"><a name="user-content-homotopy-type-theory" href="#homotopy-type-theory" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Homotopy Type Theory</h3>
+<p>From a type theoretic point of view, Homotopy Type Theory (abbreviated HoTT below, as usual) can be seen as an extension of the theory of dependent types with a built-in notion of equality. It relies on the critical observation that if a type is represented as a topological space, its terms being points of the space, then equalities of terms can be seen as paths in the space; equalities between proofs of equalities can be seen as homotopies; equalities between such proofs as homotopies between homotopies; and so on.</p>
+<p>This very powerful connection between topology and type theory - and a third view of it, categorical this time, based on groupoids FIXME - allows to view many concepts on both sides under a new light, bringing new key insights. This also critically establishes, from a theoretical standpoint, equality as a major concept in type theory - an idea we will try to back up further, this time from a more programmatic point of view. A key idea is to <em>extend</em> the notion of equality through this additional structure, instead of limiting the equality to be just the syntactic one - that falls short in many applications, failing to represent properties that users care about.</p>
+<p>Once one accepts this extension of equality, one can go further and integrate the principle of <em>univalence</em>. Despite its fancy name, this principle is something that mathematicians have been using for decades: the simple idea that structures that are equivalent (in a precise sense) can be seen as equal. Univalence provides many equalities between types, and allows such equalities to carry some computational content<sup id="fnref:7"><a class="footnote-ref" href="#fn:7" rel="footnote">7</a></sup>. This principle is introduced in HoTT as an axiom, which in particular prevents it from computing. This is why we now turn to cubical types theories: they represent a big step forward in that respect, as they aim at providing models of HoTT in which univalence is derivable.</p>
+<h3 id="what-is-a-cubical-type-theory"><a name="user-content-what-is-a-cubical-type-theory" href="#what-is-a-cubical-type-theory" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What is a <em>Cubical</em> Type Theory?</h3>
+<p>Cubical Type Theory (CTT) is an even newer research field built, as its name indicates, on the idea of cubical types. Cubical types come themselves from the theory of cubical sets, introduced by Daniel Kan some time ago: instead of having only &ldquo;points&rdquo; (i.e., regular terms), there exist more structure <em>within</em> the type - that structure having, at least abstractly, a shape made of hypercubes.</p>
+<p>These hypercubes rely themselves on the notion of abstract interval. The interval spans one direction, identified by a dimension name $x$, and has two endpoints, denoted 0 and 1. When one has a term spanning some dimension $x$, it is possible to project out that dimension on its endpoints, yielding the corresponding <em>faces</em> of that term.</p>
+<p>So, in essence, the various cubical type theories all constitute models of HoTT, in which we constraint the so-called higher structure to a very specific shape. In these models, paths are now straight lines, homotopies are squares, etc. Or, said in an inductive fashion, the $0$-objects are points, and the $(n+1)$-objects are lines between $n$-objects.</p>
+<p>In CTT, the operators (on paths) of HoTT are not directly built in the theory, but they are derivable from one core operation, the Kan filling. This operation is basically a way to fill any open-box in any dimension. What is really striking is that this operation is something that Kan exhibited during his mathematical work on cubical sets, as it was key to make his theory work out; and now, in the context of cubical types, this operation is again the key element that allows CTTs to behave nicely and to support the HoTT operators, therefore being a model of that theory (HoTT).</p>
+<p>By constraining so strongly the space of possible models for our theory, we get a theory that behaves much more nicely in many respects, one of them being its computational nature. The system presented here goes further by organizing everything around computation, which is what we now turn our attention to.</p>
+<h3 id="what-is-a-computational-cubical-type-theory"><a name="user-content-what-is-a-computational-cubical-type-theory" href="#what-is-a-computational-cubical-type-theory" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What is a <em>Computational</em> Cubical Type Theory?</h3>
+<p>The type system presented in this series of paper is <em>computational</em>, in the sense that the meaning of terms is defined through computation (which represents the primary notion in the language), instead of doing so through types and inference rules. In that settings, types are defined to merely classify the behavior of terms - this is somewhat analogous to the extrinsic view of typing, as opposed to the intrinsic one. Types in this setting are only, to quote the papers, a window on the truth, not the truth itself (again, defined by computation of terms). This is in direct heritage of the approach proposed by Martin-Löf, and of the one subsequently taken by NuPRL.</p>
+<p>We will not explore much that side of the theory in this report, in particular because understanding how this strongly computational aspect influences the system - past superficial observations - requires a fairly deep understanding of CTT, beyond my current state of comprehension.</p>
+<h3 id="what-are-higher-inductive-types"><a name="user-content-what-are-higher-inductive-types" href="#what-are-higher-inductive-types" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What are Higher Inductive Types?</h3>
+<p>Higher inductive types (denoted HIT thereafter, HITs plural) are a generalization of regular inductive types, meant at unleashing the full potential of HoTT - or more generally of any type theory where equality is first class. They come from the observation that regular inductive type definitions only allow to define <em>terms</em> of this type (via constructors), but not paths (equalities). That is to say, it only allows to define &ldquo;discrete&rdquo; types, and not types with some interesting structure.</p>
+<p>But we are using a theory that allows to represent and manipulate such higher structure; therefore, a very natural idea is to allow inductive definitions to declare elements of this structure: paths, paths between paths, etc. Indeed, using a HIT, one is allowed to define constructors at any &ldquo;level&rdquo;: in addition to regular constructors, one can define so-called path constructors, which add new paths between some (specified) lower-level constructors.</p>
+<p>For instance, suppose one wants to define integers using a pair of natural numbers:<br />
+<pre><code>  type Z =
+    | Int : forall (pos neg : Nat), Z
+</code></pre><br />
+where the denoted integer is <code>pos - neg</code>. While this can indeed represent integers, there is a small problem: in that type, multiple pairs represent the same integer, and one would like to extend the notion of equality so that those are equated. This is where a HIT can shine, since the programmer can express this new, <em>extended</em> equality:<br />
+<em>The notation for paths is made to suggest intervals.</em><br />
+<pre><code>  type Z =
+    | Int : forall (pos neg : Nat), Z
+  with path
+    | ZUniq : forall (pos neg shift),
+        shift &lt;= pos -&gt;
+        Int (pos - shift) neg  •————• Int pos (neg + shift)
+</code></pre><br />
+We will come back a bit later to that pattern of types with non-unique representations, and see why HITs and a solid theory of equality are needed to properly handle those cases.</p>
+<p>Another important example of a HIT: the circle <code>S1</code> (formally $\mathbb S^1$), which constitutes the first example of a <em>strict</em><sup id="fnref:8"><a class="footnote-ref" href="#fn:8" rel="footnote">8</a></sup> HIT included in the system of our study. Using HIT notation, it is defined this way:<br />
+<pre><code>  type S1 =
+    | base : S1
+  with path
+    | loop : base •————• base
+</code></pre></p>
+<p>Thereafter, we call the path constructors higher constructors. We also sometimes prefix constructors with their dimensionality:</p>
+<ul>
+<li>$0$-constructors are regular term constructors</li>
+<li>$1$-constructors are path constructors, yielding paths between $0$-constructors</li>
+<li>$2$-constructors are homotopy or &ldquo;surface&rdquo; constructors, they yield paths between $1$-constructors</li>
+<li>etc</li>
+</ul>
+<p>It should be noted that the dimensionality of a constructor doesn&rsquo;t imply that it only yields terms at that dimension. Indeed, consider some HIT <code>T</code> in which we want to have a copy of the circle:<br />
+<pre><code>  type T =
+    | EmbedS1 : forall (s : S1), T
+    | ...
+</code></pre><br />
+While <code>EmbedS1</code> is a $0$-constructor for <code>T</code>, it still yields a non-trivial path between <code>EmbedS1 base</code>, namely <code>EmbedS1 loop</code>. More generally, any constructor with an input type having (non trivial) terms at dimension $1$+ will yield terms at dimensions higher than its dimensionality.</p>
+<p>Let us now reflect on some interesting aspects of CTTs in general, and of this CTT in particular.</p>
+<h2 id="general-remarks"><a name="user-content-general-remarks" href="#general-remarks" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>General remarks</h2>
+<p>One great aspect of cubical types is that they fix a discrepancy that happens in HoTT: the higher structure of a type is, in CTT, formally contained in this type. That is, any higher dimension term <code>t</code> contained in type <code>T</code> is actually given the type <code>T</code> in the system (with some dimension information that we mostly overlook here). This is not the case in HoTT: <code>t</code> has to lie in a <em>different</em> type, some iterated identity type of <code>T</code> (for instance, <code>id(a, b)</code> if <code>a</code> and <code>b</code> are elements of <code>t</code>).</p>
+<p>In particular, that solves a annoying problem of HITs in HoTT: when defining a function taking a HIT as input, the computation rules for 0-constructors are judgmental as we expect, but the computation rules for higher constructors are only propositional. This is mainly due to the fact that, in HoTT, one needs to <em>define</em> how to apply a function to a path (transforming a path in the domain to a path in the co-domain) - it is not built-in the system. Namely, given a function $f$ and a path $p$ in its domain, one gets the path $\mathrm{ap}_f(p)$ in its co-domain - but $\mathrm{ap}$ is <em>defined</em> using the induction principles of identity types. One therefore can not really use that term in a judgment, and has instead to rely only on propositional rules. This issue is explained in details in the HoTT book, chapter 6 section 2.</p>
+<p>However, in the CTT that we consider here, things are much more well-behaved. Indeed, if one has a path $p$ in the domain of function $f$, the way to get the corresponding path in the co-domain of $f$ is straightforward: just apply $f$ to $p$! That is, use the term $f(p)$. This is well-behaved: if $p$ is a path along dimension $x$, then since dimension substitution commutes with application, one gets that $f(p)\langle \epsilon / x\rangle$ has to be equal to $f(p\langle \epsilon / x\rangle)$. That is, the resulting path&rsquo;s endpoints have to be equal to the result of applying $f$ to the endpoints of $p$.</p>
+<p>This is an example of a really important property of the system, that I will dub &ldquo;dimension blindness&rdquo; (I have no clue whether or not an official name exists). This basically means that in this CTT (and I believe, in most CTTs, at least the one relying on dimension names), terms are automatically considered at all dimensions, and there are no way to restrict some operations to terms of some given dimension(s) only. Indeed, as we have just seen, functions can be applied to regular terms, but also to any higher-dimension term as well. This is somewhat underlying in HoTT, in the sense that one can actually derive corresponding terms - but it is not immediately obvious, especially since, as we&rsquo;ve emphasized, terms at different dimensions have to be considered at <em>different</em> types.</p>
+<p>This principle has a profound consequence<sup id="fnref:6"><a class="footnote-ref" href="#fn:6" rel="footnote">6</a></sup>: the dimension of a term (and, in a sense, its meaning) is directly determined by the dimension context at which it is regarded. For instance, under an empty dimension context, <code>base</code> is just the regular point of $\mathbb S ^1$. However, if one now considers it under the context consisting of just $x$, it now becomes the reflexivity of <code>base</code> (&ldquo;laid out&rdquo; along $x$)! Everything works out nicely: since <code>base</code> doesn&rsquo;t actually depend on $x$, projecting out $x$ always yields <code>base</code> itself. In the same vein, if one now considers <code>base</code> under the context consisting of $x$ and $y$, then one gets the reflexivity of the reflexivity of <code>base</code>.</p>
+<p>This work is also very interesting because it adds an instance of the univalence principle and shows that this does not break any safety property of the system. However, this is done in a very ad-hoc way, since that instance has to be explicitly defined - instead of adding the general univalence principle that quantifies over any type equivalence. One hopes that this general version will be added in the future, so that one can use all the instances of univalence - without having to reprove for every single one of them that they preserve type safety.</p>
+<p>Let us now consider some examples where CTTs bring a canonical, well behaved way of representing the problem at hand.</p>
+<h2 id="examples"><a name="user-content-examples" href="#examples" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Examples</h2>
+<p>A difficulty that arises when trying to find good examples using strictly the system presented in these papers is that it is foundational: since this is a fairly new theory of type systems, it mostly presents a &ldquo;basic&rdquo; system - without fancy features like user-definable higher inductive types, or the general form of univalence. Since, however, this represents the long-term goal of these lines of work, we will assume in the examples presented here that such features are available.</p>
+<p>Also, and as expected, it was hard to find examples that are specific to cubical types - by opposition to plain HoTT. I will therefore present examples that usually work in regular HoTT. However, as glimpsed before, CTT is much easier to use in practice (especially by avoiding the need to work in (iterated) identity types, instead working only in the given type itself). In addition, to refine the examples presented below with more cubical-specific ones, I am in the midst of trying to derive cubical terms that have no equivalent in plain HoTT, then trying to find concrete implications they may have.</p>
+<h3 id="the-coordinates-problem-and-multi-represented-types"><a name="user-content-the-coordinates-problem-and-multi-represented-types" href="#the-coordinates-problem-and-multi-represented-types" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>The coordinates problem and multi-represented types</h3>
+<p><em>I am not certain how to call these &ldquo;multi-represented&rdquo; types - in particular, I have no idea whether or not someone gave a good terminology. I was also thinking of &ldquo;multi-representational&rdquo;</em></p>
+<p>In this section, we will consider cases where a conceptual abstraction can be represented and implemented in multiple ways, each of them having specific advantages - and such that different parts of a given program may need to use different representations. This is typically the case with coordinates representation, and this will therefore be our running example for this section.</p>
+<p>We consider only 2-dimensional coordinates for the sake of this example, but the problems arise even more in higher dimensions. In addition, we are not considering permutations of coordinates (for instance, $(x, y)$ vs $(y, x)$), since that presents a limited interest.</p>
+<p>In a basic<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> programing language, there are a few ways to implement coordinates while allowing multiple representations (Cartesian and polar, for instance).</p>
+<p>One can simply have 2 different types:<br />
+<pre><code>  type CartCoord =
+    | XY : forall (x y : R), CartCoord
+
+  type PolarCoord =
+    | RPhi : forall (r phi : R), PolarCoord
+</code></pre><br />
+<em>(Some stylistic choices are made to make this code clear and self-documented. In particular, the name of constructors is chosen to recall their parameters&rsquo; roles)</em></p>
+<p>While this is at least safe, in the sense that one always knows what representation they are using, this has the big downfall that now, any piece of code using coordinates has to commit to a specific representation. Not only this is against abstraction, since one is exposing the internal representation of data, but this is also annoying: if one needs to call a function that expects polar coordinates while having some coordinates in Cartesian form instead, one first has to convert them before being able to call the function.</p>
+<p>Another option is to go with a unique type:<br />
+<pre><code>  type Coordinates =
+    | Coord : forall (r1 r2 : R), Coordinates
+</code></pre></p>
+<p>Now this is of course absolutely awful, since it is not clear from the type what representation is being used. If some code tries to use them as Cartesian while some other code uses them as polar, then the resulting program is completely wrong. Of course, if one somehow specifies what they actually mean, then this prevents the problem - but also removes the ability to represent the data in multiple ways, and this is therefore no longer a solution to this problem.</p>
+<p>A final option is to go with a unique, <em>merged</em> type:<br />
+<pre><code>  type Coordinates =
+    | XY : forall (x y : R), Coordinates
+    | RPhi : forall (r phi : R), Coordinates
+</code></pre></p>
+<p>This solution has the advantage of hiding, at least at the type level, what representation is actually used. However, it falls short because now, any function accepting coordinates as inputs has to handle <em>both</em> cases: polar <strong>and</strong> Cartesian! And this is for a good reason: this type simply &ldquo;forgets&rdquo; that it contains multiple representation, and that some polar coordinates are morally the same as some Cartesian ones.</p>
+<p>All these representations fall short in some respect. There are probably other ways to represent coordinates, but in a basic language, there is always some trade-off to be made. Enter higher inductive types&hellip;</p>
+<p>&hellip; Actually, before we do so, let us also have a look at a problem that arises in polar coordinates. Basically, the representation itself is non-unique - and this is an issue that arises in other real world programming examples. Indeed, with polar coordinates, one has, for any $r$, $\phi$, and $n$, $(r, \phi) \simeq (r, \phi + n \times 2\pi)$ where _ $\simeq$ _ is the equivalence relation defined by the coincidence of representation.<br />
+In addition, for any $\phi$, the coordinates $(0, \phi)$ represent the same point, the pole.</p>
+<p>While it is conceptually feasible to use a non-unique representation, the problem is that, without stronger types, the language is basically oblivious to this fact, and only treats syntactically equal terms as equal. Indeed, in any such language, it is perfectly fine to have a function sending $(1, 0)$ and $(1, 2\pi)$ on different points. But this means distinguishing representationally-equal points - and this ability basically means that we break the safety properties of our representation. We are unable to <em>fully</em> embed this representation of coordinates in our language.</p>
+<p>It may sound like we are being picky, but this is actually a profound problem. Many data representation are non-unique - and therefore, when manipulating them, what we mean to do is to manipulate the corresponding quotient (in the mathematical sense), and <em>not</em> to fiddle around with the syntactic encoding. But the language doesn&rsquo;t allow to enforce this abstraction, and it can therefore be broken at will.</p>
+<p>This is where we finally enter HITs and solve these problems. Actually, for now, all we need is a limited form of HITs, quotient types (&ldquo;quotient&rdquo; referring to mathematical quotients, as we just highlighted) - that is, HITs with only 0- and 1- constructors.</p>
+<p>Indeed, using 1-constructors, one can easily transform the latest option above into one that actually <em>is</em> what we mean:<br />
+<pre><code>  type Coordinates =
+    | XY : forall x y : R, Coordinates
+    | RPhi : forall r phi : R, Coordinates
+  with path
+    | PolarToCart : forall r phi : R,
+        RPhi r phi  •————• XY (r * cos phi) (r * sin phi)
+    | Pole : forall phi1 phi2,
+        RPhi 0 phi1 •————• RPhi 0 phi2
+    | TwoPiInv : forall (r phi : R) (n : Z),
+        RPhi r phi  •————• RPhi r (phi + 2 * n * phi)
+</code></pre><br />
+Notice that there are paths with different roles:</p>
+<ul>
+<li>PolarToCart is a &ldquo;linking&rdquo; path to account for the different representations of a single point</li>
+<li>Pole and TwoPiInv are in charge of the coherence of the polar representation itself, to account for its non-uniqueness</li>
+</ul>
+<p>Naturally, one can also define the path going from a Cartesian represented point to the corresponding polar one (well, more exactly a representative of the class of equivalence of corresponding polar points - but they are now set equal thanks to Pole and TwoPiInv). This path, <code>CartToPolar</code>, is simply <code>PolarToCart</code>$^{-1}$. However, it is stated in terms of $r\cos phi$ and $r\sin phi$, so stating it with its most general type,<br />
+<pre><code>  CartToPolar: forall x y, XY x y •————• RPhi (sqrt (x ^ 2 + y ^ 2)) (atan2 (y, x))
+</code></pre><br />
+needs a proof (with some reasoning on the reals). But once this is done, one obtains a natural way to translate between both representations - and the system ensures that one cannot distinguish between them, since any function now has to respect the declared path (equalities).</p>
+<p>In addition, here is a cool syntactic extension that one could imagine: when declaring a function over a multi-represented type, one usually wants to only define it on <em>one</em> representation, then automatically obtain the corresponding definition on other representations. Using such a quotient type, this is perfectly doable, but at the price of copy-pasting some code and coercing along a path explicitly. However, with some more syntactic sugar, this can be avoided! Here could, for instance, be some generic function definition where one wants to use a Cartesian representation:<br />
+<pre><code>  function f (x : Coordinates) =
+    match x with
+      | XY x y -&gt; ...
+      | RPhi r phi •—&gt; XY along PolarToCart r phi
+    end
+</code></pre><br />
+<em>The keyword <code>along</code> could also be named <code>using</code>, for a more programmatic point of view. Also notice the different arrow for RPhi</em><br />
+This match:</p>
+<ul>
+<li>gives an explicit computation for the XY case</li>
+<li>then automatically coerces the RPhi case to XY, along PolarToCart - and then computes the result based on the XY case</li>
+</ul>
+<p>Not only this automatically, and quite lightweight-ly, handles the RPhi case based on its equivalent XY case, but this also ensures that one respect equality for any given PolarToCart<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup>! For an even lighter notation, one could imagine something like<br />
+<pre><code>    match x with
+      | XY x y -&gt; ...
+      | PolarToCart r phi -&gt; refl
+</code></pre><br />
+<em>(or even extending this by replacing refl by an arbitrary path)</em><br />
+But the feasibility of, in particular, type inference, remains to be evaluated.</p>
+<p>To conclude, it should be clear from this discussion that fairly simple HITs, namely quotient types<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup>, can already elegantly handle the problem of multiple representation. Of course, that also means that we need to identify the set of representations we are interested in, in order to include them in the multi-represented type. But notice that other representations can always later be linked to the first type using univalence<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup>.</p>
+<h3 id="languages-formalization"><a name="user-content-languages-formalization" href="#languages-formalization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Languages formalization</h3>
+<p>Quotient types are also very useful for language formalization and other language-based applications. Indeed, instead of defining the language syntax in an inductive type and then the reduction relation in a separate one, one can simply define the entire language in a HIT where 0-constructors are the terms and 1-constructors correspond to reduction rules - and possibly other congruences (notice how, in that setting, equalities truly contain computational content). That may require induction-recursion if we depend, for instance, on the substitution function (but that could probably be bypassed by using explicit substitutions).</p>
+<p>Doing so, one forces all further operations on the language to respect all reduction and expansion relations that have been built in the language type. This is very useful, for instance, when building verified compilers: replacing some piece of code by some other, supposedly equivalent one, has to be done by providing an equality proof between those two - and therefore is automatically correct with respect to the way the language has been declared.</p>
+<p>There is a <a href="http://www.cs.nott.ac.uk/~psztxa/publ/tt-in-tt.pdf">paper</a> by Thorsten Altenkirch and Ambrus Kaposi that precisely uses this approach, to do some language formalization.</p>
+<p>Working on language formalization also heavily benefits from univalence. Indeed, if one has multiple representations of the same language - where each of them has specific advantages that one needs for various parts of the development -, then univalence helps greatly reducing the boilerplate. Indeed, one simply needs to show the equivalence of the various language representations (which needs to be proved in any case); then, univalence allows, at <em>any</em> point in the development, to switch one representation of the language for another - and that using merely an equality rewriting!</p>
+<p>The examples presented here rely on features that are not currently available (or fully available) in current CTTs (and HoTT systems alike). Let us therefore turn to the part of this project that involves a (necessarily modest) effort toward making these features available.</p>
+<h2 id="adding-the-interval-type"><a name="user-content-adding-the-interval-type" href="#adding-the-interval-type" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Adding the interval type</h2>
+<p>For this project, I wanted to write a proof of consistency for some type, in order to gain a better understanding.<br />
+I therefore proved on paper that the interval type, $\mathbb I$, could be added to the system. As a reminder, here is its definition in HIT style:<sup id="fnref:9"><a class="footnote-ref" href="#fn:9" rel="footnote">9</a></sup><br />
+<pre><code>  type I =
+    | I0 : I
+    | I1 : I
+  with path
+    | Seg : I0 •————• I1
+</code></pre></p>
+<p>While tedious, this proof wasn&rsquo;t particularly hard, since it basically involved merging the proof for booleans and the one for the circle $\mathbb S ^1$ - which are already, as noticed in the paper, very similar.</p>
+<p>However, it was a great way to get a better understanding of the way types are defined in the system, and a better fluency with the technical details of that work. It also helped me realizing that many parts of that proof seem to depend very lightly on the actual type we are defining. This realization prompted the direction of work presented in the next section.</p>
+<h2 id="general-proof-for-hits"><a name="user-content-general-proof-for-hits" href="#general-proof-for-hits" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>General proof for HITs</h2>
+<p>This part of the work - which is in its very early stages, due to its theoretical complexity - consists in identifying a &ldquo;sufficiently nice&rdquo; subset of HITs, such that this class of HITs can be added to the system with a proof not significantly more involved than the ones in the (second) paper. For this, I am currently reviewing the proofs for other type formers (especially dependent functions) to get a better grasp of how those interact with cubical types.</p>
+<p>This direction is very interesting, since it would allow the use of many HITs, making the system much more usable. But also fairly complex - which is the main reason behind my limited progress on it. I also recently thought of going in the reverse direction - instead of trying to directly identify a large suitable class, start from very simple forms of HITs and slowly add more complexity. For instance, we know that constant $0$- and $1$- constructors can be added without problem. One could try to sequentially add the following (in any order):</p>
+<ul>
+<li>$2+$-constructors</li>
+<li>$0$-constructors indexed on external types, then similarly $1+$-constructors</li>
+<li>recursive $0$-constructors (then similarly $1+$-constructors)</li>
+<li>etc</li>
+</ul>
+<p>While this approach has the advantage of being straightforward to implement, it has a major drawback: every step above requires its own large and tedious proof. I am therefore holding back on this direction, trying to give more thinking about finding a good characterization of a class of HITs that would play well in this system.</p>
+<h2 id="kan-filling-and-complexity-of-the-system"><a name="user-content-kan-filling-and-complexity-of-the-system" href="#kan-filling-and-complexity-of-the-system" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Kan filling and complexity of the system</h2>
+<p><em>Please note that this section is less precise than the rest of this report, since it is about some tentative ideas I have. I am still trying to figure this issue out, so some observations here may be inaccurate - or even false</em><br />
+In this system, a striking property of the definitions is that they rely heavily on quantification over dimension substitutions - oftentimes combining multiple universally-quantified dimension substitutions. For instance, the definition of coherent aspects (very) roughly says that evaluation of terms commutes with the application of successive dimensions substitutions.</p>
+<p>Therefore, studying this system leaves the distinct feeling that some definitions have been crafted not so much because they expose the essence of what makes the system work, but just because they allow the proofs to go through. Of course, this is not intended as a criticism of the author&rsquo;s work, given the very novel character of the latter, but it definitely seems to call for some thinking about the issue.</p>
+<p>This sparks a very natural question: since one has to enforce this coherent aspect property, what are the terms that could otherwise go wrong (i.e. not respect the commutativity between evaluation and dimension substitution)? Indeed, intuitively, most terms and higher-terms (especially those obtained from HITs) should not pose much problem (although, of course, that statement would need to be evaluated for more involved forms of HITs). From my understanding, this complexity comes mainly from the Kan filling operation, <code>hcom</code>. More precisely, it seems to be coming from the way <code>hcom</code> behaves with respect to its extents, in particular when a dimension trivializes.</p>
+<p>Indeed, on the base types, whenever some extent is $\epsilon$ (i.e. an endpoint), the reduction rule specifies that <code>hcom</code> simplifies to the tube in the <em>first</em> extent that is not a dimension name, but an endpoint. This is strikingly arbitrary: if a second extent is also an endpoint, it is basically ignored because of the presence of the first one.</p>
+<p>To help making things clearer, consider the following situation (taking only 2 extents, for the sake of clarity). Let $P$ be the term $\mathtt{hcom}^{x, y}_A(r \leadsto r&rsquo;, M, y.N^0_0, y.N^1_0, y.N^0_1, y.N^1_1)$, with $r$ different from $r&rsquo;$. Whatever $A$ is (I believe), that term is either a value or reduces to a term (which shape is determined by $A$ - e.g., it is a lambda abstraction if $A$ is a function type) in which a <code>hcom</code> has been &ldquo;pushed&rdquo; inside (see the rules in the paper) - very similarly to generic programing.</p>
+<p>In particular, $P$ is <strong>not</strong> reducing to one of its tubes $N^\epsilon_i$. Now, let us consider what happens when one substitutes an endpoint for $x$ and/or for $y$: if $y$ alone is substituted for an endpoint $\epsilon$, then $P$ reduces to the corresponding tube for $y$, $N^\epsilon_1$. However, if $x$ is substituted by some endpoint $\epsilon&rsquo;$ as well, now $P$ reduces to $N^{\epsilon&rsquo;}_0$ instead! All the information/dependency about $y$ being projected to its endpoint has therefore being lost. In my current understanding, this arbitrary choice could be a major source of possible problems arising when interleaving reduction and dimension substitution.</p>
+<p>Instead, we would need some way to reduce that term ($P$ with both variables replaced by endpoints) to some face of one of its tube, to take into account both dimension variables being projected out.</p>
+<p>I have been thinking about ways to fix this problem - if that is indeed a problem, which I am again not 100% sure. The heart of the problem - the element that imposes this arbitrary choice - is, I think, the fact that extends in <code>hcom</code> do not track the dimension they refer to. That is, in the list of $\vec r_i$ superscripts (in the general <code>hcom</code> syntax), if a $r_i$ is an endpoint $\epsilon$, there is <em>no way</em> to know what dimension name it refers to. However, that information would be needed in order to be able to take into account <em>all</em> the extends that are endpoints.</p>
+<p>One possibility would be to turn the $r_i$ into $x_i \to r_i$ that tracks the variable being affected. The dimension substitution is a little funny to define on these (it always applies to the RHS, and to the LHS only when it sends $x_i$ on another variable). I still need to figure out what the reduction would look like, provided that representation is well-defined (some interesting things happen when one creates diagonals - send, say, $x$ on $y$, so that $y$ appears twice in the extents. It is however currently not clear to me whether or not that breaks well-formedness).</p>
+<p>As said, I am currently trying to figure out what would be a better way to define <code>hcom</code>. Indeed, a well-behaved Kan filling operation seems to be the crux (or at least <em>a</em> crucial point) of a usable cubical type theory. This system provides a very useful and insightful exploration of the topic, but intuitively seems to slip on a more profound definition.</p>
+<h2 id="different-formulation"><a name="user-content-different-formulation" href="#different-formulation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Different formulation</h2>
+<p>One of the direction of work for this project is to reformulate this system in a different way - especially in a more &ldquo;classical&rdquo; way, closer to pure type systems and HoTT as developed in the book. While the introduction of types and their terms through exact equality is an interesting approach, it also seems to add some formal burden on an already formalism-heavy system.</p>
+<p>While more restrictive, the PTS-like approach can possibly help understanding the essence of a well-defined, well-behaved cubical type theory - in particular by trimming down the complexity of the system. When such a theory is better understood, that can help redefine a system similar to the one of these papers. In my opinion, these papers tried to tackle two hard problems at the same time: understand cubical type theory, and do so in a framework as general as possible - to accommodate as many various models as possible. From my understanding, it actually falls a bit short on the second goal: I don&rsquo;t think that these papers shed much light on the models that satisfy this type theory. So, while this generality took a serious toll on the formalism, the new possibilities seem to remain fairly unexplored.</p>
+<p>This is why I am interested in working on the first problem in its own right, by reformulating the system in a more PTS-like style and avoiding the generality overhead.</p>
+<p>I have not yet explored this direction, by lack of time and, more importantly, because I was not sufficiently confident in my understanding of the type theory presented in these papers. Since this is starting to change, I am hoping to start doing so shortly.</p>
+<h2 id="link-with-the-system-fc-line-of-work"><a name="user-content-link-with-the-system-fc-line-of-work" href="#link-with-the-system-fc-line-of-work" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Link with the System FC line of work</h2>
+<p>As advised, I started thinking about what aspects of CTT could be incorporated into system FC, to make a better system. I do not yet have presentable results, but I will continue working on this approach since it sounds very promising. The way CTT is organized seems to make it an interesting adaptation for system FC: for instance, the typing judgment of CTT on its own subsumes the typing judgment, the &ldquo;coercion&rdquo; judgment and the &ldquo;isomorphism&rdquo; judgment of FC (provided it is sufficiently expressive compared to FC - but if not, one simply needs to add the necessary rules from FC).</p>
+<p>It also seems that many of the rules of FC that are presented in an ad-hoc manner could also be factored out using a cubical style approach, with support for general HITs (at least, a sufficiently large class of them). This however depends on the ability to state the CTT itself in a more generic manner. Indeed, in this work, all the rules (especially the ones for <code>hcom</code> and <code>coe</code>) are laid out explicitly; instead, one would hope that the ones for, say, $\mathbb S^1$, <code>bool</code>, sum and product types should be derivable from one general principle for HITs. If a CTT with such principle exists, then one should be able to mostly inject system FC in such language, and therefore re-derive many rules of FC from this very general, and generic, principle.</p>
+<h2 id="various-remarks"><a name="user-content-various-remarks" href="#various-remarks" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Various remarks</h2>
+<p>From what I understand, CTT makes every higher-dimensional parallel structure equal (through Kan filling). It could therefore be interesting to “limit” its expressiveness, so that one doesn&rsquo;t get more than what regular HoTT provides.</p>
+<p>Indeed, if I understand correctly, the Kan filling automatically forces every cubical type to be a set, in the HoTT sense (HoTT book, chapter 3) - that is, in any type, any 2 parallel paths are equal. To illustrate why, assume one has <code>p, q : a •——• b</code>. Then, in CTT, one can derive <code>p •——• q</code> by filling the following open square:<br />
+$$ \array {                 &amp;       p           &amp;                  \cr<br />
+           a \mspace{-6pt}  &amp; •—\mspace{-2pt}—• &amp;\mspace{-6pt}  b  \cr<br />
+           \|\mspace{-24pt} &amp;                   &amp;\mspace{-25pt}    \cr<br />
+           a \mspace{-6pt}  &amp; •—\mspace{-2pt}—• &amp;\mspace{-6pt}  b  \cr<br />
+                            &amp;       q           &amp;                  \cr} $$<br />
+<em>Notice that <code>a</code> and <code>b</code> themselves don&rsquo;t have to be mere points, they can be objects of arbitrary dimension.</em></p>
+<p>In a way, this is actually restrictive, especially if one wants to work in plain HoTT and using types that are not sets.</p>
+<p>To avoid that problem while keeping the benefits of CTT, one could, for instance, compile a source language based on HoTT to a cubical target language. The additional structure is indeed present in the target language, but it is not possible to access it in the source language - especially because one can&rsquo;t use the general Kan filling, only specific forms used to implement the HoTT operators. This could be useful in the cases where cubical type systems are &ldquo;too&rdquo; powerful, when they equate too many things.</p>
+<h2 id="personal-remarks"><a name="user-content-personal-remarks" href="#personal-remarks" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Personal remarks</h2>
+<p>Let me conclude with some remarks about how I approach this work.</p>
+<p>While the project is - as expected during the proposal - nowhere near a finalized state, I enjoy the fact that I have learned a lot from it. I understand cubical theory much better than before, and that has, for me, shed a new light on HoTT as well. I appreciate the fact that I have been able to replicate and adapt a consequent proof from this paper (the second one) that seemed fairly daunting on first look. I am starting to have concrete, logical arguments to back up my intuitive feeling that cubical types are just purely awesome (and necessary). Even if cubical type theory is in its early stages right now, I am more excited about it than ever before and am extremely motivated to keep studying it.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Basic being defined, in this document, as a functional language supporting no more than regular dependent types. Notice that there is no judgment of value, even if the term may suggest so. Of course, one can always encode higher features using lower ones, but we are ultimately interested in programming languages that natively support the features we want.<br />
+Also notice that we only consider sensible languages: that is, at least strongly (if not entirely) functional.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Readers may have notice that one still needs to send <code>Pole</code> and <code>TwoPiInv</code> to paths in the result types - but we keep them out for the sake of clarity&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>Although we do not mean to restrict anything: one could imagine using higher HITs (with $2+$-constructors) to further refine the linking between representations&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>One could naturally ask, then, what the point is to have a multi-represented type in presence of univalence; it is mostly for convenience, since, as we have shown, working with such type is often very handy (not including that there is no need to prove the equivalence used for univalence). A good programming paradigm could be to identify the core representations for some type of data, make them built-in in the multi-represented type (which basically becomes the canonical type for this kind of data), then use univalence for rare cases that depend on some more exotic representation&#160;<a class="footnote-backref" href="#fnref:4" rev="footnote" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>I use &ldquo;is&rdquo; since I want to keep working on this project after the class is over&#160;<a class="footnote-backref" href="#fnref:5" rev="footnote" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>Although, note that by using the word consequence, I don&rsquo;t mean to take a stand in determining the direction, or even existence, of the causality link&#160;<a class="footnote-backref" href="#fnref:6" rev="footnote" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p>Roughly, this means that equality can now carry some information about why and how some types are equal - especially including a way to go back and forth between those types. This is to be compared with syntactic equality, where no meaningful information can be recorded.&#160;<a class="footnote-backref" href="#fnref:7" rev="footnote" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:8">
+<p>Strict meaning that it actually has paths constructors, and therefore is not definable directly using only an inductive type&#160;<a class="footnote-backref" href="#fnref:8" rev="footnote" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:9">
+<p>&ldquo;in HIT style&rdquo; refers to the fact that the instances of HITs are presented differently - but equivalently - in the system of this series of papers&#160;<a class="footnote-backref" href="#fnref:9" rev="footnote" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></article></body></html>
